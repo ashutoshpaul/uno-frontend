@@ -1,13 +1,38 @@
-<div class="dashboard">
-  <div class="pile">
-    <div class="pile-container">
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
+<div class="dashboard" id="dashboard">
+
+  <div class="draw-discard-deck">
+    <div class="draw-discard-deck-container">
+      <div class="drawer-deck" id="drawer-deck"></div>
+      <div class="discard-pile" id="discard-pile"></div>
+    </div>
+  </div>
+
+  <div class="player-cards-tray">
+    <div class="player-cards-tray-container">
+      
+      <!-- <ng-container> -->
+        <div *ngFor="let card of cards; let i = index"
+        id="card-{{i}}" 
+        card 
+        class="card" 
+        [@addToDiscard]="{
+          value: !card.isSentToDiscard ? 'begin' : 'end', 
+          params: { 
+            xPosition: destinationOfDiscardPileXPosition(i),
+            yPosition: -destinationOfDiscardPileYPosition(i)
+          }
+        }"
+        (click)="clickCard(i)">
+      </div>
+      <!-- </ng-container> -->
+      
+      <!-- <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div>
+      <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div>
+      <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div>
+      <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div>
+      <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div>
+      <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div>
+      <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div> -->
 
       <!-- <div card class="card"></div>
       <div card class="card"></div>
