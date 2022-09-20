@@ -1,5 +1,11 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { Component } from '@angular/core';
+
+export enum CARD_ANIMATION_ENUM {
+  stationary = "stationary",
+  peep = "peep",
+  end = "end",
+}
 
 @Component({
   selector: 'app-root',
@@ -7,8 +13,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
   animations: [
     trigger('addToDiscard', [
-      state('begin', style({
-        // width: "5rem",
+      state('stationary', style({})),
+      state('peep', style({
+        boxShadow: "black 2px 2px 4px",
+        // top: "-1.5rem",
+        // minWidth: "5rem",
       })),
       state('end', style({
         top: "{{yPosition}}px",
@@ -17,40 +26,58 @@ import { Component } from '@angular/core';
       }), {
         params: { xPosition: 0, yPosition: 0 },
       }),
-      transition('begin => end', [
+      transition('stationary <=> peep', [
+        group([
+          animate('0s', style({})),
+          animate('0.2s ease-in-out'),
+        ]),
+      ]),
+      transition('peep => end', [
         animate('0.4s ease-in-out'),
+        // group([
+        // ]),
       ]),
     ]),
   ]
 })
 export class AppComponent {
-  readonly cards: { isSentToDiscard: boolean }[] = [
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
-    { isSentToDiscard: false },
+  readonly cards: { state: CARD_ANIMATION_ENUM }[] = [
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.peep },
   ];
   
   isSentToDiscard: boolean = false;
 
   clickCard(cardIndex: number): void {
-    this.cards[cardIndex].isSentToDiscard = !this.cards[cardIndex].isSentToDiscard;
+    console.log('start:', this.cards[cardIndex].state);
+    this._setCardState(cardIndex, CARD_ANIMATION_ENUM.end);
+    console.log('end:', this.cards[cardIndex].state);
+  }
+
+  cardHovering(cardIndex: number): void {
+    // this._setCardState(cardIndex, CARD_ANIMATION_ENUM.peep);
+  }
+
+  cardHovered(cardIndex: number): void {
+    // this._setCardState(cardIndex, CARD_ANIMATION_ENUM.stationary);
   }
 
   destinationOfDiscardPileYPosition(cardIndex: number): number {
@@ -67,5 +94,9 @@ export class AppComponent {
     const cardLeftGap: number = dashboardWidth - document.getElementById(`card-${cardIndex}`).getBoundingClientRect().left;
     const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap;
     return destinationXPosition;
+  }
+
+  private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
+    this.cards[cardIndex].state = state;
   }
 }
