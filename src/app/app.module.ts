@@ -3,14 +3,12 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MarginLeftDirective } from './margin-left.directive';
 import { CardDirective } from './card.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MarginLeftDirective,
-    CardDirective
+    CardDirective,
   ],
   imports: [
     BrowserModule,

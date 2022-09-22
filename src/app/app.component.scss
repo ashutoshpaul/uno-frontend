@@ -103,3 +103,7 @@
 //     0%   { top: 0rem; }
 //     100%  { top: -1.5rem; }
 // }
+
+.card-disabled {
+    pointer-events: none;
+}

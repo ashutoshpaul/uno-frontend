@@ -1,5 +1,6 @@
-import { animate, group, state, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { animate, state, style, group, transition, trigger } from '@angular/animations';
+import { Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 export enum CARD_ANIMATION_ENUM {
   stationary = "stationary",
@@ -16,8 +17,8 @@ export enum CARD_ANIMATION_ENUM {
       state('stationary', style({})),
       state('peep', style({
         boxShadow: "black 2px 2px 4px",
-        // top: "-1.5rem",
-        // minWidth: "5rem",
+        top: "-1.5rem",
+        minWidth: "5rem",
       })),
       state('end', style({
         top: "{{yPosition}}px",
@@ -27,57 +28,67 @@ export enum CARD_ANIMATION_ENUM {
         params: { xPosition: 0, yPosition: 0 },
       }),
       transition('stationary <=> peep', [
-        group([
-          animate('0s', style({})),
-          animate('0.2s ease-in-out'),
-        ]),
+        animate('0.2s ease-in-out'),
       ]),
       transition('peep => end', [
-        animate('0.4s ease-in-out'),
-        // group([
-        // ]),
+        group([
+          // animate('0.7s', style({ width: "5rem", })),
+          animate('0.7s ease-in-out'),
+        ]),
       ]),
     ]),
   ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  cards$: Observable<{ state: CARD_ANIMATION_ENUM }[]>;
+
+  readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
+
   readonly cards: { state: CARD_ANIMATION_ENUM }[] = [
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
-    { state: CARD_ANIMATION_ENUM.peep },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
+    { state: CARD_ANIMATION_ENUM.stationary },
   ];
-  
-  isSentToDiscard: boolean = false;
+
+  constructor() {}
+
+  ngOnInit(): void {
+    this.cards$ = of(this.cards);
+  }
 
   clickCard(cardIndex: number): void {
-    console.log('start:', this.cards[cardIndex].state);
     this._setCardState(cardIndex, CARD_ANIMATION_ENUM.end);
-    console.log('end:', this.cards[cardIndex].state);
+    console.log(this._getCardState(cardIndex));
   }
 
   cardHovering(cardIndex: number): void {
-    // this._setCardState(cardIndex, CARD_ANIMATION_ENUM.peep);
+    if(this._getCardState(cardIndex) == CARD_ANIMATION_ENUM.stationary) {
+      this._setCardState(cardIndex, CARD_ANIMATION_ENUM.peep);
+    }
   }
 
   cardHovered(cardIndex: number): void {
-    // this._setCardState(cardIndex, CARD_ANIMATION_ENUM.stationary);
+    if(this._getCardState(cardIndex) === CARD_ANIMATION_ENUM.peep) {
+      this._setCardState(cardIndex, CARD_ANIMATION_ENUM.stationary);
+    }
   }
 
   destinationOfDiscardPileYPosition(cardIndex: number): number {
@@ -98,5 +109,13 @@ export class AppComponent {
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
     this.cards[cardIndex].state = state;
+  }
+
+  private _getCardState(cardIndex: number): CARD_ANIMATION_ENUM {
+    return this.cards[cardIndex].state;
+  }
+
+  private _updateCardsTray(): void {
+    this.cards$ = of(this.cards);
   }
 }

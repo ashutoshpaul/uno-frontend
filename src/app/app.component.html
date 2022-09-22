@@ -9,79 +9,24 @@
 
   <div class="player-cards-tray">
     <div class="player-cards-tray-container">
-      
-      <div *ngFor="let card of cards; let i = index"
-        id="card-{{i}}" 
-        card 
-        class="card" 
-        [@addToDiscard]="{
-          value: card.state, 
-          params: { 
-            xPosition: destinationOfDiscardPileXPosition(i),
-            yPosition: -destinationOfDiscardPileYPosition(i)
-          }
-        }"
-        (click)="clickCard(i)">
-      </div>
-      <!-- (mouseenter)="cardHovering(i)"
-      (mouseleave)="cardHovered(i)" -->
-      
-      <!-- <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div>
-      <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div>
-      <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div>
-      <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div>
-      <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div>
-      <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div>
-      <div id="card" card class="card" [@addToDiscard]="{value: !isSentToDiscard ? 'begin' : 'end', params: { xPosition: destinationOfDiscardPileXPosition, yPosition: -destinationOfDiscardPileYPosition }}" (click)="clickCard()"></div> -->
-
-      <!-- <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div>
-      <div card class="card"></div> -->
+      <ng-container *ngIf="cards$ | async as freshCards">
+        <div *ngFor="let card of freshCards; let i = index"
+          id="card-{{i}}" 
+          card 
+          class="card" 
+          [ngClass]="{ 'card-disabled': card.state == STATES.end }"
+          [@addToDiscard]="{
+            value: card.state, 
+            params: { 
+              xPosition: destinationOfDiscardPileXPosition(i),
+              yPosition: -destinationOfDiscardPileYPosition(i)
+            }
+          }"
+          (mouseenter)="cardHovering(i)"
+          (mouseleave)="cardHovered(i)"
+          (click)="clickCard(i)">
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>
