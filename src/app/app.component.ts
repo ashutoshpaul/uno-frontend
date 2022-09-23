@@ -1,9 +1,10 @@
-import { animate, state, style, group, transition, trigger } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 export enum CARD_ANIMATION_ENUM {
   stationary = "stationary",
+  prompt = "prompt",
   peep = "peep",
   end = "end",
 }
@@ -15,6 +16,10 @@ export enum CARD_ANIMATION_ENUM {
   animations: [
     trigger('addToDiscard', [
       state('stationary', style({})),
+      state('prompt', style({
+        top: "-0.9rem",
+        minWidth: "5rem",
+      })),
       state('peep', style({
         boxShadow: "black 2px 2px 4px",
         top: "-1.5rem",
@@ -30,11 +35,14 @@ export enum CARD_ANIMATION_ENUM {
       transition('stationary <=> peep', [
         animate('0.2s ease-in-out'),
       ]),
+      transition('stationary <=> prompt', [
+        animate('0.1s ease-in-out'),
+      ]),
+      transition('prompt <=> peep', [
+        animate('0.1s ease-in-out'),
+      ]),
       transition('peep => end', [
-        group([
-          // animate('0.7s', style({ width: "5rem", })),
-          animate('0.7s ease-in-out'),
-        ]),
+        animate('1s ease-in-out'),
       ]),
     ]),
   ]
@@ -45,49 +53,56 @@ export class AppComponent implements OnInit {
 
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
-  readonly cards: { state: CARD_ANIMATION_ENUM }[] = [
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
-    { state: CARD_ANIMATION_ENUM.stationary },
+  readonly cards: { state: CARD_ANIMATION_ENUM, isLegal: boolean }[] = [
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
   ];
 
   constructor() {}
 
   ngOnInit(): void {
     this.cards$ = of(this.cards);
+    setTimeout(() => {
+      this.promptLegalCards();
+    }, 2000);
   }
 
   clickCard(cardIndex: number): void {
     this._setCardState(cardIndex, CARD_ANIMATION_ENUM.end);
-    console.log(this._getCardState(cardIndex));
   }
 
   cardHovering(cardIndex: number): void {
-    if(this._getCardState(cardIndex) == CARD_ANIMATION_ENUM.stationary) {
+    if(this._getCardState(cardIndex) == CARD_ANIMATION_ENUM.stationary ||
+    this._getCardState(cardIndex) == CARD_ANIMATION_ENUM.prompt) {
       this._setCardState(cardIndex, CARD_ANIMATION_ENUM.peep);
     }
   }
 
   cardHovered(cardIndex: number): void {
     if(this._getCardState(cardIndex) === CARD_ANIMATION_ENUM.peep) {
-      this._setCardState(cardIndex, CARD_ANIMATION_ENUM.stationary);
+      if(this._isCardLegal(cardIndex)) {
+        this._setCardState(cardIndex, CARD_ANIMATION_ENUM.prompt);
+      } else {
+        this._setCardState(cardIndex, CARD_ANIMATION_ENUM.stationary);
+      }
     }
   }
 
@@ -95,7 +110,8 @@ export class AppComponent implements OnInit {
     const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
     const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().bottom;
     const cardBottomGap: number = dashboardHeight - document.getElementById(`card-${cardIndex}`).getBoundingClientRect().bottom;
-    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap;
+    // 1rem = 16px (1.5rem = 24px)
+    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap + 24;
     return destinationYPosition;
   }
 
@@ -107,12 +123,20 @@ export class AppComponent implements OnInit {
     return destinationXPosition;
   }
 
+  promptLegalCards(): void {
+    this.cards.map((card, i) => card.isLegal && this._setCardState(i, CARD_ANIMATION_ENUM.prompt));
+  }
+
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
     this.cards[cardIndex].state = state;
   }
 
   private _getCardState(cardIndex: number): CARD_ANIMATION_ENUM {
     return this.cards[cardIndex].state;
+  }
+
+  private _isCardLegal(cardIndex: number): boolean {
+    return this.cards[cardIndex].isLegal;
   }
 
   private _updateCardsTray(): void {
