@@ -10,10 +10,9 @@
     <div class="player-cards-tray-container">
       <ng-container *ngIf="cards$ | async as freshCards">
         <div *ngFor="let card of freshCards; let i = index"
-        id="card-{{i}}" 
-        card 
-        class="card" 
-        [ngClass]="{ 'card-disabled': card.state == STATES.end }"
+          id="card-{{i}}" 
+          card 
+          class="card"
           [@addToDiscard]="{
             value: card.state, 
             params: { 

@@ -29,6 +29,7 @@ export enum CARD_ANIMATION_ENUM {
       state('discard', style({
         top: "{{yPosition}}px",
         right: "{{xPosition}}px",
+        minWidth: "5rem",
         display: "none",
       }), {
         params: { xPosition: 0, yPosition: 0 },
@@ -43,7 +44,7 @@ export enum CARD_ANIMATION_ENUM {
         animate('0.1s ease-in-out'),
       ]),
       transition('peep => discard', [
-        animate('0.7s ease-in-out'),
+        animate('1.7s ease-in-out'),
       ]),
       // transition('void => stationary', [
       //   animate('4s ease-in-out'),
