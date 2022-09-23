@@ -88,6 +88,56 @@
     margin-left: clamp(-4rem, -2.5rem, -2.8rem);
 }
 
+// down
+
+.uno-card {
+    position: relative;
+    height: 7rem;
+    width: 5rem;
+    min-width: 4rem;
+    
+    cursor: pointer;
+    perspective: 1000px;
+    margin-left: clamp(-4rem, -2.5rem, -2.8rem);
+
+    .uno-card-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 0.4rem;
+        border-color: rgb(77, 77, 77);
+        border-style: solid;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+
+        .uno-card-front, .uno-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        
+        .uno-card-front {
+            background: red;
+        }
+        
+        .uno-card-back {
+            background: url(./../assets/images/uno-back.jpeg);
+            background-repeat: round;
+            transform: rotateY(180deg);
+        }
+    }
+
+    &:hover .uno-card-container {
+        transform: rotateY(180deg);
+    }
+}
+
+
+
+
+
 .card:nth-child(1) {
     margin-left: 0rem;
 }
