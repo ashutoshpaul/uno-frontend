@@ -9,10 +9,10 @@
   <div class="player-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
     <div class="player-cards-tray-container">
       <ng-container *ngIf="cards$ | async as freshCards">
-        <div *ngFor="let card of freshCards; let i = index"
-          id="card-{{i}}" 
-          card 
-          class="card"
+        <div 
+          class="uno-card"
+          id="uno-card-{{i}}"
+          *ngFor="let card of freshCards; let i = index"
           [@addToDiscard]="{
             value: card.state, 
             params: { 
@@ -24,19 +24,9 @@
           (mouseleave)="cardHovered(i)"
           (@addToDiscard.start)="disableCardsTrayTemporarily($event)"
           (click)="clickCard(i)">
+          <div card class="uno-card-container"></div>
         </div>
       </ng-container>
-    </div>
-  </div>
-</div>
-
-<div class="uno-card">
-  <div class="uno-card-container">
-    <div class="uno-card-front" card>
-      <!-- <img src="./../assets/images/uno.jpeg" alt="Front" style="width:300px;height:300px;"> -->
-    </div>
-    <div class="uno-card-back">
-      <!-- <img src="./../assets/images/uno-back.jpeg" alt="Back" style="width:300px;height:300px;"> -->
     </div>
   </div>
 </div>

@@ -44,7 +44,7 @@ export enum CARD_ANIMATION_ENUM {
         animate('0.1s ease-in-out'),
       ]),
       transition('peep => discard', [
-        animate('1.7s ease-in-out'),
+        animate('0.7s ease-in-out'),
       ]),
       // transition('void => stationary', [
       //   animate('4s ease-in-out'),
@@ -115,16 +115,16 @@ export class AppComponent implements OnInit {
   destinationOfDiscardPileYPosition(cardIndex: number): number {
     const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
     const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().bottom;
-    const cardBottomGap: number = dashboardHeight - document.getElementById(`card-${cardIndex}`).getBoundingClientRect().bottom;
+    const cardBottomGap: number = dashboardHeight - document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().bottom;
     // 1rem = 16px (1.5rem = 24px)
-    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap + 24;
+    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap + 24 + 5;
     return destinationYPosition;
   }
 
   destinationOfDiscardPileXPosition(cardIndex: number): number {
     const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
     const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
-    const cardLeftGap: number = dashboardWidth - document.getElementById(`card-${cardIndex}`).getBoundingClientRect().left;
+    const cardLeftGap: number = dashboardWidth - document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().left;
     const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap;
     return destinationXPosition;
   }

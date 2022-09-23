@@ -74,27 +74,12 @@
     }
 }
 
-.card {
-    position: relative;
-    height: 7rem;
-    width: 5rem;
-    min-width: 4rem;
-    border-radius: 0.4rem;
-    border-color: rgb(77, 77, 77);
-    border-style: solid;
-    
-    cursor: pointer;
-
-    margin-left: clamp(-4rem, -2.5rem, -2.8rem);
-}
-
-// down
-
 .uno-card {
     position: relative;
     height: 7rem;
     width: 5rem;
     min-width: 4rem;
+    border-radius: 0.4rem;
     
     cursor: pointer;
     perspective: 1000px;
@@ -132,14 +117,10 @@
     &:hover .uno-card-container {
         transform: rotateY(180deg);
     }
-}
 
-
-
-
-
-.card:nth-child(1) {
-    margin-left: 0rem;
+    &:nth-child(1) {
+        margin-left: 0rem;
+    }
 }
 
 .cardsTrayDisabled {
