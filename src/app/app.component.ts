@@ -1,4 +1,4 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, state, style, transition, trigger, AnimationEvent } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
@@ -6,7 +6,7 @@ export enum CARD_ANIMATION_ENUM {
   stationary = "stationary",
   prompt = "prompt",
   peep = "peep",
-  end = "end",
+  discard = "discard",
 }
 
 @Component({
@@ -15,6 +15,7 @@ export enum CARD_ANIMATION_ENUM {
   styleUrls: ['./app.component.scss'],
   animations: [
     trigger('addToDiscard', [
+      state('void', style({ top: "-50rem" })),
       state('stationary', style({})),
       state('prompt', style({
         top: "-0.9rem",
@@ -25,7 +26,7 @@ export enum CARD_ANIMATION_ENUM {
         top: "-1.5rem",
         minWidth: "5rem",
       })),
-      state('end', style({
+      state('discard', style({
         top: "{{yPosition}}px",
         right: "{{xPosition}}px",
         display: "none",
@@ -41,13 +42,17 @@ export enum CARD_ANIMATION_ENUM {
       transition('prompt <=> peep', [
         animate('0.1s ease-in-out'),
       ]),
-      transition('peep => end', [
+      transition('peep => discard', [
         animate('1s ease-in-out'),
       ]),
+      // transition('void => stationary', [
+      //   animate('4s ease-in-out'),
+      // ]),
     ]),
   ]
 })
 export class AppComponent implements OnInit {
+  isCardsTrayEnabled: boolean = true;
 
   cards$: Observable<{ state: CARD_ANIMATION_ENUM }[]>;
 
@@ -58,22 +63,22 @@ export class AppComponent implements OnInit {
     { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
     { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
     { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
   ];
 
   constructor() {}
@@ -86,7 +91,7 @@ export class AppComponent implements OnInit {
   }
 
   clickCard(cardIndex: number): void {
-    this._setCardState(cardIndex, CARD_ANIMATION_ENUM.end);
+    this._setCardState(cardIndex, CARD_ANIMATION_ENUM.discard);
   }
 
   cardHovering(cardIndex: number): void {
@@ -124,7 +129,18 @@ export class AppComponent implements OnInit {
   }
 
   promptLegalCards(): void {
-    this.cards.map((card, i) => card.isLegal && this._setCardState(i, CARD_ANIMATION_ENUM.prompt));
+    this.cards.map((card, i) => 
+      card.isLegal && this._setCardState(i, CARD_ANIMATION_ENUM.prompt
+    ));
+  }
+
+  disableCardsTrayTemporarily(event: AnimationEvent): void {
+    if(event.toState == CARD_ANIMATION_ENUM.discard) {
+      this.isCardsTrayEnabled = false;
+      setTimeout(() => {
+        this.isCardsTrayEnabled = true;
+      }, event.totalTime + 150);
+    }
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {

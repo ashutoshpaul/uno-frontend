@@ -1,4 +1,4 @@
-import { Directive, HostBinding, OnInit } from '@angular/core';
+import { Directive, HostBinding, OnInit, } from '@angular/core';
 
 @Directive({
   selector: '[card]'

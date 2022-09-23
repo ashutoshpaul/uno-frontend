@@ -1,5 +1,4 @@
 <div class="dashboard" id="dashboard">
-
   <div class="draw-discard-deck">
     <div class="draw-discard-deck-container">
       <div class="drawer-deck" id="drawer-deck"></div>
@@ -7,14 +6,14 @@
     </div>
   </div>
 
-  <div class="player-cards-tray">
+  <div class="player-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
     <div class="player-cards-tray-container">
       <ng-container *ngIf="cards$ | async as freshCards">
         <div *ngFor="let card of freshCards; let i = index"
-          id="card-{{i}}" 
-          card 
-          class="card" 
-          [ngClass]="{ 'card-disabled': card.state == STATES.end }"
+        id="card-{{i}}" 
+        card 
+        class="card" 
+        [ngClass]="{ 'card-disabled': card.state == STATES.end }"
           [@addToDiscard]="{
             value: card.state, 
             params: { 
@@ -24,6 +23,7 @@
           }"
           (mouseenter)="cardHovering(i)"
           (mouseleave)="cardHovered(i)"
+          (@addToDiscard.start)="disableCardsTrayTemporarily($event)"
           (click)="clickCard(i)">
         </div>
       </ng-container>
