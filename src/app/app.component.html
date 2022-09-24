@@ -23,8 +23,16 @@
           (mouseenter)="cardHovering(i)"
           (mouseleave)="cardHovered(i)"
           (@addToDiscard.start)="disableCardsTrayTemporarily($event)"
-          (click)="clickCard(i)">
-          <div card class="uno-card-container"></div>
+          (click)="cardClicked(i)">
+          <div 
+            card 
+            class="uno-card-container"
+            [@revealCard]="{
+              value: card.state
+            }"
+            (@revealCard.start)="cardRevealing(i, $event)"
+            >
+          </div>
         </div>
       </ng-container>
     </div>

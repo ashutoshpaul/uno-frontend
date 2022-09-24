@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 export enum CARD_ANIMATION_ENUM {
+  secret = "secret",
+  reveal = "reveal",
   stationary = "stationary",
   prompt = "prompt",
   peep = "peep",
@@ -14,8 +16,15 @@ export enum CARD_ANIMATION_ENUM {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   animations: [
+    trigger('revealCard', [
+      state('secret', style({ transform: "rotateY(180deg)" })),
+      state('reveal', style({ transform: "rotateY(0deg)" })),
+      transition('secret => reveal', [
+        animate('0.6s ease-in-out'),
+      ]),
+    ]),
     trigger('addToDiscard', [
-      state('void', style({ top: "-50rem" })),
+      // state('void', style({ top: "-50rem" })),
       state('stationary', style({})),
       state('prompt', style({
         top: "-0.9rem",
@@ -60,38 +69,44 @@ export class AppComponent implements OnInit {
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
   readonly cards: { state: CARD_ANIMATION_ENUM, isLegal: boolean }[] = [
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
   ];
 
   constructor() {}
 
   ngOnInit(): void {
     this.cards$ = of(this.cards);
+    
+    // reveal cards
+    setTimeout(() => {
+      this.cards.map(card => card.state = CARD_ANIMATION_ENUM.reveal);
+    }, 2000);
+
     setTimeout(() => {
       this.promptLegalCards();
-    }, 2000);
+    }, 4000);
   }
 
-  clickCard(cardIndex: number): void {
+  cardClicked(cardIndex: number): void {
     this._setCardState(cardIndex, CARD_ANIMATION_ENUM.discard);
   }
 
@@ -140,6 +155,14 @@ export class AppComponent implements OnInit {
       this.isCardsTrayEnabled = false;
       setTimeout(() => {
         this.isCardsTrayEnabled = true;
+      }, event.totalTime + 150);
+    }
+  }
+
+  cardRevealing(cardIndex: number, event: AnimationEvent): void {
+    if(event.toState == CARD_ANIMATION_ENUM.reveal) {
+      setTimeout(() => {
+        this._setCardState(cardIndex, CARD_ANIMATION_ENUM.stationary);
       }, event.totalTime + 150);
     }
   }
