@@ -111,9 +111,9 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       console.log('adding more cards...');
       this.toggleCardsTray();
-      this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
-      this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
-      this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
+      // this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
+      // this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
+      // this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
     }, 6000);
   }
 
