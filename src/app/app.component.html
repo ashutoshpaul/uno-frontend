@@ -7,34 +7,40 @@
   </div>
 
   <div class="player-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
-    <div class="player-cards-tray-container">
+    <!-- <div class="player-cards-tray-container"> -->
       <ng-container *ngIf="cards$ | async as freshCards">
-        <div 
-          class="uno-card"
-          id="uno-card-{{i}}"
-          *ngFor="let card of freshCards; let i = index"
-          [@addToDiscard]="{
-            value: card.state, 
-            params: { 
-              xPosition: destinationOfDiscardPileXPosition(i),
-              yPosition: -destinationOfDiscardPileYPosition(i)
-            }
-          }"
-          (mouseenter)="cardHovering(i)"
-          (mouseleave)="cardHovered(i)"
-          (@addToDiscard.start)="disableCardsTrayTemporarily($event)"
-          (click)="cardClicked(i)">
-          <div 
-            card 
-            class="uno-card-container"
-            [@revealCard]="{
-              value: card.state
+        <div [@stagger]="freshCards.length" class="player-cards-tray-container">
+          <div
+            class="uno-card"
+            id="uno-card-{{i}}"
+            [ngClass]="{ 
+              'uno-card-enabled': isCardsTrayEnabled,
+              'uno-card-disabled': !isCardsTrayEnabled
             }"
-            (@revealCard.start)="cardRevealing(i, $event)"
-            >
+            *ngFor="let card of freshCards; let i = index"
+            [@addToDiscard]="{
+              value: card.state, 
+              params: { 
+                xPosition: destinationOfDiscardPileXPosition(i),
+                yPosition: -destinationOfDiscardPileYPosition(i)
+              }
+            }"
+            (mouseenter)="cardHovering(i)"
+            (mouseleave)="cardHovered(i)"
+            (@addToDiscard.start)="disableCardsTrayTemporarily($event)"
+            (click)="cardClicked(i)">
+            <div 
+              card 
+              class="uno-card-container"
+              >
+              <!-- [@revealCard]="{
+                value: card.state
+              }"
+              (@revealCard.start)="cardRevealing(i, $event)" -->
+            </div>
           </div>
         </div>
       </ng-container>
-    </div>
+    <!-- </div> -->
   </div>
 </div>

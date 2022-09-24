@@ -1,10 +1,10 @@
-import { animate, state, style, transition, trigger, AnimationEvent } from '@angular/animations';
+import { animate, state, style, transition, trigger, AnimationEvent, stagger, query, animateChild } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 export enum CARD_ANIMATION_ENUM {
   secret = "secret",
-  reveal = "reveal",
+  // reveal = "reveal",
   stationary = "stationary",
   prompt = "prompt",
   peep = "peep",
@@ -16,15 +16,37 @@ export enum CARD_ANIMATION_ENUM {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   animations: [
-    trigger('revealCard', [
-      state('secret', style({ transform: "rotateY(180deg)" })),
-      state('reveal', style({ transform: "rotateY(0deg)" })),
-      transition('secret => reveal', [
-        animate('0.6s ease-in-out'),
+    trigger('stagger', [
+      // state('secret', style({ transform: "rotateY(180deg)" })),
+      // state('reveal', style({ transform: "rotateY(0deg)" })),
+      // transition('void => secret', [
+      //   animate('0s', style({ background: "red" })),
+      // ]),
+      transition('* => *', [
+        query(':enter', [
+          style({ transform: "rotateY(180deg)" }),
+          stagger(
+            190, animate('1s 1000ms ease-in-out', 
+            style({ transform: "rotateY(0deg)" }))
+          ),
+        ], { optional: true }),
       ]),
     ]),
+
+    // trigger('revealCards', [
+    //   state('void', style({ transform: "rotateY(180deg)" })),
+    //   state('secret', style({ transform: "rotateY(180deg)" })),
+    //   state('reveal', style({ transform: "rotateY(0deg)" })),
+    //   transition('void => secret', [
+    //     animate('0s'),
+    //   ]),
+    //   transition('secret => reveal', [
+    //     animate('0.6s ease-in-out'),
+    //   ]),
+    // ]),
+
+
     trigger('addToDiscard', [
-      // state('void', style({ top: "-50rem" })),
       state('stationary', style({})),
       state('prompt', style({
         top: "-0.9rem",
@@ -55,9 +77,6 @@ export enum CARD_ANIMATION_ENUM {
       transition('peep => discard', [
         animate('0.7s ease-in-out'),
       ]),
-      // transition('void => stationary', [
-      //   animate('4s ease-in-out'),
-      // ]),
     ]),
   ]
 })
@@ -70,36 +89,56 @@ export class AppComponent implements OnInit {
 
   readonly cards: { state: CARD_ANIMATION_ENUM, isLegal: boolean }[] = [
     { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
   ];
 
   constructor() {}
 
   ngOnInit(): void {
+    this.isCardsTrayEnabled = false;
     this.cards$ = of(this.cards);
-    
-    // reveal cards
+
+    // reveal cards in stagger fashion
+    this.cards.map((card, index) => {
+      card.state = CARD_ANIMATION_ENUM.stationary;
+    });
+    // let i: number = 0;
+    // setTimeout(() => {
+    //   this.cards.forEach(card => {
+    //     setTimeout(() => {
+    //       card.state = CARD_ANIMATION_ENUM.reveal;
+    //     }, 90 * i++);
+    //   });
+    // }, 2000);
+
+    // enable cards tray
     setTimeout(() => {
-      this.cards.map(card => card.state = CARD_ANIMATION_ENUM.reveal);
-    }, 2000);
+      console.log('this.isCardsTrayEnabled');
+      this.isCardsTrayEnabled = true;
+      // this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
+      // this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
+      // this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
+    }, 
+    2000 + 90 * this.cards.length + 250
+    );
 
     setTimeout(() => {
       this.promptLegalCards();
@@ -159,13 +198,21 @@ export class AppComponent implements OnInit {
     }
   }
 
-  cardRevealing(cardIndex: number, event: AnimationEvent): void {
-    if(event.toState == CARD_ANIMATION_ENUM.reveal) {
-      setTimeout(() => {
-        this._setCardState(cardIndex, CARD_ANIMATION_ENUM.stationary);
-      }, event.totalTime + 150);
-    }
-  }
+  // cardRevealing(cardIndex: number, event: AnimationEvent): void {
+  //   if(event.toState == CARD_ANIMATION_ENUM.reveal) {
+  //     setTimeout(() => {
+  //       this._setCardState(cardIndex, CARD_ANIMATION_ENUM.stationary);
+  //     }, event.totalTime + 150);
+  //   }
+  // }
+
+  // cardRevealing(cardIndex: number, card: { state: CARD_ANIMATION_ENUM }): void {
+  //   if(card.state == CARD_ANIMATION_ENUM.reveal) {
+  //     setTimeout(() => {
+  //       this._setCardState(cardIndex, CARD_ANIMATION_ENUM.stationary);
+  //     }, 150);
+  //   }
+  // }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
     this.cards[cardIndex].state = state;
