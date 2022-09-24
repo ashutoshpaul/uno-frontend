@@ -105,24 +105,13 @@
         
         .uno-card-front {
             background: red;
-            z-index: 1;
         }
         
         .uno-card-back {
             background: url(./../assets/images/uno-back.jpeg);
             background-repeat: round;
-            // transform: rotateY(180deg);
-            pointer-events: none;
-            z-index: -10;
+            transform: rotateY(180deg);
         }
-    }
-
-    .uno-card-disabled {
-        pointer-events: none;
-    }
-
-    .uno-card-enabled {
-        pointer-events: unset;
     }
 
     &:nth-child(1) {
