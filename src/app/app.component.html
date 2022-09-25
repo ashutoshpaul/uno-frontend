@@ -1,7 +1,7 @@
 <div class="dashboard" id="dashboard">
   <div class="draw-discard-deck">
     <div class="draw-discard-deck-container">
-      <div class="drawer-deck" id="drawer-deck"></div>
+      <div class="drawer-deck" id="drawer-deck" (click)="addCard()"></div>
       <div class="discard-pile" id="discard-pile"></div>
     </div>
   </div>
@@ -10,6 +10,7 @@
     <ng-container *ngIf="cards$ | async as freshCards">
       <div 
         [@revealCards]="freshCards.length"
+        (@revealCards.start)="toggleCardsTray(false)"
         (@revealCards.done)="toggleCardsTray(true)"
         class="player-cards-tray-container">
         <div

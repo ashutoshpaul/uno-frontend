@@ -60,6 +60,8 @@
             border-style: solid;
     
             background-color: rgb(139, 255, 139);
+
+            cursor: pointer;
         }
     
         .discard-pile {
@@ -117,8 +119,11 @@
     &:nth-child(1) {
         margin-left: 0rem;
     }
+
 }
 
 .cardsTrayDisabled {
     pointer-events: none;
 }
+
+// get first card/child where :not(display: none) { which is not display 'none' }

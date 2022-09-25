@@ -1,4 +1,4 @@
-import { animate, state, style, transition, trigger, AnimationEvent, stagger, query, animateChild } from '@angular/animations';
+import { animate, state, style, transition, trigger, AnimationEvent, stagger, query, sequence } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
@@ -16,14 +16,28 @@ export enum CARD_ANIMATION_ENUM {
   styleUrls: ['./app.component.scss'],
   animations: [
     trigger('revealCards', [
-      transition('* => *', [
+      transition(':enter', [
         query('div > .uno-card-container', [
           style({ transform: "rotateY(180deg)" }),
           stagger(
-            190, animate('1s 1000ms ease-in-out', 
+            190, animate('1s ease-in-out', 
             style({ transform: "rotateY(0deg)" }))
           ),
         ], { optional: true }),
+        // { optional: true, limit: 7 }
+      ]),
+      // :increment => when a new card is added
+      transition(':increment', [
+        query('div > .uno-card-container', [
+          sequence([
+            style({ 
+              left: "-30rem", 
+              top: "-15rem", 
+              transform: "rotateY(180deg)" }),
+            animate('0.7s ease-in-out', style({ top: "0rem", left: "0rem" })),
+            animate('1s ease-in-out', style({ transform: "rotateY(0deg)" })),
+          ]),
+        ], { optional: true, limit: -1 }),
       ]),
     ]),
 
@@ -70,24 +84,24 @@ export class AppComponent implements OnInit {
   readonly cards: { state: CARD_ANIMATION_ENUM, isLegal: boolean }[] = [
     { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
     { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
   ];
 
   isCardsTrayEnabled: boolean;
@@ -106,15 +120,6 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       this.promptLegalCards();
     }, 4000);
-
-    // add more cards
-    setTimeout(() => {
-      console.log('adding more cards...');
-      this.toggleCardsTray();
-      // this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
-      // this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
-      // this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
-    }, 6000);
   }
 
   cardClicked(cardIndex: number): void {
@@ -138,23 +143,6 @@ export class AppComponent implements OnInit {
     }
   }
 
-  destinationOfDiscardPileYPosition(cardIndex: number): number {
-    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
-    const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().bottom;
-    const cardBottomGap: number = dashboardHeight - document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().bottom;
-    // 1rem = 16px (1.5rem = 24px)
-    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap + 24 + 5;
-    return destinationYPosition;
-  }
-
-  destinationOfDiscardPileXPosition(cardIndex: number): number {
-    const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
-    const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
-    const cardLeftGap: number = dashboardWidth - document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().left;
-    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap;
-    return destinationXPosition;
-  }
-
   promptLegalCards(): void {
     this.cards.map((card, index) => 
       card.isLegal && this._setCardState(index, CARD_ANIMATION_ENUM.prompt
@@ -172,6 +160,28 @@ export class AppComponent implements OnInit {
 
   toggleCardsTray(isEnabled: boolean = true): void {
     this.isCardsTrayEnabled = isEnabled;
+  }
+
+  destinationOfDiscardPileYPosition(cardIndex: number): number {
+    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
+    const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().bottom;
+    const cardBottomGap: number = dashboardHeight - document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().bottom;
+    // 1rem = 16px (1.5rem = 24px)
+    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap + 24 + 5;
+    return destinationYPosition;
+  }
+
+  destinationOfDiscardPileXPosition(cardIndex: number): number {
+    const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
+    const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
+    const cardLeftGap: number = dashboardWidth - document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().left;
+    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap;
+    return destinationXPosition;
+  }
+
+  addCard(): void {
+    this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
+    this._setCardState(this.cards.length - 1, CARD_ANIMATION_ENUM.stationary);
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
