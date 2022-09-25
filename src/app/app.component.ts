@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 export enum CARD_ANIMATION_ENUM {
-  secret = "secret",
   stationary = "stationary",
   prompt = "prompt",
   peep = "peep",
@@ -20,29 +19,22 @@ export enum CARD_ANIMATION_ENUM {
         query('div > .uno-card-container', [
           style({ transform: "rotateY(180deg)" }),
           stagger(
-            190, animate('1s ease-in-out', 
+            190, animate('1s 1000ms ease-in-out', 
             style({ transform: "rotateY(0deg)" }))
           ),
-        ], { optional: true }),
-        // { optional: true, limit: 7 }
-      ]),
-      // :increment => when a new card is added
-      transition(':increment', [
-        query('div > .uno-card-container', [
-          sequence([
-            style({ 
-              left: "-30rem", 
-              top: "-15rem", 
-              transform: "rotateY(180deg)" }),
-            animate('0.7s ease-in-out', style({ top: "0rem", left: "0rem" })),
-            animate('1s ease-in-out', style({ transform: "rotateY(0deg)" })),
-          ]),
-        ], { optional: true, limit: -1 }),
+        ], { optional: true }), // { limit: 7 }
       ]),
     ]),
 
-    trigger('addToDiscard', [
-      state('stationary', style({})),
+    trigger('cardLife', [
+      state('secret', style({}), 
+        { params: { xOriginPosition: 0, yOriginPosition: 0 }}
+      ),
+      state('stationary', style({
+        top: "0px",
+        left: "0px",
+        right: "0px",
+      })),
       state('prompt', style({
         top: "-0.9rem",
         minWidth: "5rem",
@@ -51,15 +43,39 @@ export enum CARD_ANIMATION_ENUM {
         boxShadow: "black 2px 2px 4px",
         top: "-1.5rem",
         minWidth: "5rem",
+        right: "0px",
       })),
       state('discard', style({
-        top: "{{yPosition}}px",
-        right: "{{xPosition}}px",
+        top: "{{yDiscardPosition}}px",
+        right: "{{xDiscardPosition}}px",
         minWidth: "5rem",
         display: "none",
       }), {
-        params: { xPosition: 0, yPosition: 0 },
+        params: { xDiscardPosition: 0, yDiscardPosition: 0 },
       }),
+      transition('void => stationary', [
+        query('.uno-card-container', [
+          sequence([
+            style({
+              top: "{{yOriginPosition}}px",
+              left: "{{xOriginPosition}}px",
+              transform: "rotateY(180deg)",
+              width: "5rem",
+              pointerEvents: "none",
+              visibility: "hidden"
+            }),
+            animate('0.2s', style({ visibility: "visible" })),
+            animate('0.7s ease-in-out', 
+              style({ top: "0rem", left: "0rem", right: "0rem" })
+            ),
+            animate('1s ease-in-out', 
+              style({ 
+                transform: "rotateY(0deg)",
+                pointerEvents: "unset"
+              })),
+          ]),
+        ], { optional: true, limit: -1 }),
+      ]),
       transition('stationary <=> prompt', [
         animate('0.1s ease-in-out'),
       ]),
@@ -82,10 +98,10 @@ export class AppComponent implements OnInit {
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
   readonly cards: { state: CARD_ANIMATION_ENUM, isLegal: boolean }[] = [
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
     // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
     // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
     // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
@@ -111,11 +127,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.toggleCardsTray(false);
     this.cards$ = of(this.cards);
-
-    // reveal cards in stagger fashion
-    this.cards.map((card) => {
-      card.state = CARD_ANIMATION_ENUM.stationary;
-    });
 
     setTimeout(() => {
       this.promptLegalCards();
@@ -179,9 +190,21 @@ export class AppComponent implements OnInit {
     return destinationXPosition;
   }
 
+  originOfCardYPosition(): number {
+    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
+    const drawerDeckYPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().bottom;
+    return dashboardHeight - drawerDeckYPosition - 32;
+  }
+
+  originOfCardXPosition(cardIndex: number): number {
+    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
+    const cardXPosition: number = document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().left;
+    return drawerDeckXPosition - cardXPosition;
+  }
+
   addCard(): void {
-    this.cards.push({ state: CARD_ANIMATION_ENUM.secret, isLegal: false });
-    this._setCardState(this.cards.length - 1, CARD_ANIMATION_ENUM.stationary);
+    this.toggleCardsTray(false);
+    this.cards.push({ state: CARD_ANIMATION_ENUM.stationary, isLegal: false });
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
