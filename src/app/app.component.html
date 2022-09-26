@@ -6,7 +6,10 @@
     <div class="draw-discard-deck-container">
       <div class="drawer-deck" id="drawer-deck" (click)="addCard()">
         <div
-          [@drawerDeckCardActivity]="isDrawerDeckCardRevealed"
+          [@drawerDeckCardActivity]="{
+            value: isDrawerDeckCardRevealed,
+            params: { xDiscardPosition: destinationOfDiscardPileXPositionFromDrawerDeck() }
+          }"
           class="uno-card">
           <div card class="uno-card-container"></div>
         </div>

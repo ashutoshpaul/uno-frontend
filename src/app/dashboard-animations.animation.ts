@@ -85,14 +85,16 @@ export const drawerDeckCardActivityTrigger = trigger('drawerDeckCardActivity', [
       left: "0px",
       width: "5rem",
       visibility: "hidden",
-    })
+    }),
   ),
   state('true', style({
-    top: "0px",
-    left: "0px",
-    transform: "rotateY(0deg)",
     width: "5rem",
-  })),
+  }), {
+    params: {
+      // yDiscardPosition will not change
+      xDiscardPosition: 0 
+    }, 
+  }),
   transition('0 => 1', [
     query('.uno-card-container', [
       sequence([
@@ -106,15 +108,16 @@ export const drawerDeckCardActivityTrigger = trigger('drawerDeckCardActivity', [
           cursor: "unset",
         }),
         group([
-          animate('1s 0.5s ease-out', style({
+          animate('0.7s 0.8s ease-in', style({
             transform: "rotateY(0deg)",
             pointerEvents: "unset"
           })),
-          animate('1s 0.5s ease-out', style({
-            left: "200px"
+          animate('1s 0.5s ease-in-out', style({
+            left: "{{xDiscardPosition}}px"
           })),
         ]),
       ]),
+      animate('0s 0.5s', style({})),
       ], { optional: true }),
   ]),
 ]);

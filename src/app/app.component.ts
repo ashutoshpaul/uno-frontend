@@ -110,16 +110,25 @@ export class AppComponent implements OnInit {
     return destinationXPosition;
   }
 
+  destinationOfDiscardPileXPositionFromDrawerDeck(): number {
+    const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
+    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
+    const destinationXPosition: number = discardPileXPosition - drawerDeckXPosition;
+    return destinationXPosition;
+  }
+
   originOfCardYPosition(): number {
     const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
     const drawerDeckYPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().bottom;
-    return dashboardHeight - drawerDeckYPosition - 32;
+    const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 32;
+    return originOfCardY;
   }
 
   originOfCardXPosition(cardIndex: number): number {
     const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
     const cardXPosition: number = document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().left;
-    return drawerDeckXPosition - cardXPosition;
+    const originOfCardXPosition: number = drawerDeckXPosition - cardXPosition;
+    return originOfCardXPosition;;
   }
 
   addCard(): void {
