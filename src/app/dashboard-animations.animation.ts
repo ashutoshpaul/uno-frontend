@@ -1,5 +1,5 @@
 import { 
-  animation, trigger, group, transition, animate, style, query, stagger, state, sequence
+  animation, trigger, group, transition, animate, style, query, stagger, state, sequence, keyframes
 } from '@angular/animations';
 
 export const revealCardsTrigger = trigger('revealCards', [
@@ -106,15 +106,17 @@ export const drawerDeckCardActivityTrigger = trigger('drawerDeckCardActivity', [
           visibility: "visible",
           pointerEvents: "none",
           cursor: "unset",
+          perspective: "1000px"
         }),
         group([
-          animate('0.7s 0.8s ease-in', style({
-            transform: "rotateY(0deg)",
-            pointerEvents: "unset"
-          })),
           animate('1s 0.5s ease-in-out', style({
-            left: "{{xDiscardPosition}}px"
+            left: "{{xDiscardPosition}}px",
           })),
+          animate('1s 0.5s ease-in-out', keyframes([
+            style({ transform: "translateZ(0px) rotateY(180deg)", }),
+            style({ transform: "translateZ(500px) rotateY(30deg)", }),
+            style({ transform: "translateZ(0px) rotateY(0deg)", }),
+          ])),
         ]),
       ]),
       animate('0s 0.5s', style({})),
