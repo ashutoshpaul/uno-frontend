@@ -20,7 +20,7 @@
             'uno-card-disabled': !isCardsTrayEnabled
           }"
           *ngFor="let card of freshCards; let i = index"
-          [@cardLife]="{
+          [@cardActivity]="{
             value: card.state,
             params: { 
               xDiscardPosition: destinationOfDiscardPileXPosition(i),
@@ -31,7 +31,7 @@
           }"
           (mouseenter)="cardHovering(i)"
           (mouseleave)="cardHovered(i)"
-          (@cardLife.start)="disableCardsTrayTemporarily($event)"
+          (@cardActivity.start)="disableCardsTrayTemporarily($event)"
           (click)="cardClicked(i)">
           <div card class="uno-card-container"></div>
         </div>
