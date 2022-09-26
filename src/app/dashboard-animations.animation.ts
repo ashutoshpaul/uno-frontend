@@ -45,12 +45,12 @@ export const cardActivityTrigger = trigger('cardActivity', [
     query('.uno-card-container', [
     sequence([
       style({
-      top: "{{yOriginPosition}}px",
-      left: "{{xOriginPosition}}px",
-      transform: "rotateY(180deg)",
-      width: "5rem",
-      pointerEvents: "none",
-      visibility: "hidden"
+        top: "{{yOriginPosition}}px",
+        left: "{{xOriginPosition}}px",
+        transform: "rotateY(180deg)",
+        width: "5rem",
+        pointerEvents: "none",
+        visibility: "hidden"
       }),
       animate('0.2s', style({ visibility: "visible" })),
       animate('0.7s ease-in-out', 
@@ -75,5 +75,46 @@ export const cardActivityTrigger = trigger('cardActivity', [
   ]),
   transition('peep => discard', [
     animate('0.7s ease-in-out'),
+  ]),
+]);
+
+export const drawerDeckCardActivityTrigger = trigger('drawerDeckCardActivity', [
+  state('false', 
+    style({
+      top: "0px",
+      left: "0px",
+      width: "5rem",
+      visibility: "hidden",
+    })
+  ),
+  state('true', style({
+    top: "0px",
+    left: "0px",
+    transform: "rotateY(0deg)",
+    width: "5rem",
+  })),
+  transition('0 => 1', [
+    query('.uno-card-container', [
+      sequence([
+        style({
+          top: "0px",
+          left: "0px",
+          width: "5rem",
+          transform: "rotateY(180deg)",
+          visibility: "visible",
+          pointerEvents: "none",
+          cursor: "unset",
+        }),
+        group([
+          animate('1s 0.5s ease-out', style({
+            transform: "rotateY(0deg)",
+            pointerEvents: "unset"
+          })),
+          animate('1s 0.5s ease-out', style({
+            left: "200px"
+          })),
+        ]),
+      ]),
+      ], { optional: true }),
   ]),
 ]);

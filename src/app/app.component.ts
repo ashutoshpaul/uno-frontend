@@ -1,22 +1,17 @@
-import { animate, state, style, transition, trigger, AnimationEvent, stagger, query, sequence } from '@angular/animations';
+import { AnimationEvent } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { revealCardsTrigger, cardActivityTrigger } from './dashboard-animations.animation';
-
-export enum CARD_ANIMATION_ENUM {
-  stationary = "stationary",
-  prompt = "prompt",
-  peep = "peep",
-  discard = "discard",
-}
+import { CARD_ANIMATION_ENUM } from './core/enums/animation.enum';
+import { revealCardsTrigger, cardActivityTrigger, drawerDeckCardActivityTrigger } from './dashboard-animations.animation';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [ revealCardsTrigger, cardActivityTrigger ],
+  animations: [ revealCardsTrigger, cardActivityTrigger, drawerDeckCardActivityTrigger ],
 })
 export class AppComponent implements OnInit {
+  isDrawerDeckCardRevealed: boolean = false;
 
   cards$: Observable<{ state: CARD_ANIMATION_ENUM }[]>;
 
@@ -130,6 +125,10 @@ export class AppComponent implements OnInit {
   addCard(): void {
     this.toggleCardsTray(false);
     this.cards.push({ state: CARD_ANIMATION_ENUM.stationary, isLegal: false });
+  }
+
+  discardDrawerDeckCard(): void {
+    this.isDrawerDeckCardRevealed = true;
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {

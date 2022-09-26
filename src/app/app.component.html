@@ -1,7 +1,16 @@
 <div class="dashboard" id="dashboard">
+  <button (click)="discardDrawerDeckCard()" style="width: 50px; height: 10px">
+    Discard First Card
+  </button>
   <div class="draw-discard-deck">
     <div class="draw-discard-deck-container">
-      <div class="drawer-deck" id="drawer-deck" (click)="addCard()"></div>
+      <div class="drawer-deck" id="drawer-deck" (click)="addCard()">
+        <div
+          [@drawerDeckCardActivity]="isDrawerDeckCardRevealed"
+          class="uno-card">
+          <div card class="uno-card-container"></div>
+        </div>
+      </div>
       <div class="discard-pile" id="discard-pile"></div>
     </div>
   </div>
