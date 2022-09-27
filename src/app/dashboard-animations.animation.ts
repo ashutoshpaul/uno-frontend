@@ -81,14 +81,13 @@ export const cardActivityTrigger = trigger('cardActivity', [
 export const drawerDeckCardActivityTrigger = trigger('drawerDeckCardActivity', [
   state('false', 
     style({
-      top: "0px",
-      left: "0px",
       width: "5rem",
       visibility: "hidden",
     }),
   ),
   state('true', style({
     width: "5rem",
+    visibility: "hidden"
   }), {
     params: {
       // yDiscardPosition will not change
@@ -114,12 +113,12 @@ export const drawerDeckCardActivityTrigger = trigger('drawerDeckCardActivity', [
           })),
           animate('1s 0.5s ease-in-out', keyframes([
             style({ transform: "translateZ(0px) rotateY(180deg)", }),
-            style({ transform: "translateZ(500px) rotateY(30deg)", }),
+            style({ transform: "translateZ(400px) rotateY(30deg)", }),
             style({ transform: "translateZ(0px) rotateY(0deg)", }),
           ])),
         ]),
       ]),
       animate('0s 0.5s', style({})),
-      ], { optional: true }),
+    ], { optional: true }),
   ]),
 ]);

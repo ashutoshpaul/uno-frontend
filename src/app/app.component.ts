@@ -137,7 +137,7 @@ export class AppComponent implements OnInit {
   }
 
   discardDrawerDeckCard(): void {
-    this.isDrawerDeckCardRevealed = true;
+    this.isDrawerDeckCardRevealed = !this.isDrawerDeckCardRevealed;
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
