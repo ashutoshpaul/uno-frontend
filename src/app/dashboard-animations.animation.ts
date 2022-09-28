@@ -43,25 +43,25 @@ export const cardActivityTrigger = trigger('cardActivity', [
   }),
   transition('void => stationary', [
     query('.uno-card-container', [
-    sequence([
-      style({
-        top: "{{yOriginPosition}}px",
-        left: "{{xOriginPosition}}px",
-        transform: "rotateY(180deg)",
-        width: "5rem",
-        pointerEvents: "none",
-        visibility: "hidden"
-      }),
-      animate('0.2s', style({ visibility: "visible" })),
-      animate('0.7s ease-in-out', 
-      style({ top: "0rem", left: "0rem", right: "0rem" })
-      ),
-      animate('1s ease-in-out', 
-      style({ 
-        transform: "rotateY(0deg)",
-        pointerEvents: "unset"
-      })),
-    ]),
+      sequence([
+        style({
+          top: "{{yOriginPosition}}px",
+          left: "{{xOriginPosition}}px",
+          transform: "rotateY(180deg)",
+          width: "5rem",
+          pointerEvents: "none",
+          visibility: "hidden"
+        }),
+        animate('0.2s', style({ visibility: "visible" })),
+        animate('0.7s ease-in-out', 
+        style({ top: "0rem", left: "0rem", right: "0rem" })
+        ),
+        animate('1s ease-in-out', 
+        style({ 
+          transform: "rotateY(0deg)",
+          pointerEvents: "unset"
+        })),
+      ]),
     ], { optional: true, limit: -1 }),
   ]),
   transition('stationary <=> prompt', [
