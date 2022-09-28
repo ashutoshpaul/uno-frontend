@@ -40,6 +40,29 @@ export class TwoPlayerComponent implements OnInit {
     // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
   ];
 
+  readonly opponentCards: {}[] = [
+    {},
+    {},
+    {},
+    {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+  ];
+
   isCardsTrayEnabled: boolean;
 
   constructor() {}

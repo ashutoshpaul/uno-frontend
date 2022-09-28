@@ -1,9 +1,11 @@
-import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[card]'
 })
 export class CardDirective implements OnInit {
+
+  @Input() cardType: "player" | "opponent" = "player";
 
   constructor(
     private readonly _renderer: Renderer2,
@@ -17,11 +19,18 @@ export class CardDirective implements OnInit {
     this._renderer.addClass(unoCardFront, 'uno-card-front');
     this._renderer.addClass(unoCardBack, 'uno-card-back');
 
-    this._renderer.setStyle(unoCardFront, 'background', "url(./../assets/images/uno.jpeg)");
+    if(this.cardType == "player") {
+      this._renderer.setStyle(unoCardFront, 'background', "url(./../assets/images/uno.jpeg)");
+    } else if(this.cardType == "opponent") {
+      this._renderer.setStyle(unoCardFront, 'background', "yellow");
+      this._renderer.setStyle(this._elementRef.nativeElement, 'transform', "rotateY(180deg)");
+    }
+
     this._renderer.setStyle(unoCardFront, 'backgroundRepeat', "round");
 
     this._renderer.appendChild(this._elementRef.nativeElement, unoCardFront);
     this._renderer.appendChild(this._elementRef.nativeElement, unoCardBack);
+
   }
 
 }

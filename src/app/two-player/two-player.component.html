@@ -20,6 +20,20 @@
         <div class="discard-pile" id="discard-pile"></div>
       </div>
     </div>
+
+    <!-- front-player -->
+    <div class="front-opponent-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
+      <ng-container *ngIf="cards$ | async as freshCards">
+        <div class="front-opponent-cards-tray-container">
+          <div
+            class="uno-card"
+            *ngFor="let card of opponentCards; let i = index">
+            <div card cardType="opponent" class="uno-card-container"></div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
     <div class="player-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
       <ng-container *ngIf="cards$ | async as freshCards">
         <div
