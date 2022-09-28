@@ -87,6 +87,12 @@
     perspective: 1000px;
     margin-left: clamp(-4rem, -2.5rem, -2.8rem);
 
+    &.opponent-uno-card {
+        height: 5.5rem;
+        width: 4rem;
+        min-width: 2.5rem;
+    }
+
     .uno-card-container {
         position: relative;
         width: 100%;
@@ -132,14 +138,13 @@
     position: absolute;
     top: 5vh;
     width: 70vw;
-    height: 7rem;
+    height: 5.5rem;
     min-height: 70px;
     max-height: 250px;
     background-color: rgb(255, 123, 0);
     padding: 0.5rem;
 
     transform: rotateX(180deg);
-    zoom: 80%;
 
     .front-opponent-cards-tray-container {
         width: 100%;

@@ -26,7 +26,7 @@
       <ng-container *ngIf="cards$ | async as freshCards">
         <div class="front-opponent-cards-tray-container">
           <div
-            class="uno-card"
+            class="uno-card opponent-uno-card"
             *ngFor="let card of opponentCards; let i = index">
             <div card cardType="opponent" class="uno-card-container"></div>
           </div>
@@ -44,10 +44,6 @@
           <div
             class="uno-card"
             id="uno-card-{{i}}"
-            [ngClass]="{ 
-              'uno-card-enabled': isCardsTrayEnabled,
-              'uno-card-disabled': !isCardsTrayEnabled
-            }"
             *ngFor="let card of freshCards; let i = index"
             [@cardActivity]="{
               value: card.state,
