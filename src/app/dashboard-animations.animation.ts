@@ -120,12 +120,14 @@ export const cardActivityTrigger = trigger('cardActivity', [
 export const drawerDeckCardActivityTrigger = trigger('drawerDeckCardActivity', [
   state('false', 
     style({
-      width: "5rem",
+      height: "6rem",
+      width: "4.2rem",
       visibility: "hidden",
     }),
   ),
   state('true', style({
-    width: "5rem",
+    height: "6rem",
+    width: "4.2rem",
     visibility: "hidden"
   }), {
     params: {
@@ -139,7 +141,6 @@ export const drawerDeckCardActivityTrigger = trigger('drawerDeckCardActivity', [
         style({
           top: "0px",
           left: "0px",
-          width: "5rem",
           transform: "rotateY(180deg)",
           visibility: "visible",
           pointerEvents: "none",
