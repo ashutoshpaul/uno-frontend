@@ -63,8 +63,8 @@ export const cardActivityTrigger = trigger('cardActivity', [
           style({
             height: "6.5rem",
             width: "4.5rem",
-            top: "{{yOriginPosition}}px/2",
-            left: "{{xOriginPosition}}px/2",
+            top: "calc({{yOriginPosition}}px/2)",
+            left: "calc({{xOriginPosition}}px/2)",
           }),
           style({
             height: "7rem",
@@ -104,8 +104,8 @@ export const cardActivityTrigger = trigger('cardActivity', [
       style({ 
         height: "6.5rem",
         width: "4.5rem",
-        top: "{{yDiscardPosition}}px/2", 
-        right: "{{xDiscardPosition}}px/2", 
+        top: "calc({{yDiscardPosition}}px/2)",
+        right: "calc({{xDiscardPosition}}px/2)",
       }),
       style({ 
         height: "6rem",
