@@ -156,7 +156,7 @@ export class TwoPlayerComponent implements OnInit {
   originOfCardYPosition(): number {
     const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
     const drawerDeckYPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().bottom;
-    const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 32;
+    const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 52;
     return originOfCardY;
   }
 
@@ -164,7 +164,7 @@ export class TwoPlayerComponent implements OnInit {
     const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
     const cardXPosition: number = document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().left;
     const originOfCardXPosition: number = drawerDeckXPosition - cardXPosition;
-    return originOfCardXPosition;;
+    return originOfCardXPosition;
   }
 
   addCard(): void {
