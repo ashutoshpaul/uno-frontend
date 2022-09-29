@@ -36,7 +36,6 @@ export const cardActivityTrigger = trigger('cardActivity', [
   state('discard', style({
     top: "{{yDiscardPosition}}px",
     right: "{{xDiscardPosition}}px",
-    minWidth: "5rem",
     display: "none",
   }), {
     params: { xDiscardPosition: 0, yDiscardPosition: 0 },
@@ -74,7 +73,25 @@ export const cardActivityTrigger = trigger('cardActivity', [
     animate('0.1s ease-in-out'),
   ]),
   transition('peep => discard', [
-    animate('0.7s ease-in-out'),
+    animate('0.7s ease-in-out', keyframes([
+      style({ 
+        height: "7rem",
+        width: "5rem",
+        minWidth: "4.2rem",
+      }),
+      style({ 
+        height: "6.5rem",
+        width: "4.5rem",
+        top: "{{yDiscardPosition}}px/2", 
+        right: "{{xDiscardPosition}}px/2", 
+      }),
+      style({ 
+        height: "6rem",
+        width: "4.2rem",
+        top: "{{yDiscardPosition}}px",
+        right: "{{xDiscardPosition}}px",
+      }),
+    ])),
   ]),
 ]);
 

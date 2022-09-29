@@ -45,6 +45,19 @@ export class TwoPlayerComponent implements OnInit {
     {},
     {},
     {},
+    {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
+    // {},
     // {},
     // {},
     // {},
@@ -129,7 +142,7 @@ export class TwoPlayerComponent implements OnInit {
     const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
     const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
     const cardLeftGap: number = dashboardWidth - document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().left;
-    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap;
+    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap + 5;
     return destinationXPosition;
   }
 
