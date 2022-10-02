@@ -164,11 +164,13 @@ export const drawerDeckCardActivityTrigger = trigger('drawerDeckCardActivity', [
 ]);
 
 export const frontPlayerCardActivityTrigger = trigger('frontPlayerCardActivity', [
-  state('void', style({})),
   state('stationary', style({
     top: "0px",
     left: "0px",
+    height: "5.5rem", 
+    width: "4rem",
     transform: "rotateZ(-180deg)",
+    display: "unset",
   }),
   { params: { xOriginPosition: 0, yOriginPosition: 0 }}
   ),
@@ -186,12 +188,20 @@ export const frontPlayerCardActivityTrigger = trigger('frontPlayerCardActivity',
           style({
             top: "0px",
             left: "0px",
-            height: "5rem", 
-            width: "4.2rem",
+            height: "5.5rem", 
+            width: "4rem",
           }),
         ),
         animate('0.9s 0.5s', style({ transform: "rotateY(180deg) rotateZ(180deg)", })),
       ]),
     ]),
+  ]),
+]);
+
+export const placeOpponentCardsTrigger = trigger('placeOpponentCards', [
+  transition(':enter', [
+    query('.uno-card-container', [
+      style({ display: "none" }),
+    ], { optional: true }),
   ]),
 ]);

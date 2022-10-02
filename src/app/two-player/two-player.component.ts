@@ -6,6 +6,7 @@ import {
   drawerDeckCardActivityTrigger,
   cardActivityTrigger,
   frontPlayerCardActivityTrigger,
+  placeOpponentCardsTrigger,
 } from '../dashboard-animations.animation';
 import { AnimationEvent  } from "@angular/animations";
 
@@ -18,6 +19,7 @@ import { AnimationEvent  } from "@angular/animations";
     drawerDeckCardActivityTrigger,
     cardActivityTrigger,
     frontPlayerCardActivityTrigger,
+    placeOpponentCardsTrigger,
   ],
 })
 export class TwoPlayerComponent implements OnInit {

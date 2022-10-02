@@ -24,7 +24,8 @@
     <!-- front-player -->
     <div class="front-opponent-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
       <ng-container *ngIf="cards$ | async as freshCards">
-        <div class="front-opponent-cards-tray-container">
+        <div class="front-opponent-cards-tray-container"
+        [@placeOpponentCards]="{value: freshCards.length}">
           <div
             class="uno-card opponent-uno-card"
             id="front-player-uno-card-{{i}}"
