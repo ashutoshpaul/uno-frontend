@@ -23,7 +23,7 @@ export class CardDirective implements OnInit {
       this._renderer.setStyle(unoCardFront, 'background', "url(./../assets/images/uno.jpeg)");
     } else if(this.cardType == "opponent") {
       this._renderer.setStyle(unoCardFront, 'background', "yellow");
-      this._renderer.setStyle(this._elementRef.nativeElement, 'transform', "rotateY(180deg)");
+      this._renderer.setStyle(this._elementRef.nativeElement, 'transform', "rotateY(180deg) rotateZ(-180deg)");
     }
 
     this._renderer.setStyle(unoCardFront, 'backgroundRepeat', "round");

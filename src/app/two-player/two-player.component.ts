@@ -54,10 +54,10 @@ export class TwoPlayerComponent implements OnInit {
 
   readonly opponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
     { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -213,7 +213,7 @@ export class TwoPlayerComponent implements OnInit {
     const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
     const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().bottom;
     const cardBottomGap: number = dashboardHeight - document.getElementById(`front-player-uno-card-${cardIndex}`).getBoundingClientRect().bottom;
-    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap;
+    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap + 16;
     return destinationYPosition;
   }
 
@@ -221,7 +221,7 @@ export class TwoPlayerComponent implements OnInit {
     const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
     const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
     const cardLeftGap: number = dashboardWidth - document.getElementById(`front-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
-    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap - 10;
+    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap;
     return destinationXPosition;
   }
 
