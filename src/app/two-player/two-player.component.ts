@@ -1,14 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { CARD_ANIMATION_ENUM } from '../core/enums/animation.enum';
-import { revealCardsTrigger, cardActivityTrigger, drawerDeckCardActivityTrigger } from '../dashboard-animations.animation';
+import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from '../core/enums/animation.enum';
+import { 
+  revealCardsTrigger,
+  drawerDeckCardActivityTrigger,
+  cardActivityTrigger,
+  frontPlayerCardActivityTrigger,
+} from '../dashboard-animations.animation';
 import { AnimationEvent  } from "@angular/animations";
 
 @Component({
   selector: 'app-two-player',
   templateUrl: './two-player.component.html',
   styleUrls: ['./two-player.component.scss'],
-  animations: [ revealCardsTrigger, cardActivityTrigger, drawerDeckCardActivityTrigger ],
+  animations: [
+    revealCardsTrigger,
+    drawerDeckCardActivityTrigger,
+    cardActivityTrigger,
+    frontPlayerCardActivityTrigger,
+  ],
 })
 export class TwoPlayerComponent implements OnInit {
   isDrawerDeckCardRevealed: boolean = false;
@@ -40,40 +50,40 @@ export class TwoPlayerComponent implements OnInit {
     // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
   ];
 
-  readonly opponentCards: {}[] = [
-    {},
-    {},
-    {},
-    {},
-    {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
-    // {},
+  readonly opponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
   ];
 
   isCardsTrayEnabled: boolean;
@@ -190,6 +200,25 @@ export class TwoPlayerComponent implements OnInit {
 
   private _updateCardsTray(): void {
     this.cards$ = of(this.cards);
+  }
+
+  // front player
+  addCardToFrontPlayer() {
+    this.opponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
+  }
+
+  originOfFrontPlayerCardYPosition(): number {
+    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
+    const drawerDeckYPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().bottom;
+    const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 5.5 * 16;
+    return originOfCardY;
+  }
+
+  originOfFrontPlayerCardXPosition(cardIndex: number): number {
+    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
+    const cardXPosition: number = document.getElementById(`front-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
+    const originOfCardXPosition: number = drawerDeckXPosition - cardXPosition;
+    return originOfCardXPosition;
   }
 
 }

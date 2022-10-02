@@ -162,3 +162,36 @@ export const drawerDeckCardActivityTrigger = trigger('drawerDeckCardActivity', [
     ], { optional: true }),
   ]),
 ]);
+
+export const frontPlayerCardActivityTrigger = trigger('frontPlayerCardActivity', [
+  state('void', style({})),
+  state('stationary', style({
+    top: "0px",
+    left: "0px",
+    transform: "rotateZ(-180deg)",
+  }),
+  { params: { xOriginPosition: 0, yOriginPosition: 0 }}
+  ),
+  transition('void => stationary', [
+    query('.uno-card-container', [
+      style({
+        top: "{{yOriginPosition}}px",
+        left: "{{xOriginPosition}}px",
+        transform: "rotateY(180deg) rotateZ(0deg)",
+        height: "6rem",
+        width: "4.2rem",
+      }),
+      group([
+        animate('1s 0.5s', 
+          style({
+            top: "0px",
+            left: "0px",
+            height: "5rem", 
+            width: "4.2rem",
+          }),
+        ),
+        animate('0.9s 0.5s', style({ transform: "rotateY(180deg) rotateZ(180deg)", })),
+      ]),
+    ]),
+  ]),
+]);
