@@ -32,11 +32,14 @@
             *ngFor="let card of opponentCards; let i = index"
             [@frontPlayerCardActivity]="{
               value: card.state,
-              params: { 
+              params: {
+                xDiscardPosition: destinationOfFrontPlayerDiscardPileXPosition(i),
+                yDiscardPosition: destinationOfFrontPlayerDiscardPileYPosition(i),
                 xOriginPosition: originOfFrontPlayerCardXPosition(i),
                 yOriginPosition: originOfFrontPlayerCardYPosition()
               }
-            }">
+            }"
+            (click)="frontPlayerCardClicked(i)">
             <div card cardType="opponent" class="uno-card-container"></div>
           </div>
         </div>

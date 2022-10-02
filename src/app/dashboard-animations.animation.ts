@@ -174,6 +174,15 @@ export const frontPlayerCardActivityTrigger = trigger('frontPlayerCardActivity',
   }),
   { params: { xOriginPosition: 0, yOriginPosition: 0 }}
   ),
+  state('discard', style({
+    top: "{{yDiscardPosition}}px",
+    left: "{{xDiscardPosition}}px",
+    height: "6rem", 
+    width: "4.2rem",
+    display: "none",
+  }),  {
+    params: { xDiscardPosition: 0, yDiscardPosition: 0 },
+  }),
   transition('void => stationary', [
     query('.uno-card-container', [
       style({
@@ -194,6 +203,28 @@ export const frontPlayerCardActivityTrigger = trigger('frontPlayerCardActivity',
         ),
         animate('0.9s 0.5s', style({ transform: "rotateY(180deg) rotateZ(180deg)", })),
       ]),
+    ]),
+  ]),
+  transition('stationary => discard', [
+    query('.uno-card-container', [
+      style({
+        top: "0px",
+        left: "0px",
+        height: "5.5rem",
+        width: "4rem",
+      }),
+      group([
+        animate('1.5s 0.5s', 
+          style({
+            top: "{{yDiscardPosition}}px",
+            left: "{{xDiscardPosition}}px",
+            height: "6rem", 
+            width: "4.2rem",
+          }),
+        ),
+        animate('0.9s 0.5s', style({ transform: "rotateY(180deg) rotateZ(180deg)", })),
+      ]),
+      animate('0s 1s', style({ display: "none" })),
     ]),
   ]),
 ]);

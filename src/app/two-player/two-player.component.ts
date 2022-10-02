@@ -209,6 +209,22 @@ export class TwoPlayerComponent implements OnInit {
     this.opponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
   }
 
+  destinationOfFrontPlayerDiscardPileYPosition(cardIndex: number): number {
+    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
+    const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().bottom;
+    const cardBottomGap: number = dashboardHeight - document.getElementById(`front-player-uno-card-${cardIndex}`).getBoundingClientRect().bottom;
+    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap;
+    return destinationYPosition;
+  }
+
+  destinationOfFrontPlayerDiscardPileXPosition(cardIndex: number): number {
+    const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
+    const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
+    const cardLeftGap: number = dashboardWidth - document.getElementById(`front-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
+    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap - 10;
+    return destinationXPosition;
+  }
+
   originOfFrontPlayerCardYPosition(): number {
     const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
     const drawerDeckYPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().bottom;
@@ -221,6 +237,10 @@ export class TwoPlayerComponent implements OnInit {
     const cardXPosition: number = document.getElementById(`front-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
     const originOfCardXPosition: number = drawerDeckXPosition - cardXPosition;
     return originOfCardXPosition;
+  }
+
+  frontPlayerCardClicked(cardIndex: number): void {
+    this.opponentCards[cardIndex].state = OPPONENT_CARD_ANIMATION_ENUM.discard;
   }
 
 }
