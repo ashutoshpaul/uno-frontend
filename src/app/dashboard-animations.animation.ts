@@ -315,3 +315,76 @@ export const leftPlayerCardActivityTrigger = trigger('leftPlayerCardActivity', [
     ]),
   ]),
 ]);
+
+export const rightPlayerCardActivityTrigger = trigger('rightPlayerCardActivity', [
+  state('stationary', style({
+    top: "0px",
+    left: "0px",
+    height: "5.5rem", 
+    width: "4rem",
+    display: "unset",
+  }),
+  { params: { xOriginPosition: 0, yOriginPosition: 0 }}
+  ),
+  state('discard', style({
+    top: "{{yDiscardPosition}}px",
+    left: "{{xDiscardPosition}}px",
+    height: "6rem", 
+    width: "4.2rem",
+    display: "none",
+  }),  {
+    params: { xDiscardPosition: 0, yDiscardPosition: 0 },
+  }),
+  transition('void => stationary', [
+    query('.uno-card-container', [
+      style({
+        top: "{{yOriginPosition}}px",
+        left: "{{xOriginPosition}}px",
+        transform: "rotateY(180deg) rotateZ(90deg)",
+        height: "6rem",
+        width: "4.2rem",
+      }),
+      group([
+        animate('0.7s 0.5s ease-in-out', 
+          style({
+            top: "0px",
+            left: "0px",
+            height: "5.5rem", 
+            width: "4rem",
+          }),
+        ),
+        animate('0.6s 0.5s ease-in-out', 
+          style({ transform: "rotateY(180deg) rotateZ(-180deg)", })
+        ),
+      ]),
+    ]),
+  ]),
+  transition('stationary => discard', [
+    query('.uno-card-container', [
+      style({
+        top: "0px",
+        left: "0px",
+        height: "5.5rem",
+        width: "4rem",
+        transform: "rotateY(180deg) rotateZ(180deg)",
+      }),
+      group([
+        animate('1s 0.5s ease-in-out', 
+          style({
+            top: "{{yDiscardPosition}}px",
+            left: "{{xDiscardPosition}}px",
+            height: "6rem", 
+            width: "4.2rem",
+          }),
+        ),
+        animate('1s 0.5s ease-in-out', keyframes([
+          style({ transform: "rotateY(180deg) rotateZ(180deg)", }),
+          style({ transform: "rotateY(120deg) rotateZ(90deg)", }),
+          style({ transform: "rotateY(6deg) rotateZ(0deg)", }),
+          style({ transform: "rotateY(0deg) rotateZ(-90deg)", }),
+        ]),),
+      ]),
+      animate('0s 1s', style({ display: "none" })),
+    ]),
+  ]),
+]);

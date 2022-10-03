@@ -7,7 +7,7 @@
     </button> -->
     <div class="draw-discard-deck">
       <div class="draw-discard-deck-container">
-        <div class="drawer-deck" id="drawer-deck" (click)="addCardToLeftPlayer()">
+        <div class="drawer-deck" id="drawer-deck" (click)="addCardToRightPlayer()">
           <div
             [@drawerDeckCardActivity]="{
               value: isDrawerDeckCardRevealed,
@@ -79,13 +79,13 @@
                 class="uno-card opponent-uno-card"
                 id="right-player-uno-card-{{i}}"
                 *ngFor="let card of rightOpponentCards; let i = index"
-                [@leftPlayerCardActivity]="{
+                [@rightPlayerCardActivity]="{
                     value: card.state,
                     params: {
                         xDiscardPosition: -destinationOfRightPlayerDiscardPileXPosition(i),
                         yDiscardPosition: -destinationOfRightPlayerDiscardPileYPosition(i),
                         xOriginPosition: originOfRightPlayerCardXPosition(i),
-                        yOriginPosition: originOfRightPlayerCardYPosition()
+                        yOriginPosition: -originOfRightPlayerCardYPosition(i)
                     }
                 }"
                 (click)="rightPlayerCardClicked(i)">
