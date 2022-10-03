@@ -1,10 +1,10 @@
 <div class="dashboard" id="dashboard">
-    <button 
+    <!-- <button 
       label="Discard First Card" 
       (click)="discardDrawerDeckCard()" 
       style="width: 150px; height: 30px">
       Discard First Card
-    </button>
+    </button> -->
     <div class="draw-discard-deck">
       <div class="draw-discard-deck-container">
         <div class="drawer-deck" id="drawer-deck" (click)="addCardToFrontPlayer()">
@@ -21,7 +21,12 @@
       </div>
     </div>
 
-    <!-- front-player -->
+    <!-- left-opponent-player -->
+    <div class="left-opponent-cards-tray">
+        <div class="left-opponent-cards-tray-container"></div>
+    </div>
+
+    <!-- front-opponent-player -->
     <div class="front-opponent-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
       <ng-container *ngIf="cards$ | async as freshCards">
         <div class="front-opponent-cards-tray-container"
@@ -44,6 +49,11 @@
           </div>
         </div>
       </ng-container>
+    </div>
+
+    <!-- right-opponent-player -->
+    <div class="right-opponent-cards-tray">
+        <div class="right-opponent-cards-tray-container"></div>
     </div>
 
     <div class="player-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
