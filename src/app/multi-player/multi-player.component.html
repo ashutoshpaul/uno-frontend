@@ -7,7 +7,7 @@
     </button> -->
     <div class="draw-discard-deck">
       <div class="draw-discard-deck-container">
-        <div class="drawer-deck" id="drawer-deck" (click)="addCardToFrontPlayer()">
+        <div class="drawer-deck" id="drawer-deck" (click)="addCardToLeftPlayer()">
           <div
             [@drawerDeckCardActivity]="{
               value: isDrawerDeckCardRevealed,
@@ -23,14 +23,34 @@
 
     <!-- left-opponent-player -->
     <div class="left-opponent-cards-tray">
-        <div class="left-opponent-cards-tray-container"></div>
+        <ng-container *ngIf="cards$ | async as freshCards">
+            <div class="left-opponent-cards-tray-container"
+            [@placeOpponentCards]="{value: leftOpponentCards.length}">
+                <div
+                    class="uno-card opponent-uno-card"
+                    id="left-player-uno-card-{{i}}"
+                    *ngFor="let card of leftOpponentCards; let i = index"
+                    [@leftPlayerCardActivity]="{
+                        value: card.state,
+                        params: {
+                            xDiscardPosition: -destinationOfLeftPlayerDiscardPileXPosition(i),
+                            yDiscardPosition: -destinationOfLeftPlayerDiscardPileYPosition(i),
+                            xOriginPosition: originOfLeftPlayerCardXPosition(i),
+                            yOriginPosition: originOfLeftPlayerCardYPosition()
+                        }
+                    }"
+                    (click)="leftPlayerCardClicked(i)">
+                    <div card cardType="opponent" class="uno-card-container"></div>
+                </div>
+            </div>
+        </ng-container>
     </div>
 
     <!-- front-opponent-player -->
     <div class="front-opponent-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
       <ng-container *ngIf="cards$ | async as freshCards">
         <div class="front-opponent-cards-tray-container"
-        [@placeOpponentCards]="{value: freshCards.length}">
+        [@placeOpponentCards]="{value: opponentCards.length}">
           <div
             class="uno-card opponent-uno-card"
             id="front-player-uno-card-{{i}}"
