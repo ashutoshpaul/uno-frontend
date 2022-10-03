@@ -273,19 +273,19 @@ export class MultiPlayerComponent implements OnInit {
   }
 
   destinationOfLeftPlayerDiscardPileYPosition(cardIndex: number): number {
-    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
-    const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().bottom;
-    const cardBottomGap: number = dashboardHeight - document.getElementById(`left-player-uno-card-${cardIndex}`).getBoundingClientRect().bottom;
-    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap + 16;
-    return destinationYPosition;
-  }
-
-  destinationOfLeftPlayerDiscardPileXPosition(cardIndex: number): number {
     const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
     const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
     const cardLeftGap: number = dashboardWidth - document.getElementById(`left-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
-    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap;
+    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap + 16;
     return destinationXPosition;
+  }
+
+  destinationOfLeftPlayerDiscardPileXPosition(cardIndex: number): number {
+    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
+    const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().top;
+    const cardTopGap: number = dashboardHeight - document.getElementById(`left-player-uno-card-${cardIndex}`).getBoundingClientRect().top;
+    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardTopGap - 24;
+    return destinationYPosition;
   }
 
   originOfLeftPlayerCardYPosition(cardIndex: number): number {
