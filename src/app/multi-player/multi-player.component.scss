@@ -1,0 +1,157 @@
+.dashboard {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-color: greenyellow;
+}
+
+.player-cards-tray {
+    position: absolute;
+    bottom: 5vh;
+    width: 90vw;
+    height: 9rem;
+    min-height: 100px;
+    max-height: 300px;
+    background-color: yellow;
+    padding: 0.5rem;
+
+    .player-cards-tray-container {
+        width: 100%;
+        height: 100%;
+        display:inline-flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+    
+        background-color: aqua;
+    }
+}
+
+.draw-discard-deck {
+    position: absolute;
+    top: 35vh;
+    right: calc(50% - width);
+    width: 26vw;
+    min-width: 200px;
+    max-width: 300px;
+    height: 8rem;
+    min-height: 100px;
+    max-height: 300px;
+    background-color: rgb(12, 110, 110);
+    padding: 0.5rem;
+
+    .draw-discard-deck-container {
+        width: 100%;
+        height: 100%;
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    
+        background-color: aqua;
+    
+        .drawer-deck {
+            height: 6rem;
+            width: 4.2rem;
+            border-radius: 0.4rem;
+            border-color: rgb(77, 77, 77);
+            border-style: solid;
+    
+            background-color: rgb(139, 255, 139);
+
+            cursor: pointer;
+        }
+    
+        .discard-pile {
+            height: 6rem;
+            width: 4.2rem;
+            border-radius: 0.4rem;
+            border-color: rgb(77, 77, 77);
+            border-style: solid;
+    
+            background-color: rgb(255, 101, 101);
+        }
+    }
+}
+
+.uno-card {
+    position: relative;
+    height: 7rem;
+    width: 5rem;
+    min-width: 4rem;
+    border-radius: 0.4rem;
+    
+    cursor: pointer;
+    perspective: 1000px;
+    margin-left: clamp(-4rem, -2.5rem, -2.8rem);
+
+    &.opponent-uno-card {
+        height: 5.5rem;
+        width: 4rem;
+        min-width: 2.5rem;
+    }
+
+    .uno-card-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 0.4rem;
+        border-color: rgb(77, 77, 77);
+        border-style: solid;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+
+        .uno-card-front, .uno-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        
+        .uno-card-front {
+            background: red;
+        }
+        
+        .uno-card-back {
+            background: url(./../../assets/images/uno-back.jpeg);
+            background-repeat: round;
+            transform: rotateY(180deg);
+        }
+    }
+
+    &:nth-child(1) {
+        margin-left: 0rem;
+    }
+
+}
+
+.cardsTrayDisabled {
+    pointer-events: none;
+}
+
+// front-opponent-cards-tray
+
+.front-opponent-cards-tray {
+    position: absolute;
+    top: 5vh;
+    width: 70vw;
+    height: 5.5rem;
+    min-height: 70px;
+    max-height: 250px;
+    background-color: rgb(255, 123, 0);
+    padding: 0.5rem;
+
+    .front-opponent-cards-tray-container {
+        width: 100%;
+        height: 100%;
+        display:inline-flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+    
+        background-color: rgb(0, 17, 255);
+    }
+}

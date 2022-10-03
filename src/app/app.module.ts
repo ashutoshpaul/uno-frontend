@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CardDirective } from './card.directive';
 import { TwoPlayerComponent } from './two-player/two-player.component';
+import { MultiPlayerComponent } from './multi-player/multi-player.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CardDirective,
     TwoPlayerComponent,
+    MultiPlayerComponent,
   ],
   imports: [
     BrowserModule,
