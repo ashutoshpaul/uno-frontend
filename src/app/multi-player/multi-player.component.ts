@@ -35,10 +35,10 @@ export class MultiPlayerComponent implements OnInit {
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
   readonly cards: { state: CARD_ANIMATION_ENUM, isLegal: boolean }[] = [
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
     // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
     // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
     // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
@@ -58,11 +58,11 @@ export class MultiPlayerComponent implements OnInit {
   ];
 
   readonly opponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -94,9 +94,9 @@ export class MultiPlayerComponent implements OnInit {
   ];
 
   readonly leftOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -106,8 +106,8 @@ export class MultiPlayerComponent implements OnInit {
   ];
 
   readonly rightOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -182,23 +182,6 @@ export class MultiPlayerComponent implements OnInit {
     this.isCardsTrayEnabled = isEnabled;
   }
 
-  destinationOfDiscardPileYPosition(cardIndex: number): number {
-    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
-    const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().bottom;
-    const cardBottomGap: number = dashboardHeight - document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().bottom;
-    // 1rem = 16px (1.5rem = 24px)
-    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap + 24 + 5;
-    return -1 * destinationYPosition;
-  }
-
-  destinationOfDiscardPileXPosition(cardIndex: number): number {
-    const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
-    const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
-    const cardLeftGap: number = dashboardWidth - document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().left;
-    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap + 5;
-    return destinationXPosition;
-  }
-
   destinationOfDiscardPileXPositionFromDrawerDeck(): number {
     const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
     const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
@@ -206,23 +189,33 @@ export class MultiPlayerComponent implements OnInit {
     return destinationXPosition;
   }
 
-  originOfCardYPosition(): number {
-    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
-    const drawerDeckYPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().bottom;
-    const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 44;
-    return -1 * originOfCardY;
-  }
-
-  originOfCardXPosition(cardIndex: number): number {
-    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
-    const cardXPosition: number = document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().left;
-    const originOfCardXPosition: number = drawerDeckXPosition - cardXPosition;
-    return originOfCardXPosition;
-  }
-
   addCard(): void {
     this.toggleCardsTray(false);
     this.cards.push({ state: CARD_ANIMATION_ENUM.stationary, isLegal: false });
+  }
+  
+  addCardToFrontPlayer() {
+    this.opponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
+  }
+
+  frontPlayerCardClicked(cardIndex: number): void {
+    this.opponentCards[cardIndex].state = OPPONENT_CARD_ANIMATION_ENUM.discard;
+  }
+
+  addCardToLeftPlayer() {
+    this.leftOpponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
+  }
+
+  leftPlayerCardClicked(cardIndex: number): void {
+    this.leftOpponentCards[cardIndex].state = OPPONENT_CARD_ANIMATION_ENUM.discard;
+  }
+
+  addCardToRightPlayer() {
+    this.rightOpponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
+  }
+
+  rightPlayerCardClicked(cardIndex: number): void {
+    this.rightOpponentCards[cardIndex].state = OPPONENT_CARD_ANIMATION_ENUM.discard;
   }
 
   discardDrawerDeckCard(): void {
@@ -244,120 +237,4 @@ export class MultiPlayerComponent implements OnInit {
   private _updateCardsTray(): void {
     this.cards$ = of(this.cards);
   }
-
-  // front player
-  addCardToFrontPlayer() {
-    this.opponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
-  }
-
-  destinationOfFrontPlayerDiscardPileYPosition(cardIndex: number): number {
-    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
-    const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().bottom;
-    const cardBottomGap: number = dashboardHeight - document.getElementById(`front-player-uno-card-${cardIndex}`).getBoundingClientRect().bottom;
-    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap + 16;
-    return -1 * destinationYPosition;
-  }
-
-  destinationOfFrontPlayerDiscardPileXPosition(cardIndex: number): number {
-    const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
-    const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
-    const cardLeftGap: number = dashboardWidth - document.getElementById(`front-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
-    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap;
-    return -1 * destinationXPosition;
-  }
-
-  originOfFrontPlayerCardYPosition(): number {
-    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
-    const drawerDeckYPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().bottom;
-    const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 5 * 16;
-    return originOfCardY;
-  }
-
-  originOfFrontPlayerCardXPosition(cardIndex: number): number {
-    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
-    const cardXPosition: number = document.getElementById(`front-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
-    const originOfCardXPosition: number = drawerDeckXPosition - cardXPosition;
-    return originOfCardXPosition;
-  }
-
-  frontPlayerCardClicked(cardIndex: number): void {
-    this.opponentCards[cardIndex].state = OPPONENT_CARD_ANIMATION_ENUM.discard;
-  }
-
-  // left player
-  addCardToLeftPlayer() {
-    this.leftOpponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
-  }
-
-  destinationOfLeftPlayerDiscardPileYPosition(cardIndex: number): number {
-    const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
-    const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
-    const cardLeftGap: number = dashboardWidth - document.getElementById(`left-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
-    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap + 16;
-    return -1 * destinationXPosition;
-  }
-
-  destinationOfLeftPlayerDiscardPileXPosition(cardIndex: number): number {
-    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
-    const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().top;
-    const cardTopGap: number = dashboardHeight - document.getElementById(`left-player-uno-card-${cardIndex}`).getBoundingClientRect().top;
-    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardTopGap - 24;
-    return destinationYPosition;
-  }
-
-  originOfLeftPlayerCardYPosition(cardIndex: number): number {
-    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
-    const cardXPosition: number = document.getElementById(`left-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
-    return drawerDeckXPosition - cardXPosition - 16;
-  }
-
-  originOfLeftPlayerCardXPosition(cardIndex: number): number {
-    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().top;
-    const cardXPosition: number = document.getElementById(`left-player-uno-card-${cardIndex}`).getBoundingClientRect().top;
-    const originOfCardXPosition: number = drawerDeckXPosition - cardXPosition + 24;
-    return -1 * originOfCardXPosition;
-  }
-
-  leftPlayerCardClicked(cardIndex: number): void {
-    this.leftOpponentCards[cardIndex].state = OPPONENT_CARD_ANIMATION_ENUM.discard;
-  }
-
-  // right player
-  addCardToRightPlayer() {
-    this.rightOpponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
-  }
-
-  destinationOfRightPlayerDiscardPileYPosition(cardIndex: number): number {
-    const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
-    const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
-    const cardLeftGap: number = dashboardWidth - document.getElementById(`right-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
-    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap;
-    return destinationXPosition;
-  }
-
-  destinationOfRightPlayerDiscardPileXPosition(cardIndex: number): number {
-    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
-    const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().top;
-    const cardTopGap: number = dashboardHeight - document.getElementById(`right-player-uno-card-${cardIndex}`).getBoundingClientRect().top;
-    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardTopGap - 16;
-    return -1 * destinationYPosition;
-  }
-
-  originOfRightPlayerCardYPosition(cardIndex: number): number {
-    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
-    const cardXPosition: number = document.getElementById(`right-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
-    return -1 * (drawerDeckXPosition - cardXPosition);
-  }
-
-  originOfRightPlayerCardXPosition(cardIndex: number): number {
-    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().top;
-    const cardXPosition: number = document.getElementById(`right-player-uno-card-${cardIndex}`).getBoundingClientRect().top;
-    const originOfCardXPosition: number = drawerDeckXPosition - cardXPosition + 16;
-    return originOfCardXPosition;
-  }
-
-  rightPlayerCardClicked(cardIndex: number): void {
-    this.rightOpponentCards[cardIndex].state = OPPONENT_CARD_ANIMATION_ENUM.discard;
-  }
-
 }
