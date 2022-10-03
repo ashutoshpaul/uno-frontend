@@ -35,8 +35,8 @@
                         params: {
                             xDiscardPosition: -destinationOfLeftPlayerDiscardPileXPosition(i),
                             yDiscardPosition: -destinationOfLeftPlayerDiscardPileYPosition(i),
-                            xOriginPosition: originOfLeftPlayerCardXPosition(i),
-                            yOriginPosition: originOfLeftPlayerCardYPosition()
+                            xOriginPosition: -originOfLeftPlayerCardXPosition(i),
+                            yOriginPosition: originOfLeftPlayerCardYPosition(i)
                         }
                     }"
                     (click)="leftPlayerCardClicked(i)">

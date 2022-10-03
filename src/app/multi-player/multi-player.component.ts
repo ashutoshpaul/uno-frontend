@@ -93,14 +93,14 @@ export class MultiPlayerComponent implements OnInit {
 
   readonly leftOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
     { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
   ];
 
   readonly rightOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
@@ -288,17 +288,16 @@ export class MultiPlayerComponent implements OnInit {
     return destinationXPosition;
   }
 
-  originOfLeftPlayerCardYPosition(): number {
-    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
-    const drawerDeckYPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().bottom;
-    const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 5.5 * 16;
-    return originOfCardY;
+  originOfLeftPlayerCardYPosition(cardIndex: number): number {
+    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
+    const cardXPosition: number = document.getElementById(`left-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
+    return drawerDeckXPosition - cardXPosition - 16;
   }
 
   originOfLeftPlayerCardXPosition(cardIndex: number): number {
-    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
-    const cardXPosition: number = document.getElementById(`left-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
-    const originOfCardXPosition: number = drawerDeckXPosition - cardXPosition;
+    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().top;
+    const cardXPosition: number = document.getElementById(`left-player-uno-card-${cardIndex}`).getBoundingClientRect().top;
+    const originOfCardXPosition: number = drawerDeckXPosition - cardXPosition + 24;
     return originOfCardXPosition;
   }
 

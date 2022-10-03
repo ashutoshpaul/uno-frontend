@@ -267,12 +267,12 @@ export const leftPlayerCardActivityTrigger = trigger('leftPlayerCardActivity', [
       style({
         top: "{{yOriginPosition}}px",
         left: "{{xOriginPosition}}px",
-        transform: "rotateY(180deg)",
+        transform: "rotateY(180deg) rotateZ(-90deg)",
         height: "6rem",
         width: "4.2rem",
       }),
       group([
-        animate('0.7s 0.5s ease-in-out', 
+        animate('1s 0.5s ease-in-out', 
           style({
             top: "0px",
             left: "0px",
@@ -281,7 +281,7 @@ export const leftPlayerCardActivityTrigger = trigger('leftPlayerCardActivity', [
           }),
         ),
         animate('0.6s 0.5s ease-in-out', 
-          style({ transform: "rotateY(180deg) rotateZ(-90deg)", })
+          style({ transform: "rotateY(180deg) rotateZ(-180deg)", })
         ),
       ]),
     ]),
