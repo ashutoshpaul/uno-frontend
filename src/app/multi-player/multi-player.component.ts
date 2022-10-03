@@ -35,10 +35,10 @@ export class MultiPlayerComponent implements OnInit {
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
   readonly cards: { state: CARD_ANIMATION_ENUM, isLegal: boolean }[] = [
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
     // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
     // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
     // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
@@ -58,11 +58,11 @@ export class MultiPlayerComponent implements OnInit {
   ];
 
   readonly opponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -94,7 +94,7 @@ export class MultiPlayerComponent implements OnInit {
   ];
 
   readonly leftOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -106,7 +106,7 @@ export class MultiPlayerComponent implements OnInit {
   ];
 
   readonly rightOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -122,9 +122,24 @@ export class MultiPlayerComponent implements OnInit {
     this.toggleCardsTray(false);
     this.cards$ = of(this.cards);
 
-    setTimeout(() => {
-      this.promptLegalCards();
-    }, 4000);
+    // setTimeout(() => {
+    //   this.promptLegalCards();
+    // }, 4000);
+
+    // distribute cards
+    // let i = 0;
+    // setInterval(() => {
+    //   if (i % 4 == 0) {
+    //     this.addCard();
+    //   } else if (i % 4 == 1) {
+    //     this.addCardToLeftPlayer();
+    //   } else if (i % 4 == 2) {
+    //     this.addCardToFrontPlayer();
+    //   } else if (i % 4 == 3) {
+    //     this.addCardToRightPlayer();
+    //   }
+    //   i++;
+    // }, 500);
   }
 
   cardClicked(cardIndex: number): void {
@@ -194,7 +209,7 @@ export class MultiPlayerComponent implements OnInit {
   originOfCardYPosition(): number {
     const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
     const drawerDeckYPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().bottom;
-    const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 52;
+    const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 44;
     return -1 * originOfCardY;
   }
 
@@ -254,7 +269,7 @@ export class MultiPlayerComponent implements OnInit {
   originOfFrontPlayerCardYPosition(): number {
     const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
     const drawerDeckYPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().bottom;
-    const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 5.5 * 16;
+    const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 5 * 16;
     return originOfCardY;
   }
 

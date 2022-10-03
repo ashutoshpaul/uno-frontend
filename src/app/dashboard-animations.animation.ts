@@ -50,10 +50,8 @@ export const cardActivityTrigger = trigger('cardActivity', [
           width: "4.2rem",
           transform: "rotateY(180deg)",
           pointerEvents: "none",
-          visibility: "hidden"
         }),
-        animate('0.2s', style({ visibility: "visible" })),
-        animate('0.7s ease-in-out', keyframes([
+        animate('0.7s 0.5s ease-in-out', keyframes([
           style({
             height: "6rem",
             width: "4.2rem",
