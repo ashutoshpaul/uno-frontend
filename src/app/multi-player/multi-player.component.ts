@@ -173,7 +173,7 @@ export class MultiPlayerComponent implements OnInit {
     const cardBottomGap: number = dashboardHeight - document.getElementById(`uno-card-${cardIndex}`).getBoundingClientRect().bottom;
     // 1rem = 16px (1.5rem = 24px)
     const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap + 24 + 5;
-    return destinationYPosition;
+    return -1 * destinationYPosition;
   }
 
   destinationOfDiscardPileXPosition(cardIndex: number): number {
@@ -195,7 +195,7 @@ export class MultiPlayerComponent implements OnInit {
     const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
     const drawerDeckYPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().bottom;
     const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 52;
-    return originOfCardY;
+    return -1 * originOfCardY;
   }
 
   originOfCardXPosition(cardIndex: number): number {
@@ -240,7 +240,7 @@ export class MultiPlayerComponent implements OnInit {
     const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().bottom;
     const cardBottomGap: number = dashboardHeight - document.getElementById(`front-player-uno-card-${cardIndex}`).getBoundingClientRect().bottom;
     const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap + 16;
-    return destinationYPosition;
+    return -1 * destinationYPosition;
   }
 
   destinationOfFrontPlayerDiscardPileXPosition(cardIndex: number): number {
@@ -248,7 +248,7 @@ export class MultiPlayerComponent implements OnInit {
     const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
     const cardLeftGap: number = dashboardWidth - document.getElementById(`front-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
     const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap;
-    return destinationXPosition;
+    return -1 * destinationXPosition;
   }
 
   originOfFrontPlayerCardYPosition(): number {
@@ -279,7 +279,7 @@ export class MultiPlayerComponent implements OnInit {
     const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
     const cardLeftGap: number = dashboardWidth - document.getElementById(`left-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
     const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap + 16;
-    return destinationXPosition;
+    return -1 * destinationXPosition;
   }
 
   destinationOfLeftPlayerDiscardPileXPosition(cardIndex: number): number {
@@ -300,7 +300,7 @@ export class MultiPlayerComponent implements OnInit {
     const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().top;
     const cardXPosition: number = document.getElementById(`left-player-uno-card-${cardIndex}`).getBoundingClientRect().top;
     const originOfCardXPosition: number = drawerDeckXPosition - cardXPosition + 24;
-    return originOfCardXPosition;
+    return -1 * originOfCardXPosition;
   }
 
   leftPlayerCardClicked(cardIndex: number): void {
@@ -325,13 +325,13 @@ export class MultiPlayerComponent implements OnInit {
     const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().top;
     const cardTopGap: number = dashboardHeight - document.getElementById(`right-player-uno-card-${cardIndex}`).getBoundingClientRect().top;
     const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardTopGap - 16;
-    return destinationYPosition;
+    return -1 * destinationYPosition;
   }
 
   originOfRightPlayerCardYPosition(cardIndex: number): number {
     const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
     const cardXPosition: number = document.getElementById(`right-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
-    return drawerDeckXPosition - cardXPosition;
+    return -1 * (drawerDeckXPosition - cardXPosition);
   }
 
   originOfRightPlayerCardXPosition(cardIndex: number): number {
