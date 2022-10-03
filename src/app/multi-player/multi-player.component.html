@@ -73,7 +73,25 @@
 
     <!-- right-opponent-player -->
     <div class="right-opponent-cards-tray">
-        <div class="right-opponent-cards-tray-container"></div>
+        <div class="right-opponent-cards-tray-container"
+            [@placeOpponentCards]="{value: leftOpponentCards.length}">
+            <div
+                class="uno-card opponent-uno-card"
+                id="right-player-uno-card-{{i}}"
+                *ngFor="let card of rightOpponentCards; let i = index"
+                [@leftPlayerCardActivity]="{
+                    value: card.state,
+                    params: {
+                        xDiscardPosition: -destinationOfRightPlayerDiscardPileXPosition(i),
+                        yDiscardPosition: -destinationOfRightPlayerDiscardPileYPosition(i),
+                        xOriginPosition: originOfRightPlayerCardXPosition(i),
+                        yOriginPosition: originOfRightPlayerCardYPosition()
+                    }
+                }"
+                (click)="rightPlayerCardClicked(i)">
+                <div card cardType="opponent" class="uno-card-container"></div>
+            </div>
+        </div>
     </div>
 
     <div class="player-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">

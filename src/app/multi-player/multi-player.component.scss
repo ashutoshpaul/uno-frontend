@@ -160,13 +160,17 @@
 
 .left-opponent-cards-tray {
     position: absolute;
-    top: 4vh;
-    left: 3vw;
-    width: 5.5rem;
-    bottom: 4vh;
-    margin-bottom: 11rem;
-    min-width: 70px;
-    max-width: 250px;
+    height: 5.5rem;
+    min-height: 70px;
+    max-height: 250px;
+    
+    left: calc(4vw + 5.5rem);
+    bottom: calc(4vh + 11rem);
+    
+    transform-origin: bottom left;
+    transform: rotateZ(-90deg);
+
+    width: calc(100vh - 11vh - 11rem);
     background-color: rgb(255, 0, 149);
     padding: 0.5rem;
 
@@ -184,14 +188,18 @@
 
 .right-opponent-cards-tray {
     position: absolute;
-    top: 4vh;
-    bottom: 4vh;
-    margin-bottom: 11rem;
-    right: 3vw;
-    width: 5.5rem;
-    min-width: 70px;
-    max-width: 250px;
-    background-color: rgb(255, 0, 0);
+    height: 5.5rem;
+    min-height: 70px;
+    max-height: 250px;
+    
+    right: calc(4vw + 5.5rem);
+    bottom: calc(4vh + 11rem);
+    
+    transform-origin: bottom right;
+    transform: rotateZ(90deg);
+
+    width: calc(100vh - 11vh - 11rem);
+    background-color: rgb(89, 0, 255);
     padding: 0.5rem;
 
     .right-opponent-cards-tray-container {

@@ -105,11 +105,11 @@ export class MultiPlayerComponent implements OnInit {
 
   readonly rightOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
     { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
   ];
 
   isCardsTrayEnabled: boolean;
@@ -304,6 +304,45 @@ export class MultiPlayerComponent implements OnInit {
 
   leftPlayerCardClicked(cardIndex: number): void {
     this.leftOpponentCards[cardIndex].state = OPPONENT_CARD_ANIMATION_ENUM.discard;
+  }
+
+  // right player
+  addCardToRightPlayer() {
+    this.rightOpponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
+  }
+
+  destinationOfRightPlayerDiscardPileYPosition(cardIndex: number): number {
+    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
+    const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().bottom;
+    const cardBottomGap: number = dashboardHeight - document.getElementById(`right-player-uno-card-${cardIndex}`).getBoundingClientRect().bottom;
+    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardBottomGap + 16;
+    return destinationYPosition;
+  }
+
+  destinationOfRightPlayerDiscardPileXPosition(cardIndex: number): number {
+    const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
+    const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
+    const cardLeftGap: number = dashboardWidth - document.getElementById(`right-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
+    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap;
+    return destinationXPosition;
+  }
+
+  originOfRightPlayerCardYPosition(): number {
+    const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
+    const drawerDeckYPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().bottom;
+    const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 5.5 * 16;
+    return originOfCardY;
+  }
+
+  originOfRightPlayerCardXPosition(cardIndex: number): number {
+    const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;
+    const cardXPosition: number = document.getElementById(`right-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
+    const originOfCardXPosition: number = drawerDeckXPosition - cardXPosition;
+    return originOfCardXPosition;
+  }
+
+  rightPlayerCardClicked(cardIndex: number): void {
+    this.rightOpponentCards[cardIndex].state = OPPONENT_CARD_ANIMATION_ENUM.discard;
   }
 
 }
