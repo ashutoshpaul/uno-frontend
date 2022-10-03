@@ -316,7 +316,7 @@ export class MultiPlayerComponent implements OnInit {
     const dashboardWidth: number = document.getElementById("dashboard").getBoundingClientRect().width;
     const discardPileXPosition: number = document.getElementById("discard-pile").getBoundingClientRect().left;
     const cardLeftGap: number = dashboardWidth - document.getElementById(`right-player-uno-card-${cardIndex}`).getBoundingClientRect().left;
-    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap + 16;
+    const destinationXPosition: number = dashboardWidth - discardPileXPosition - cardLeftGap;
     return destinationXPosition;
   }
 
@@ -324,7 +324,7 @@ export class MultiPlayerComponent implements OnInit {
     const dashboardHeight: number = document.getElementById("dashboard").getBoundingClientRect().height;
     const discardPileYPosition: number = document.getElementById("discard-pile").getBoundingClientRect().top;
     const cardTopGap: number = dashboardHeight - document.getElementById(`right-player-uno-card-${cardIndex}`).getBoundingClientRect().top;
-    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardTopGap - 24;
+    const destinationYPosition: number = dashboardHeight - discardPileYPosition - cardTopGap - 16;
     return destinationYPosition;
   }
 
