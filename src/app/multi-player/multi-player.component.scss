@@ -4,7 +4,7 @@
     height: 100vh;
     display: flex;
     justify-content: center;
-    // background-color: greenyellow;
+    background-color: greenyellow;
 }
 
 .player-cards-tray {
@@ -104,7 +104,7 @@
         transition: transform 0.6s;
         transform-style: preserve-3d;
 
-        animation: legal-card-blink 1s infinite;
+        animation: legal-card-blink 1.2s infinite;
 
         .uno-card-front, .uno-card-back {
             position: absolute;
