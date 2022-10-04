@@ -104,6 +104,8 @@
         transition: transform 0.6s;
         transform-style: preserve-3d;
 
+        animation: legal-card-blink 1s infinite;
+
         .uno-card-front, .uno-card-back {
             position: absolute;
             width: 100%;
@@ -213,4 +215,8 @@
     
         background-color: rgb(230, 190, 105);
     }
+}
+
+@keyframes legal-card-blink {
+    50% { box-shadow: unset; }
 }

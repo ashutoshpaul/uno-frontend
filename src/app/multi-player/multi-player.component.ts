@@ -34,27 +34,27 @@ export class MultiPlayerComponent implements OnInit {
 
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
-  readonly cards: { state: CARD_ANIMATION_ENUM, isLegal: boolean }[] = [
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+  readonly cards: { state: CARD_ANIMATION_ENUM, isLegal: boolean, color: "black" | "blue" | "green" | "red" | "yellow" }[] = [
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "black" },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "yellow" },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "blue" },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "green" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
   ];
 
   readonly opponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
@@ -191,7 +191,7 @@ export class MultiPlayerComponent implements OnInit {
 
   addCard(): void {
     this.toggleCardsTray(false);
-    this.cards.push({ state: CARD_ANIMATION_ENUM.stationary, isLegal: false });
+    this.cards.push({ state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" });
   }
   
   addCardToFrontPlayer() {
