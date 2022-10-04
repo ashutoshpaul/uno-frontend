@@ -27,7 +27,7 @@
             <div class="left-opponent-cards-tray-container"
             [@placeOpponentCards]="{value: leftOpponentCards.length}">
                 <div appCardDisplacementCoordinate
-                  #appCardDisplacementCoordinate="appCardDisplacementCoordinate"
+                  #coordinates="appCardDisplacementCoordinate"
                   position="left"
                   class="uno-card opponent-uno-card"
                   id="left-player-uno-card-{{i}}"
@@ -35,10 +35,10 @@
                   [@leftPlayerCardActivity]="{
                     value: card.state,
                       params: {
-                        xDiscardPosition: appCardDisplacementCoordinate.destinationOfDiscardPileXPosition(i),
-                        yDiscardPosition: appCardDisplacementCoordinate.destinationOfDiscardPileYPosition(i),
-                        xOriginPosition: appCardDisplacementCoordinate.originOfCardXPosition(i),
-                        yOriginPosition: appCardDisplacementCoordinate.originOfCardYPosition(i)
+                        xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
+                        yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
+                        xOriginPosition: coordinates.originOfCardXPosition(i),
+                        yOriginPosition: coordinates.originOfCardYPosition(i)
                       }
                   }"
                   (click)="leftPlayerCardClicked(i)">
@@ -54,7 +54,7 @@
         <div class="front-opponent-cards-tray-container"
         [@placeOpponentCards]="{value: opponentCards.length}">
           <div appCardDisplacementCoordinate
-            #appCardDisplacementCoordinate="appCardDisplacementCoordinate"
+            #coordinates="appCardDisplacementCoordinate"
             position="front"
             class="uno-card opponent-uno-card"
             id="front-player-uno-card-{{i}}"
@@ -62,10 +62,10 @@
             [@frontPlayerCardActivity]="{
               value: card.state,
               params: {
-                xDiscardPosition: appCardDisplacementCoordinate.destinationOfDiscardPileXPosition(i),
-                yDiscardPosition: appCardDisplacementCoordinate.destinationOfDiscardPileYPosition(i),
-                xOriginPosition: appCardDisplacementCoordinate.originOfCardXPosition(i),
-                yOriginPosition: appCardDisplacementCoordinate.originOfCardYPosition()
+                xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
+                yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
+                xOriginPosition: coordinates.originOfCardXPosition(i),
+                yOriginPosition: coordinates.originOfCardYPosition()
               }
             }"
             (click)="frontPlayerCardClicked(i)">
@@ -80,7 +80,7 @@
         <div class="right-opponent-cards-tray-container"
             [@placeOpponentCards]="{value: leftOpponentCards.length}">
             <div appCardDisplacementCoordinate
-                #appCardDisplacementCoordinate="appCardDisplacementCoordinate"
+                #coordinates="appCardDisplacementCoordinate"
                 position="right"
                 class="uno-card opponent-uno-card"
                 id="right-player-uno-card-{{i}}"
@@ -88,10 +88,10 @@
                 [@rightPlayerCardActivity]="{
                     value: card.state,
                     params: {
-                        xDiscardPosition: appCardDisplacementCoordinate.destinationOfDiscardPileXPosition(i),
-                        yDiscardPosition: appCardDisplacementCoordinate.destinationOfDiscardPileYPosition(i),
-                        xOriginPosition: appCardDisplacementCoordinate.originOfCardXPosition(i),
-                        yOriginPosition: appCardDisplacementCoordinate.originOfCardYPosition(i)
+                        xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
+                        yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
+                        xOriginPosition: coordinates.originOfCardXPosition(i),
+                        yOriginPosition: coordinates.originOfCardYPosition(i)
                     }
                 }"
                 (click)="rightPlayerCardClicked(i)">
@@ -109,7 +109,7 @@
           (@revealCards.done)="toggleCardsTray(true)"
           class="player-cards-tray-container">
           <div appCardDisplacementCoordinate
-            #appCardDisplacementCoordinate="appCardDisplacementCoordinate"
+            #coordinates="appCardDisplacementCoordinate"
             position="bottom"
             class="uno-card"
             id="uno-card-{{i}}"
@@ -117,17 +117,23 @@
             [@cardActivity]="{
               value: card.state,
               params: { 
-                xDiscardPosition: appCardDisplacementCoordinate.destinationOfDiscardPileXPosition(i),
-                yDiscardPosition: appCardDisplacementCoordinate.destinationOfDiscardPileYPosition(i),
-                xOriginPosition: appCardDisplacementCoordinate.originOfCardXPosition(i),
-                yOriginPosition: appCardDisplacementCoordinate.originOfCardYPosition()
+                xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
+                yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
+                xOriginPosition: coordinates.originOfCardXPosition(i),
+                yOriginPosition: coordinates.originOfCardYPosition()
               }
             }"
             (mouseenter)="cardHovering(i)"
             (mouseleave)="cardHovered(i)"
             (@cardActivity.start)="disableCardsTrayTemporarily($event)"
             (click)="cardClicked(i)">
-            <div card class="uno-card-container"></div>
+            <div 
+              card 
+              appCardGlow 
+              [color]="'red'" 
+              [isLegal]="card.isLegal" 
+              class="uno-card-container">
+            </div>
           </div>
         </div>
       </ng-container>

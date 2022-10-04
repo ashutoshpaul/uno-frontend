@@ -39,22 +39,22 @@ export class MultiPlayerComponent implements OnInit {
     { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
     { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
     { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: !false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
-    // { state: CARD_ANIMATION_ENUM.secret, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false },
   ];
 
   readonly opponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
@@ -122,9 +122,9 @@ export class MultiPlayerComponent implements OnInit {
     this.toggleCardsTray(false);
     this.cards$ = of(this.cards);
 
-    // setTimeout(() => {
-    //   this.promptLegalCards();
-    // }, 4000);
+    setTimeout(() => {
+      this.promptLegalCards();
+    }, 4000);
 
     // distribute cards
     // let i = 0;

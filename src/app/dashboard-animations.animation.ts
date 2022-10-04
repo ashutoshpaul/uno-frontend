@@ -5,7 +5,10 @@ import {
 export const revealCardsTrigger = trigger('revealCards', [
   transition(':enter', [
     query('div > .uno-card-container', [
-    style({ transform: "rotateY(180deg)" }),
+    style({ 
+      transform: "rotateY(180deg)", 
+      boxShadow: "none", 
+    }),
     stagger(
       190, animate('1s 1000ms ease-in-out', 
       style({ transform: "rotateY(0deg)" }))
@@ -22,13 +25,14 @@ export const cardActivityTrigger = trigger('cardActivity', [
     top: "0px",
     left: "0px",
     right: "0px",
+    boxShadow: "none",
   })),
   state('prompt', style({
     top: "-0.9rem",
     minWidth: "5rem",
+    boxShadow: "unset",
   })),
   state('peep', style({
-    boxShadow: "black 2px 2px 4px",
     top: "-1.5rem",
     minWidth: "5rem",
     right: "0px",
@@ -36,6 +40,7 @@ export const cardActivityTrigger = trigger('cardActivity', [
   state('discard', style({
     top: "{{yDiscardPosition}}px",
     right: "{{xDiscardPosition}}px",
+    boxShadow: "none",
     display: "none",
   }), {
     params: { xDiscardPosition: 0, yDiscardPosition: 0 },
@@ -49,6 +54,7 @@ export const cardActivityTrigger = trigger('cardActivity', [
           height: "6rem",
           width: "4.2rem",
           transform: "rotateY(180deg)",
+          boxShadow: "none",
           pointerEvents: "none",
         }),
         animate('0.7s 0.5s ease-in-out', keyframes([
@@ -71,6 +77,7 @@ export const cardActivityTrigger = trigger('cardActivity', [
             top: "0rem",
             left: "0rem",
             right: "0rem",
+            boxShadow: "none",
           }),
         ]),
         ),
@@ -93,6 +100,9 @@ export const cardActivityTrigger = trigger('cardActivity', [
     animate('0.1s ease-in-out'),
   ]),
   transition('peep => discard', [
+    query('.uno-card-container', [
+      style({ boxShadow: "none", }),
+    ]),
     animate('0.7s ease-in-out', keyframes([
       style({ 
         height: "7rem",

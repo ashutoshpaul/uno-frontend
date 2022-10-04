@@ -7,6 +7,7 @@ import { CardDirective } from './card.directive';
 import { TwoPlayerComponent } from './two-player/two-player.component';
 import { MultiPlayerComponent } from './multi-player/multi-player.component';
 import { CardDisplacementCoordinateDirective } from './card-displacement-coordinate.directive';
+import { CardGlowDirective } from './card-glow.directive';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { CardDisplacementCoordinateDirective } from './card-displacement-coordin
     TwoPlayerComponent,
     MultiPlayerComponent,
     CardDisplacementCoordinateDirective,
+    CardGlowDirective,
   ],
   imports: [
     BrowserModule,
