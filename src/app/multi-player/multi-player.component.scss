@@ -111,7 +111,7 @@
         transition: transform 0.6s;
         transform-style: preserve-3d;
 
-        animation: legal-card-blink 1.2s infinite;
+        animation: 1.2s 1s legal-card-blink infinite;
 
         .uno-card-front, .uno-card-back {
             position: absolute;
