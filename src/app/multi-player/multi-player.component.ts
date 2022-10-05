@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnimationEvent } from '@angular/animations';
-import { MatDialog } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
+import { NgDialogAnimationService } from "ng-dialog-animation";
 import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from '../core/enums/animation.enum';
 import { 
   revealCardsTrigger, 
@@ -14,6 +14,10 @@ import {
   shuffleCardsTrigger,
 } from '../dashboard-animations.animation';
 import { ChooseColorDialogComponent } from '../dialogs/choose-color-dialog/choose-color-dialog.component';
+import { 
+  chooseColorDialogIncomingOptionsConstant, 
+  chooseColorDialogOutgoingOptionsConstant 
+} from '../core/constants/animations.constants';
 
 @Component({
   selector: 'app-multi-player',
@@ -122,7 +126,7 @@ export class MultiPlayerComponent implements OnInit {
   isShuffleCards: boolean = false;
 
   constructor(
-    private readonly _dialog: MatDialog,
+    private readonly _dialog: NgDialogAnimationService,
   ) {}
 
   ngOnInit(): void {
@@ -234,7 +238,13 @@ export class MultiPlayerComponent implements OnInit {
   }
 
   chooseColor(): void {
-    const dialogRef = this._dialog.open(ChooseColorDialogComponent);
+    const dialogRef = this._dialog.open(ChooseColorDialogComponent, {
+      animation: {
+        incomingOptions: chooseColorDialogIncomingOptionsConstant,
+        outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
+      },
+      panelClass: 'choose-color-dialog'
+    });
 
     // dialogRef.afterClosed().subscribe(result => {
     //   console.log('The dialog was closed');
