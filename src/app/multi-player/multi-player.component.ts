@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { AnimationEvent } from '@angular/animations';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable, of } from 'rxjs';
 import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from '../core/enums/animation.enum';
 import { 
   revealCardsTrigger, 
@@ -12,6 +13,7 @@ import {
   rightPlayerCardActivityTrigger,
   shuffleCardsTrigger,
 } from '../dashboard-animations.animation';
+import { ChooseColorDialogComponent } from '../dialogs/choose-color-dialog/choose-color-dialog.component';
 
 @Component({
   selector: 'app-multi-player',
@@ -119,7 +121,9 @@ export class MultiPlayerComponent implements OnInit {
   isCardsTrayEnabled: boolean;
   isShuffleCards: boolean = false;
 
-  constructor() {}
+  constructor(
+    private readonly _dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     this.toggleCardsTray(false);
@@ -227,6 +231,14 @@ export class MultiPlayerComponent implements OnInit {
 
   shuffleCards(): void {
     this.isShuffleCards = !this.isShuffleCards;
+  }
+
+  chooseColor(): void {
+    const dialogRef = this._dialog.open(ChooseColorDialogComponent);
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    // });
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
