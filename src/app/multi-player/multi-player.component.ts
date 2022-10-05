@@ -10,6 +10,7 @@ import {
   placeOpponentCardsTrigger,
   leftPlayerCardActivityTrigger,
   rightPlayerCardActivityTrigger,
+  shuffleCardsTrigger,
 } from '../dashboard-animations.animation';
 
 @Component({
@@ -24,6 +25,7 @@ import {
     placeOpponentCardsTrigger,
     leftPlayerCardActivityTrigger,
     rightPlayerCardActivityTrigger,
+    shuffleCardsTrigger,
   ],
 })
 export class MultiPlayerComponent implements OnInit {
@@ -115,6 +117,7 @@ export class MultiPlayerComponent implements OnInit {
   ];
 
   isCardsTrayEnabled: boolean;
+  isShuffleCards: boolean = false;
 
   constructor() {}
 
@@ -220,6 +223,10 @@ export class MultiPlayerComponent implements OnInit {
 
   discardDrawerDeckCard(): void {
     this.isDrawerDeckCardRevealed = !this.isDrawerDeckCardRevealed;
+  }
+
+  shuffleCards(): void {
+    this.isShuffleCards = !this.isShuffleCards;
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {

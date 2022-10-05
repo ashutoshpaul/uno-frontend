@@ -395,3 +395,53 @@ export const rightPlayerCardActivityTrigger = trigger('rightPlayerCardActivity',
     ]),
   ]),
 ]);
+
+export const shuffleCardsTrigger = trigger('shuffleCards', [
+  state('false', style({ visibility: 'hidden' })),
+  state('true', style({ visibility: 'hidden' })),
+  transition('0 => 1', [
+    style({ visibility: 'visible'}),
+    group([
+      query('.uno-card:nth-child(1)', [
+        sequence([
+          animate('0.4s ease-in-out', style({
+            transform: "rotateZ(-30deg)",
+            transformOrigin: "bottom left",
+          })),
+          animate('0.4s ease-in-out', style({
+            transform: "rotateZ(45deg)",
+            transformOrigin: "bottom right",
+          })),
+          animate('0.4s ease-in-out', style({
+            transform: "rotateZ(-30deg)",
+            transformOrigin: "bottom left",
+          })),
+          animate('0.4s ease-in-out', style({
+            transform: "rotateZ(0deg)",
+            transformOrigin: "bottom left",
+          })),
+        ]),
+      ]),
+      query('.uno-card:nth-child(2)', [
+        sequence([
+          animate('0.4s ease-in-out', style({
+            transform: "rotateZ(30deg)",
+            transformOrigin: "bottom right",
+          })),
+          animate('0.4s ease-in-out', style({
+            transform: "rotateZ(-45deg)",
+            transformOrigin: "bottom left",
+          })),
+          animate('0.4s ease-in-out', style({
+            transform: "rotateZ(30deg)",
+            transformOrigin: "bottom right",
+          })),
+          animate('0.4s ease-in-out', style({
+            transform: "rotateZ(0deg)",
+            transformOrigin: "bottom right",
+          })),
+        ]),
+      ]),
+    ]),
+  ]),
+]);

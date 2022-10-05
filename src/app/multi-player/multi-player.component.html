@@ -1,20 +1,51 @@
 <div class="dashboard" id="dashboard">
-    <!-- <button 
+    <button
       label="Discard First Card" 
       (click)="discardDrawerDeckCard()" 
       style="width: 150px; height: 30px">
       Discard First Card
-    </button> -->
+    </button>
+    <button
+      label="Shuffle Cards" 
+      (click)="shuffleCards()" 
+      style="width: 150px; height: 30px">
+      Shuffle Cards
+    </button>
     <div class="draw-discard-deck">
       <div class="draw-discard-deck-container">
-        <div class="drawer-deck" id="drawer-deck" (click)="addCard()">
-          <div
-            [@drawerDeckCardActivity]="{
+        <div 
+          class="drawer-deck" 
+          id="drawer-deck"
+          (click)="addCard()">
+          <!-- discard -->
+          <div [@drawerDeckCardActivity]="{
               value: isDrawerDeckCardRevealed,
               params: { xDiscardPosition: destinationOfDiscardPileXPositionFromDrawerDeck() }
             }"
-            class="uno-card">
+            class="uno-card drawer-deck-uno-card">
             <div card class="uno-card-container"></div>
+          </div>
+          <!-- shuffle-three-cards -->
+          <div style="width: inherit; height: inherit;"
+            [@shuffleCards]="isShuffleCards">
+            <div class="uno-card drawer-deck-uno-card">
+              <div 
+                card class="uno-card-container" 
+                style="transform: rotateY(180deg)">
+              </div>
+            </div>
+            <div class="uno-card drawer-deck-uno-card">
+              <div
+                card class="uno-card-container" 
+                style="transform: rotateY(180deg)">
+              </div>
+            </div>
+            <div class="uno-card drawer-deck-uno-card">
+              <div
+                card class="uno-card-container" 
+                style="transform: rotateY(180deg)">
+              </div>
+            </div>
           </div>
         </div>
         <div class="discard-pile" id="discard-pile"></div>

@@ -87,6 +87,13 @@
     perspective: 1000px;
     margin-left: clamp(-4rem, -2.5rem, -2.8rem);
 
+    &.drawer-deck-uno-card {
+        position: absolute;
+        height: inherit;
+        width: inherit;
+        margin-left: unset;
+    }
+
     &.opponent-uno-card {
         height: 5.5rem;
         width: 4rem;

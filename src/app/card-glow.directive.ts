@@ -30,6 +30,8 @@ export class CardGlowDirective implements OnChanges {
         case "yellow":
           this.boxShadow = "0px 0px 12px 10px rgba(255,234,0,0.59)";
           break;
+        default:
+          this.boxShadow = "none";
       }
     }
   }
