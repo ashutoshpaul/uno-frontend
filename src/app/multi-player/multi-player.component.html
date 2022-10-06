@@ -60,33 +60,39 @@
 
     <!-- left-opponent-player -->
     <div class="left-opponent-cards-tray">
-        <ng-container *ngIf="cards$ | async as freshCards">
-            <div class="left-opponent-cards-tray-container"
-            [@placeOpponentCards]="{value: leftOpponentCards.length}">
-                <div appCardDisplacementCoordinate
-                  #coordinates="appCardDisplacementCoordinate"
-                  position="left"
-                  class="uno-card opponent-uno-card"
-                  id="left-player-uno-card-{{i}}"
-                  *ngFor="let card of leftOpponentCards; let i = index"
-                  [@leftPlayerCardActivity]="{
-                    value: card.state,
-                      params: {
-                        xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
-                        yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
-                        xOriginPosition: coordinates.originOfCardXPosition(i),
-                        yOriginPosition: coordinates.originOfCardYPosition(i)
-                      }
-                  }"
-                  (click)="leftPlayerCardClicked(i)">
-                  <div card cardType="opponent" class="uno-card-container"></div>
-                </div>
-            </div>
-        </ng-container>
+      <div class="opponent-name-container opponent-name">
+        <div>left-player</div>
+      </div>
+      <ng-container *ngIf="cards$ | async as freshCards">
+        <div class="left-opponent-cards-tray-container"
+          [@placeOpponentCards]="{value: leftOpponentCards.length}">
+          <div appCardDisplacementCoordinate
+            #coordinates="appCardDisplacementCoordinate"
+            position="left"
+            class="uno-card opponent-uno-card"
+            id="left-player-uno-card-{{i}}"
+            *ngFor="let card of leftOpponentCards; let i = index"
+            [@leftPlayerCardActivity]="{
+              value: card.state,
+                params: {
+                  xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
+                  yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
+                  xOriginPosition: coordinates.originOfCardXPosition(i),
+                  yOriginPosition: coordinates.originOfCardYPosition(i)
+                }
+            }"
+            (click)="leftPlayerCardClicked(i)">
+            <div card cardType="opponent" class="uno-card-container"></div>
+          </div>
+        </div>
+      </ng-container>
     </div>
 
     <!-- front-opponent-player -->
     <div class="front-opponent-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
+      <div class="opponent-name-container opponent-name">
+        <div>front-player</div>
+      </div>
       <ng-container *ngIf="cards$ | async as freshCards">
         <div class="front-opponent-cards-tray-container"
         [@placeOpponentCards]="{value: opponentCards.length}">
@@ -114,27 +120,30 @@
 
     <!-- right-opponent-player -->
     <div class="right-opponent-cards-tray">
-        <div class="right-opponent-cards-tray-container"
-            [@placeOpponentCards]="{value: leftOpponentCards.length}">
-            <div appCardDisplacementCoordinate
-                #coordinates="appCardDisplacementCoordinate"
-                position="right"
-                class="uno-card opponent-uno-card"
-                id="right-player-uno-card-{{i}}"
-                *ngFor="let card of rightOpponentCards; let i = index"
-                [@rightPlayerCardActivity]="{
-                    value: card.state,
-                    params: {
-                        xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
-                        yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
-                        xOriginPosition: coordinates.originOfCardXPosition(i),
-                        yOriginPosition: coordinates.originOfCardYPosition(i)
-                    }
-                }"
-                (click)="rightPlayerCardClicked(i)">
-                <div card cardType="opponent" class="uno-card-container"></div>
-            </div>
+      <div class="opponent-name-container opponent-name">
+        <div>right-player</div>
+      </div>
+      <div class="right-opponent-cards-tray-container"
+        [@placeOpponentCards]="{value: leftOpponentCards.length}">
+        <div appCardDisplacementCoordinate
+          #coordinates="appCardDisplacementCoordinate"
+          position="right"
+          class="uno-card opponent-uno-card"
+          id="right-player-uno-card-{{i}}"
+          *ngFor="let card of rightOpponentCards; let i = index"
+          [@rightPlayerCardActivity]="{
+            value: card.state,
+            params: {
+              xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
+              yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
+              xOriginPosition: coordinates.originOfCardXPosition(i),
+              yOriginPosition: coordinates.originOfCardYPosition(i)
+            }
+          }"
+          (click)="rightPlayerCardClicked(i)">
+          <div card cardType="opponent" class="uno-card-container"></div>
         </div>
+      </div>
     </div>
 
     <!-- player -->
