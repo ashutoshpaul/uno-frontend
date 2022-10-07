@@ -22,6 +22,11 @@ import {
   optionsDialogOutgoingOptionsConstant,
 } from '../core/constants/animations.constants';
 
+export enum GAME_DIRECTIONS {
+  clockwise = 'clockwise',
+  antiClockwise = 'anti-clockwise'
+};
+
 @Component({
   selector: 'app-multi-player',
   templateUrl: './multi-player.component.html',
@@ -38,6 +43,8 @@ import {
   ],
 })
 export class MultiPlayerComponent implements OnInit {
+
+  gameDirection: GAME_DIRECTIONS = GAME_DIRECTIONS.clockwise;
 
   isDrawerDeckCardRevealed: boolean = false;
 
@@ -127,6 +134,12 @@ export class MultiPlayerComponent implements OnInit {
 
   isCardsTrayEnabled: boolean;
   isShuffleCards: boolean = false;
+
+  set clockwise(isClockwise: boolean) { 
+    this.gameDirection = isClockwise ? GAME_DIRECTIONS.clockwise : GAME_DIRECTIONS.antiClockwise; 
+  }
+  
+  get clockwise(): boolean { return this.gameDirection === GAME_DIRECTIONS.clockwise; }
 
   constructor(
     private readonly _dialog: NgDialogAnimationService,
@@ -279,6 +292,10 @@ export class MultiPlayerComponent implements OnInit {
     // dialogRef.afterClosed().subscribe(result => {
     //   console.log('The dialog was closed');
     // });
+  }
+
+  toggleGameDirection(): void {
+    this.clockwise = !this.clockwise;
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {

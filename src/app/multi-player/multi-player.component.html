@@ -17,7 +17,19 @@
       style="width: 150px; height: 30px">
       Choose Color
     </button>
+    <button
+      label="Change Direction"
+      (click)="toggleGameDirection()" 
+      style="width: 150px; height: 30px">
+      Change Direction
+    </button>
     <div class="draw-discard-deck">
+      <div class="direction">
+        <mat-icon [ngClass]="{
+          'direction-clockwise': clockwise,
+          'direction-anti-clockwise': !clockwise
+        }">east</mat-icon>
+      </div>
       <div class="draw-discard-deck-container">
         <div 
           class="drawer-deck" 
@@ -27,7 +39,7 @@
           <div [@drawerDeckCardActivity]="{
               value: isDrawerDeckCardRevealed,
               params: { xDiscardPosition: destinationOfDiscardPileXPositionFromDrawerDeck() }
-            }"
+            }" 
             class="uno-card drawer-deck-uno-card">
             <div card class="uno-card-container"></div>
           </div>

@@ -15,7 +15,7 @@
     height: 9rem;
     min-height: 100px;
     max-height: 300px;
-    background-color: yellow;
+    // background-color: yellow;
     padding: 0.5rem;
 
     .player-cards-tray-container {
@@ -26,13 +26,13 @@
         justify-content: center;
         align-items: flex-end;
     
-        background-color: aqua;
+        // background-color: aqua;
     }
 }
 
 .draw-discard-deck {
     position: absolute;
-    top: calc(50vh - 8rem / 2 - 5vh);
+    top: calc(50vh - 8rem / 2);
     width: 26vw;
     min-width: 200px;
     max-width: 300px;
@@ -41,6 +41,33 @@
     max-height: 300px;
     background-color: rgb(12, 110, 110);
     padding: 0.5rem;
+
+    .direction {
+        position: absolute;
+        top: -1.5rem;
+        left: 0px;
+        right: 0px;
+        width: 100%;
+        
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        
+        mat-icon {
+            color: white;
+            font-weight: 500;
+            transform: scale(1.6);
+
+            &.direction-clockwise {
+                animation: 2s clockwise-direction linear infinite;
+            }
+            
+            &.direction-anti-clockwise {
+                animation: 2s anti-clockwise-direction linear infinite;
+            }
+        }
+    }
 
     .draw-discard-deck-container {
         width: 100%;
@@ -314,4 +341,34 @@
 @keyframes vertical {
     0% { transform: scale(1.5) translateY(0.2rem); }
     100% { transform: scale(1.5) translateY(1rem); }
+}
+
+@keyframes clockwise-direction {
+    0% { 
+        transform: translateX(-9vw) rotateZ(0deg) scale(0.4);
+        opacity: 0;
+    }
+    50% { 
+        transform: translateX(0vw) rotateZ(0deg) scale(1.2);
+        opacity: 1;
+    }
+    100% { 
+        transform: translateX(9vw) rotateZ(0deg) scale(0.4);
+        opacity: 0;
+    }
+}
+
+@keyframes anti-clockwise-direction {
+    0% { 
+        transform: translateX(9vw) rotateZ(180deg) scale(0.4);
+        opacity: 0;
+    }
+    50% { 
+        transform: translateX(0vw) rotateZ(180deg) scale(1.2);
+        opacity: 1;
+    }
+    100% { 
+        transform: translateX(-9vw) rotateZ(180deg) scale(0.4);
+        opacity: 0;
+    }
 }
