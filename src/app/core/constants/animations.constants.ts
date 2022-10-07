@@ -16,7 +16,7 @@ export const chooseColorDialogIncomingOptionsConstant = {
 
 export const chooseColorDialogOutgoingOptionsConstant = {
   keyframes: [
-    { transform: "scale(1, 1)"},
+    { transform: "scale(1, 1)" },
     { transform: "scale(1.1, 1.1)" },
     { transform: "scale(1.2, 1.2)" },
     { transform: "scale(1.3, 1.3)" },
@@ -32,29 +32,15 @@ export const chooseColorDialogOutgoingOptionsConstant = {
 };
 
 export const optionsDialogIncomingOptionsConstant = {
-  keyframes: [
-    { transform: "translateX(0)" },
-    { transform: "translateX(calc(100vw / 2 - 15vw / 2))" },
-  ],
   keyframeAnimationOptions: {
-    easing: "ease-out",
-    duration: 1000,
+    easing: "ease-in-out",
+    duration: 300,
   },
 };
 
 export const optionsDialogOutgoingOptionsConstant = {
-  keyframes: [
-    // { transform: "scale(1, 1)"},
-    // { transform: "scale(1.1, 1.1)" },
-    // { transform: "scale(1.2, 1.2)" },
-    // { transform: "scale(1.3, 1.3)" },
-    // { transform: "scale(1, 1)" },
-    // { transform: "scale(0.8, 0.8)" },
-    // { transform: "scale(0.5, 0.5)" },
-    // { transform: "scale(0, 0)" },
-  ],
   keyframeAnimationOptions: {
     easing: "ease-in-out",
-    duration: 500,
+    duration: 300,
   },
 };

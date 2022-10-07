@@ -258,8 +258,8 @@ export class MultiPlayerComponent implements OnInit {
     const dialogRef = this._dialog.open(OptionsDialogComponent, {
       animation: {
         to: "top",
-        // incomingOptions: optionsDialogIncomingOptionsConstant,
-        // outgoingOptions: optionsDialogOutgoingOptionsConstant,
+        incomingOptions: optionsDialogIncomingOptionsConstant,
+        outgoingOptions: optionsDialogOutgoingOptionsConstant,
       },
       panelClass: 'options-dialog',
       position: { bottom: "0rem", right: "1.5vw" }

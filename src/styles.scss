@@ -10,9 +10,30 @@
     border-radius: 0.8rem;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-
+    
     .mat-dialog-container {
+        // height main(7vh) + padding-vertical(1.6rem * 2) + 12px(smoothness)
+        height: calc(7vh + 1.6rem * 2 + 12px);
+        overflow: hidden;
+        padding: 1.6rem;
         border-bottom-left-radius: 0px;
         border-bottom-right-radius: 0px;
+
+        transition: 0.6s ; // optionsDialogIncomingOptionsConstant
+        animation: 0.6s options-dialog-in ease-in-out; // optionsDialogIncomingOptionsConstant
+
+        @keyframes options-dialog-in {
+            0% {
+                pointer-events: none;
+            }
+            50% { 
+                height: calc(7vh + 1.6rem * 2 + 12px + 10vh);
+                pointer-events: none;
+            }
+            100% { 
+                height: calc(7vh + 1.6rem * 2 + 12px);
+                pointer-events: none;
+            }
+        }
     }
 }

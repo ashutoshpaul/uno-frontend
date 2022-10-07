@@ -1,12 +1,16 @@
 main {
     width: 15vw;
+    // height(7vh) - padding-top(2vh) = section-height(5vh)
     height: 7vh;
 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 2vh 1vw;
+    padding-top: 2vh;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    // background-color: yellow;
 
     section {
         background-color: red;
