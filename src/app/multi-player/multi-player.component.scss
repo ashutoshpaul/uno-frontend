@@ -58,6 +58,9 @@
             color: white;
             font-weight: 500;
             transform: scale(1.6);
+            text-shadow:
+                0 0 2px #fff,
+                0 0 3px #fff;
 
             &.direction-clockwise {
                 animation: 2s clockwise-direction linear infinite;
@@ -364,7 +367,7 @@
         opacity: 0;
     }
     50% { 
-        transform: translateX(0vw) rotateZ(180deg) scale(1.2);
+        transform: translateX(0vw) rotateZ(180deg) scale(4.2);
         opacity: 1;
     }
     100% { 
