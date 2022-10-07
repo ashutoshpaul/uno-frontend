@@ -32,8 +32,7 @@
             <div card class="uno-card-container"></div>
           </div>
           <!-- shuffle-three-cards -->
-          <div style="width: inherit; height: inherit;"
-            [@shuffleCards]="isShuffleCards">
+          <div class="shuffle-three-cards" [@shuffleCards]="isShuffleCards">
             <div class="uno-card drawer-deck-uno-card">
               <div 
                 card class="uno-card-container" 
@@ -52,6 +51,7 @@
                 style="transform: rotateY(180deg)">
               </div>
             </div>
+            <mat-icon>pan_tool</mat-icon>
           </div>
         </div>
         <div class="discard-pile" id="discard-pile"></div>

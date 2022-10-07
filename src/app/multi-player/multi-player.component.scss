@@ -296,6 +296,18 @@
     }
 }
 
+.shuffle-three-cards {
+    width: inherit;
+    height: inherit;
+
+    mat-icon {
+        position: absolute;
+        bottom: 3rem;
+        color: rgb(255, 255, 255);
+        transform: scale(2.5) rotateZ(90deg);
+    }
+}
+
 @keyframes legal-card-blink {
     50% { box-shadow: unset; }
 }
