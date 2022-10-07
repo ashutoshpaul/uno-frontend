@@ -4,3 +4,15 @@
     overflow: hidden;
     border-radius: 0.5rem;
 }
+
+.options-dialog {
+    overflow: hidden;
+    border-radius: 0.8rem;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+
+    .mat-dialog-container {
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+}

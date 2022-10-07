@@ -10,6 +10,7 @@ import { CardDisplacementCoordinateDirective } from './card-displacement-coordin
 import { CardGlowDirective } from './card-glow.directive';
 import { ChooseColorDialogComponent } from './dialogs/choose-color-dialog/choose-color-dialog.component';
 import { MaterialModule } from './material.module';
+import { OptionsDialogComponent } from './dialogs/options-dialog/options-dialog.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { MaterialModule } from './material.module';
     CardDisplacementCoordinateDirective,
     CardGlowDirective,
     ChooseColorDialogComponent,
+    OptionsDialogComponent,
   ],
   imports: [
     BrowserModule,

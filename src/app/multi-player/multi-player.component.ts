@@ -14,9 +14,12 @@ import {
   shuffleCardsTrigger,
 } from '../dashboard-animations.animation';
 import { ChooseColorDialogComponent } from '../dialogs/choose-color-dialog/choose-color-dialog.component';
-import { 
+import { OptionsDialogComponent } from '../dialogs/options-dialog/options-dialog.component';
+import {
   chooseColorDialogIncomingOptionsConstant, 
-  chooseColorDialogOutgoingOptionsConstant 
+  chooseColorDialogOutgoingOptionsConstant,
+  optionsDialogIncomingOptionsConstant,
+  optionsDialogOutgoingOptionsConstant,
 } from '../core/constants/animations.constants';
 
 @Component({
@@ -244,6 +247,22 @@ export class MultiPlayerComponent implements OnInit {
         outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
       },
       panelClass: 'choose-color-dialog'
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    // });
+  }
+
+  openOptionsDialog(): void {
+    const dialogRef = this._dialog.open(OptionsDialogComponent, {
+      animation: {
+        to: "top",
+        // incomingOptions: optionsDialogIncomingOptionsConstant,
+        // outgoingOptions: optionsDialogOutgoingOptionsConstant,
+      },
+      panelClass: 'options-dialog',
+      position: { bottom: "0rem", right: "1.5vw" }
     });
 
     // dialogRef.afterClosed().subscribe(result => {

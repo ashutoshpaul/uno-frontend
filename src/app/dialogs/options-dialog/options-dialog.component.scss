@@ -1,0 +1,47 @@
+main {
+    width: 15vw;
+    height: 7vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2vh 1vw;
+
+    section {
+        background-color: red;
+        width: 100%;
+        height: 5vh;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0px 5px 15px #9f0000;
+        cursor: pointer;
+
+        color: white;
+        font-family: 'Roboto', 'Poppins', sans-serif;
+        font-size: 1.2rem;
+
+        transition: 0.2s;
+
+        mat-icon {
+            display: none;
+        }
+
+        &:hover {
+            transform: translateY(-7px) scale(1.15);
+            box-shadow: 0px 7px 20px #9f0000;
+
+            div {
+                display: none;
+            }
+
+            mat-icon {
+                display: block;
+            }
+        }
+    }
+}
