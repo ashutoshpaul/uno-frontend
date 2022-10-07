@@ -10,7 +10,8 @@
 .player-cards-tray {
     position: absolute;
     bottom: 4vh;
-    width: 94vw;
+    left: 13vw;
+    right: 13vw;
     height: 9rem;
     min-height: 100px;
     max-height: 300px;
@@ -187,7 +188,7 @@
     transform: rotateZ(-90deg);
 
     width: calc(100vh - 11vh - 11rem);
-    // background-color: rgb(255, 0, 149);
+    background-color: rgb(255, 0, 149);
     padding: 0.5rem;
 
     .opponent-name-container {
@@ -204,7 +205,7 @@
         justify-content: center;
         align-items: flex-end;
     
-        // background-color: rgb(29, 167, 98);
+        background-color: rgb(29, 167, 98);
     }
 }
 
@@ -221,7 +222,7 @@
     transform: rotateZ(90deg);
 
     width: calc(100vh - 11vh - 11rem);
-    // background-color: rgb(89, 0, 255);
+    background-color: rgb(89, 0, 255);
     padding: 0.5rem;
 
     .opponent-name-container {
@@ -238,7 +239,7 @@
         justify-content: center;
         align-items: flex-end;
     
-        // background-color: rgb(230, 190, 105);
+        background-color: rgb(230, 190, 105);
     }
 }
 
@@ -264,6 +265,42 @@
     border-right: none;
 }
 
+.options-button {
+    position: absolute;
+    bottom: 0px;
+    right: 3vw;
+    width: 2.7rem;
+    height: 1.7rem;
+    overflow: hidden;
+    border-radius: 0.6rem;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: white;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+
+    transition: 0.2s;
+    
+    &:hover {
+        height: 2.5rem;
+
+        mat-icon {
+            font-weight: bold;
+            height: 100%;
+            animation: vertical 0.7s reverse infinite;
+        }
+    }
+}
+
 @keyframes legal-card-blink {
     50% { box-shadow: unset; }
+}
+
+@keyframes vertical {
+    0% { transform: scale(1.5) translateY(-2rem); }
+    100% { transform: scale(1.5) translateY(2rem); }
 }
