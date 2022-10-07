@@ -15,6 +15,10 @@ export class OptionsDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  close(): void {
+    this._dialogRef.close();
+  }
+
   exit(): void {
     this._dialogRef.close();
   }

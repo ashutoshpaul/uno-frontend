@@ -1,6 +1,10 @@
 <main class="dialog">
-    <section (click)="exit()">
+    <section class="exit" (click)="close()">
         <div>I am done</div>
         <mat-icon>exit_to_app</mat-icon>
+    </section>
+    <section class="back" (click)="close()">
+        <div>Back</div>
+        <mat-icon>arrow_back</mat-icon>
     </section>
 </main>
