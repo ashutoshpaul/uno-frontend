@@ -140,6 +140,10 @@ export class MultiPlayerComponent implements OnInit {
       this.promptLegalCards();
     }, 4000);
 
+    setTimeout(() => {
+      this.setCardsToStationaryState();
+    }, 6000);
+
     // distribute cards
     // let i = 0;
     // setInterval(() => {
@@ -181,6 +185,13 @@ export class MultiPlayerComponent implements OnInit {
     this.cards.map((card, index) => 
       card.isLegal && this._setCardState(index, CARD_ANIMATION_ENUM.prompt
     ));
+  }
+
+  setCardsToStationaryState(): void {
+    this.cards.forEach((card, index) => {
+      card.isLegal = false;
+      this._setCardState(index, CARD_ANIMATION_ENUM.stationary);
+    });
   }
 
   disableCardsTrayTemporarily(event: AnimationEvent): void {

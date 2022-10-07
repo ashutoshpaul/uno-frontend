@@ -33,6 +33,8 @@ export class CardGlowDirective implements OnChanges {
         default:
           this.boxShadow = "none";
       }
+    } else {
+      this.boxShadow = "none";
     }
   }
 
