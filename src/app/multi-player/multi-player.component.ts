@@ -131,11 +131,77 @@ export class MultiPlayerComponent implements OnInit {
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
   ];
 
   readonly rightOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
     { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -160,13 +226,13 @@ export class MultiPlayerComponent implements OnInit {
     this.toggleCardsTray(false);
     this.cards$ = of(this.cards);
 
-    setTimeout(() => {
-      this.promptLegalCards();
-    }, 4000);
+    // setTimeout(() => {
+    //   this.promptLegalCards();
+    // }, 4000);
 
-    setTimeout(() => {
-      this.setCardsToStationaryState();
-    }, 6000);
+    // setTimeout(() => {
+    //   this.setCardsToStationaryState();
+    // }, 6000);
 
     // distribute cards
     // let i = 0;
