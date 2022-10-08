@@ -207,7 +207,6 @@
     pointer-events: none;
 }
 
-// front-opponent-cards-tray
 .front-opponent-cards-tray {
     position: absolute;
     top: 4vh;
@@ -218,7 +217,7 @@
     height: 5.5rem;
     min-height: 70px;
     max-height: 250px;
-    background-color: rgb(255, 123, 0);
+    // background-color: rgb(255, 123, 0);
     padding: 0.5rem;
 
     .opponent-name-container {
@@ -236,7 +235,7 @@
         align-items: flex-end;
         padding-left: 2.5rem;
     
-        background-color: rgb(72, 255, 0);
+        // background-color: rgb(72, 255, 0);
     }
 }
 
@@ -253,7 +252,7 @@
     transform: rotateZ(-90deg);
 
     width: calc(100vh - 11vh - 11rem);
-    background-color: rgb(255, 0, 149);
+    // background-color: rgb(255, 0, 149);
     padding: 0.5rem;
 
     .opponent-name-container {
@@ -271,7 +270,7 @@
         align-items: flex-end;
         padding-left: 2.5rem;
     
-        background-color: rgb(29, 167, 98);
+        // background-color: rgb(29, 167, 98);
     }
 }
 
@@ -288,7 +287,7 @@
     transform: rotateZ(90deg);
 
     width: calc(100vh - 11vh - 11rem);
-    background-color: rgb(89, 0, 255);
+    // background-color: rgb(89, 0, 255);
     padding: 0.5rem;
 
     .opponent-name-container {
@@ -306,7 +305,7 @@
         align-items: flex-end;
         padding-left: 2.5rem;
     
-        background-color: rgb(230, 190, 105);
+        // background-color: rgb(230, 190, 105);
     }
 }
 
@@ -330,6 +329,10 @@
     border-bottom: none;
     border-left: none;
     border-right: none;
+
+    &.active {
+        animation: 1.2s active-opponent-name-blink ease-in-out infinite;
+    }
 }
 
 .options-button {
@@ -453,4 +456,8 @@
 
 @keyframes pick-card {
     50% { transform: rotateY(180deg) translateY(-1rem); }
+}
+
+@keyframes active-opponent-name-blink {
+    50% { text-shadow: 0 0 4px #fff, 0 0 6px #fff; }
 }

@@ -104,7 +104,7 @@
 
     <!-- left-opponent-player -->
     <div class="left-opponent-cards-tray">
-      <div class="opponent-name-container opponent-name">
+      <div class="opponent-name-container opponent-name" [ngClass]="{'active': true}">
         <div>left-player</div>
       </div>
       <ng-container *ngIf="cards$ | async as freshCards">
