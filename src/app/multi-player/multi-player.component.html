@@ -35,6 +35,12 @@
       style="width: 150px; height: 30px">
       Pick Card
     </button>
+    <button
+      label="Toggle Skip"
+      (click)="toggleSkip()" 
+      style="width: 150px; height: 30px">
+      Toggle Skip
+    </button>
     <div class="border">
       <div appCurrentPlayer [playerPosition]="currentPlayerPosition"></div>
     </div>
@@ -192,6 +198,11 @@
     <!-- player -->
     <div class="player-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
       <ng-container *ngIf="cards$ | async as freshCards">
+        <div class="skip-button" (click)="skip()"
+          matTooltip="Skip" matTooltipPosition="before" matTooltipClass="skip-tooltip"
+          [@buttonAppear]="isSkipVisible">
+          <mat-icon>arrow_drop_down_circle</mat-icon>
+        </div>
         <div
           [@revealCards]="{value: freshCards.length}"
           (@revealCards.start)="toggleCardsTray(false)"

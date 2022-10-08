@@ -445,3 +445,17 @@ export const shuffleCardsTrigger = trigger('shuffleCards', [
     ]),
   ]),
 ]);
+
+export const buttonAppearTrigger = trigger('buttonAppear', [
+  state('false', style({ display: "none", transform: "scale(0)" })),
+  state('true', style({ display: "flex", transform: "scale(1)" })),
+  transition('0 => 1', [
+    style({ display: "flex", transform: "scale(0)" }),
+    animate('0.2s ease-in-out', style({ transform: "scale(1.4)" })),
+    animate('0.1s ease-in-out', style({ transform: "scale(1)" })),
+  ]),
+  transition('1 => 0', [
+    animate('0.1s ease-in-out', style({ transform: "scale(1.4)" })),
+    animate('0.2s ease-in-out', style({ transform: "scale(0)" })),
+  ]),
+]);

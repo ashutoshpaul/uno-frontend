@@ -13,6 +13,7 @@ import {
   leftPlayerCardActivityTrigger,
   rightPlayerCardActivityTrigger,
   shuffleCardsTrigger,
+  buttonAppearTrigger,
 } from '../dashboard-animations.animation';
 import { ChooseColorDialogComponent } from '../dialogs/choose-color-dialog/choose-color-dialog.component';
 import { OptionsDialogComponent } from '../dialogs/options-dialog/options-dialog.component';
@@ -49,6 +50,7 @@ export enum PLAYER_POSITION {
     leftPlayerCardActivityTrigger,
     rightPlayerCardActivityTrigger,
     shuffleCardsTrigger,
+    buttonAppearTrigger,
   ],
 })
 export class MultiPlayerComponent implements OnInit {
@@ -56,6 +58,8 @@ export class MultiPlayerComponent implements OnInit {
   gameDirection: GAME_DIRECTIONS = GAME_DIRECTIONS.clockwise;
 
   isDrawerDeckCardRevealed: boolean = false;
+
+  isSkipVisible: boolean = false;
 
   currentPlayerPosition: PLAYER_POSITION;
 
@@ -401,6 +405,14 @@ export class MultiPlayerComponent implements OnInit {
 
   pickCard(): void {
     this.isPickCard = !this.isPickCard;
+  }
+
+  toggleSkip(): void {
+    this.isSkipVisible = !this.isSkipVisible;
+  }
+
+  skip(): void {
+    this.isSkipVisible = false;
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {

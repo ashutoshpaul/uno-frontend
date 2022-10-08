@@ -70,6 +70,30 @@
 
         // background-color: aqua;
     }
+
+    .skip-button {
+        position: absolute;
+        top: -2rem;
+        right: 2rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        
+        .mat-icon {
+            color: rgb(0, 193, 231);
+            transform: rotateZ(-90deg) scale(1.8);
+            transition: transform 0.3s;
+            
+            &:hover {
+                transform: rotateZ(-90deg) scale(2.8);
+            }
+        }
+
+    }
 }
 
 .draw-discard-deck {
