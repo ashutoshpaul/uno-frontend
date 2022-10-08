@@ -387,6 +387,10 @@
         margin-left: 3px;
         transform: rotateY(180deg) translateY(0rem);
         animation: 1s pick-card ease-in-out infinite;
+        
+        :hover {
+            box-shadow: 0px 0px 12px 10px rgba(0,0,0,0.59);
+        }
     }
 
     mat-icon {

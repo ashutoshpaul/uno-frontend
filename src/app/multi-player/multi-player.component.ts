@@ -144,7 +144,7 @@ export class MultiPlayerComponent implements OnInit {
 
   isCardsTrayEnabled: boolean;
   isShuffleCards: boolean = false;
-  isPickCard: boolean = true;
+  isPickCard: boolean = false;
 
   set clockwise(isClockwise: boolean) { 
     this.gameDirection = isClockwise ? GAME_DIRECTIONS.clockwise : GAME_DIRECTIONS.antiClockwise; 
@@ -254,6 +254,7 @@ export class MultiPlayerComponent implements OnInit {
 
   addCard(): void {
     this.toggleCardsTray(false);
+    this.isPickCard = false;
     this.cards.push({ state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" });
   }
   
