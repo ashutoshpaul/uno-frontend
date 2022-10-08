@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AnimationEvent } from '@angular/animations';
 import { Observable, of } from 'rxjs';
 import { NgDialogAnimationService } from "ng-dialog-animation";
+import * as screenfull from 'screenfull';
 import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from '../core/enums/animation.enum';
 import { 
   revealCardsTrigger, 
@@ -296,6 +297,10 @@ export class MultiPlayerComponent implements OnInit {
 
   toggleGameDirection(): void {
     this.clockwise = !this.clockwise;
+  }
+
+  toggleFullScreen(): void {
+    if(screenfull.isEnabled) screenfull.toggle();
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
