@@ -36,8 +36,7 @@
       Pick Card
     </button>
     <div class="border">
-      <div appCurrentPlayer [playerPosition]="currentPlayerPosition">
-      </div>
+      <div appCurrentPlayer [playerPosition]="currentPlayerPosition"></div>
     </div>
     <div class="draw-discard-deck" appCurrentColor [color]="colorCode">
       <div class="direction">
@@ -46,7 +45,7 @@
           'direction-anti-clockwise': !clockwise
         }">east</mat-icon>
       </div>
-      <div class="draw-discard-deck-container">
+      <div class="draw-discard-deck-container" appCurrentColor [color]="colorCode" position="top">
         <div 
           class="drawer-deck" 
           id="drawer-deck"
