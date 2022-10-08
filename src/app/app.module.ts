@@ -11,6 +11,7 @@ import { CardGlowDirective } from './card-glow.directive';
 import { ChooseColorDialogComponent } from './dialogs/choose-color-dialog/choose-color-dialog.component';
 import { MaterialModule } from './material.module';
 import { OptionsDialogComponent } from './dialogs/options-dialog/options-dialog.component';
+import { CurrentPlayerDirective } from './current-player.directive';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { OptionsDialogComponent } from './dialogs/options-dialog/options-dialog.
     MultiPlayerComponent,
     CardDisplacementCoordinateDirective,
     CardGlowDirective,
+    CurrentPlayerDirective,
     ChooseColorDialogComponent,
     OptionsDialogComponent,
   ],

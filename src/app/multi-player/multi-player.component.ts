@@ -28,6 +28,13 @@ export enum GAME_DIRECTIONS {
   antiClockwise = 'anti-clockwise'
 };
 
+export enum PLAYER_POSITION {
+  left = 'left',
+  top = 'top',
+  right = 'right',
+  bottom = 'bottom',
+};
+
 @Component({
   selector: 'app-multi-player',
   templateUrl: './multi-player.component.html',
@@ -48,6 +55,8 @@ export class MultiPlayerComponent implements OnInit {
   gameDirection: GAME_DIRECTIONS = GAME_DIRECTIONS.clockwise;
 
   isDrawerDeckCardRevealed: boolean = false;
+
+  currentPlayerPosition: PLAYER_POSITION;
 
   cards$: Observable<{ state: CARD_ANIMATION_ENUM }[]>;
 
@@ -172,6 +181,20 @@ export class MultiPlayerComponent implements OnInit {
     //   }
     //   i++;
     // }, 500);
+
+    // change current player position
+    this.currentPlayerPosition = PLAYER_POSITION.bottom;
+    // setInterval(() => {
+    //   if(this.currentPlayerPosition == PLAYER_POSITION.bottom) {
+    //     this.currentPlayerPosition = PLAYER_POSITION.left;
+    //   } else if (this.currentPlayerPosition == PLAYER_POSITION.left) {
+    //     this.currentPlayerPosition = PLAYER_POSITION.top;
+    //   } else if (this.currentPlayerPosition == PLAYER_POSITION.top) {
+    //     this.currentPlayerPosition = PLAYER_POSITION.right;
+    //   } else {
+    //     this.currentPlayerPosition = PLAYER_POSITION.bottom;
+    //   }
+    // }, 4000);
   }
 
   cardClicked(cardIndex: number): void {

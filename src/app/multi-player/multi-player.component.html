@@ -29,6 +29,10 @@
       style="width: 150px; height: 30px">
       Toggle Full Screen
     </button>
+    <div class="border">
+      <div appCurrentPlayer [playerPosition]="currentPlayerPosition">
+      </div>
+    </div>
     <div class="draw-discard-deck">
       <div class="direction">
         <mat-icon [ngClass]="{
