@@ -8,11 +8,12 @@ import { TwoPlayerComponent } from './two-player/two-player.component';
 import { MultiPlayerComponent } from './multi-player/multi-player.component';
 import { CardDisplacementCoordinateDirective } from './card-displacement-coordinate.directive';
 import { CardGlowDirective } from './card-glow.directive';
-import { ChooseColorDialogComponent } from './dialogs/choose-color-dialog/choose-color-dialog.component';
+import { ChooseColorDialogComponent } from './dialogs/actions/choose-color-dialog/choose-color-dialog.component';
 import { MaterialModule } from './material.module';
-import { OptionsDialogComponent } from './dialogs/options-dialog/options-dialog.component';
+import { OptionsDialogComponent } from './dialogs/actions/options-dialog/options-dialog.component';
 import { CurrentPlayerDirective } from './current-player.directive';
 import { CurrentColorDirective } from './current-color.directive';
+import { ChosenColorDialogComponent } from './dialogs/reactions/chosen-color-dialog/chosen-color-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CurrentColorDirective } from './current-color.directive';
     CurrentColorDirective,
     ChooseColorDialogComponent,
     OptionsDialogComponent,
+    ChosenColorDialogComponent,
   ],
   imports: [
     BrowserModule,

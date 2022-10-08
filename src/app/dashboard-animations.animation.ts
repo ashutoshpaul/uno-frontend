@@ -459,3 +459,41 @@ export const buttonAppearTrigger = trigger('buttonAppear', [
     animate('0.2s ease-in-out', style({ transform: "scale(0)" })),
   ]),
 ]);
+
+export const chosenColorAlertTrigger = trigger('chosenColorAlert', [
+  state('true', style({}), {params: { sectionCount: 0 }}),
+  state('false', style({})),
+  state('picked', style({})),
+  transition('0 <=> 1', [
+    group([
+      query(':nth-child(1)',
+        animate('0.3s ease-in-out', keyframes([
+          style({ transform: "scale(1)" }),
+          style({ transform: "scale(1.5)" }),
+          style({ transform: "scale(1)" }),
+        ])),
+      ),
+      query(':nth-child(2)',
+        animate('0.3s 0.3s ease-in-out', keyframes([
+          style({ transform: "scale(1)" }),
+          style({ transform: "scale(1.5)" }),
+          style({ transform: "scale(1)" }),
+        ])),
+      ),
+      query(':nth-child(3)',
+        animate('0.3s 0.6s ease-in-out', keyframes([
+          style({ transform: "scale(1)" }),
+          style({ transform: "scale(1.5)" }),
+          style({ transform: "scale(1)" }),
+        ])),
+      ),
+      query(':nth-child(4)',
+        animate('0.3s 0.9s ease-in-out', keyframes([
+          style({ transform: "scale(1)" }),
+          style({ transform: "scale(1.5)" }),
+          style({ transform: "scale(1)" }),
+        ])),
+      ),
+    ]),
+  ]),
+]);

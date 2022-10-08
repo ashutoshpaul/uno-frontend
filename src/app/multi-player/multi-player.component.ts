@@ -15,8 +15,8 @@ import {
   shuffleCardsTrigger,
   buttonAppearTrigger,
 } from '../dashboard-animations.animation';
-import { ChooseColorDialogComponent } from '../dialogs/choose-color-dialog/choose-color-dialog.component';
-import { OptionsDialogComponent } from '../dialogs/options-dialog/options-dialog.component';
+import { ChooseColorDialogComponent } from '../dialogs/actions/choose-color-dialog/choose-color-dialog.component';
+import { OptionsDialogComponent } from '../dialogs/actions/options-dialog/options-dialog.component';
 import {
   chooseColorDialogIncomingOptionsConstant, 
   chooseColorDialogOutgoingOptionsConstant,
@@ -24,6 +24,7 @@ import {
   optionsDialogOutgoingOptionsConstant,
 } from '../core/constants/animations.constants';
 import { COLOR_CODE_ENUM, VALID_COLOR_CODE } from '../core/enums/color-code.enum';
+import { ChosenColorDialogComponent } from '../dialogs/reactions/chosen-color-dialog/chosen-color-dialog.component';
 
 export enum GAME_DIRECTIONS {
   clockwise = 'clockwise',
@@ -372,6 +373,21 @@ export class MultiPlayerComponent implements OnInit {
         outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
       },
       panelClass: 'choose-color-dialog'
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    // });
+  }
+
+  chosenColorAlert(): void {
+    const dialogRef = this._dialog.open(ChosenColorDialogComponent, {
+      animation: {
+        incomingOptions: chooseColorDialogIncomingOptionsConstant,
+        outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
+      },
+      panelClass: 'choose-color-dialog',
+      data: { chosenColor: COLOR_CODE_ENUM.red },
     });
 
     // dialogRef.afterClosed().subscribe(result => {
