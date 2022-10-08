@@ -144,6 +144,7 @@ export class MultiPlayerComponent implements OnInit {
 
   isCardsTrayEnabled: boolean;
   isShuffleCards: boolean = false;
+  isPickCard: boolean = true;
 
   set clockwise(isClockwise: boolean) { 
     this.gameDirection = isClockwise ? GAME_DIRECTIONS.clockwise : GAME_DIRECTIONS.antiClockwise; 
@@ -324,6 +325,10 @@ export class MultiPlayerComponent implements OnInit {
 
   toggleFullScreen(): void {
     if(screenfull.isEnabled) screenfull.toggle();
+  }
+
+  pickCard(): void {
+    this.isPickCard = !this.isPickCard;
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {

@@ -29,6 +29,12 @@
       style="width: 150px; height: 30px">
       Toggle Full Screen
     </button>
+    <button
+      label="Pick Card"
+      (click)="pickCard()" 
+      style="width: 150px; height: 30px">
+      Pick Card
+    </button>
     <div class="border">
       <div appCurrentPlayer [playerPosition]="currentPlayerPosition">
       </div>
@@ -74,6 +80,22 @@
               </div>
             </div>
             <mat-icon>pan_tool</mat-icon>
+          </div>
+          <!-- pick-one-card -->
+          <div class="pick-one-card" *ngIf="isPickCard">
+            <div class="uno-card drawer-deck-uno-card">
+              <div 
+                card class="uno-card-container" 
+                style="transform: rotateY(180deg)">
+              </div>
+            </div>
+            <div class="uno-card drawer-deck-uno-card">
+              <div
+                card class="uno-card-container" 
+                style="transform: rotateY(180deg)">
+              </div>
+            </div>
+            <mat-icon>pan_tool_alt</mat-icon>
           </div>
         </div>
         <div class="discard-pile" id="discard-pile"></div>

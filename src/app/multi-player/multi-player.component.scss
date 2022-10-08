@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center;
     background-color: rgb(0, 0, 0);
-    
+
         .current-player-bottom, .current-player-top, .current-player-left, .current-player-right {
             position: absolute;
         }
@@ -13,14 +13,14 @@
         .current-player-left, .current-player-top, .current-player-right {
             animation: 1.2s current-opponent-player ease-in-out infinite;
         }
-    
+
         .current-player-top, .current-player-bottom {
             width: 100vw;
             left: 0px;
             right: 0px;
             height: 0px;
         }
-        
+
         .current-player-left, .current-player-right {
             height: 100vh;
             width: 0;
@@ -28,20 +28,20 @@
             bottom: 0px;
             width: 0px;
         }
-        
+
         .current-player-top {
             top: 0px;
         }
-        
+
         .current-player-bottom {
             bottom: 0px;
             box-shadow: 0px 0px 18px 9px rgba(147,255,120,1);
         }
-        
+
         .current-player-left {
             left: 0px;
         }
-    
+
         .current-player-right {
             right: 0px;
         }
@@ -65,7 +65,7 @@
         flex-direction: row;
         justify-content: center;
         align-items: flex-end;
-    
+
         // background-color: aqua;
     }
 }
@@ -105,7 +105,7 @@
             &.direction-clockwise {
                 animation: 2s clockwise-direction linear infinite;
             }
-            
+
             &.direction-anti-clockwise {
                 animation: 2s anti-clockwise-direction linear infinite;
             }
@@ -119,16 +119,16 @@
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-    
+
         background-color: aqua;
-    
+
         .drawer-deck {
             height: 6rem;
             width: 4.2rem;
             border-radius: 0.4rem;
             border-color: rgb(77, 77, 77);
             border-style: solid;
-    
+
             background-color: rgb(139, 255, 139);
 
             cursor: pointer;
@@ -366,6 +366,7 @@
 }
 
 .shuffle-three-cards {
+    position: absolute;
     width: inherit;
     height: inherit;
 
@@ -374,6 +375,26 @@
         bottom: 3rem;
         color: rgb(255, 255, 255);
         transform: scale(2.5) rotateZ(90deg);
+    }
+}
+
+.pick-one-card {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+
+    .uno-card:nth-child(2) {
+        margin-left: 3px;
+        transform: rotateY(180deg) translateY(0rem);
+        animation: 1s pick-card ease-in-out infinite;
+    }
+
+    mat-icon {
+        position: absolute;
+        bottom: 0rem;
+        left: 1.2rem;
+        color: rgb(255, 153, 58);
+        transform: scale(2.5);
     }
 }
 
@@ -426,4 +447,8 @@
     100% {
         box-shadow: 0px 0px 15px 6px rgba(147,255,120,1);
     }
+}
+
+@keyframes pick-card {
+    50% { transform: rotateY(180deg) translateY(-1rem); }
 }
