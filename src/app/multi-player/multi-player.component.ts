@@ -184,7 +184,7 @@ export class MultiPlayerComponent implements OnInit {
     // }, 500);
 
     // change current player position
-    this.currentPlayerPosition = PLAYER_POSITION.bottom;
+    this.currentPlayerPosition = PLAYER_POSITION.left;
     // setInterval(() => {
     //   if(this.currentPlayerPosition == PLAYER_POSITION.bottom) {
     //     this.currentPlayerPosition = PLAYER_POSITION.left;
