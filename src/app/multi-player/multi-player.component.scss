@@ -4,7 +4,9 @@
     height: 100vh;
     display: flex;
     justify-content: center;
-    background-color: rgb(172, 172, 172);
+    // background-color: #00041e;
+    background: rgb(2,0,36);
+    background: linear-gradient(10deg, rgba(2,0,36,1) 0%, rgba(0,59,71,1) 100%);
 
         .current-player-bottom, .current-player-top, .current-player-left, .current-player-right {
             position: absolute;
@@ -79,8 +81,10 @@
     height: 8rem;
     min-height: 100px;
     max-height: 300px;
-    background-color: rgb(12, 110, 110);
+    // background-color: rgb(12, 110, 110);
     padding: 0.5rem;
+
+    border-bottom: 5px solid red;
 
     .direction {
         position: absolute;
@@ -120,14 +124,14 @@
         justify-content: space-around;
         align-items: center;
 
-        background-color: aqua;
+        // background-color: aqua;
 
         .drawer-deck {
             height: 6rem;
             width: 4.2rem;
-            border-radius: 0.4rem;
-            border-color: rgb(77, 77, 77);
-            border-style: solid;
+            // border-radius: 0.4rem;
+            // border-color: rgb(77, 77, 77);
+            // border-style: solid;
 
             background-color: rgb(139, 255, 139);
 
@@ -137,9 +141,9 @@
         .discard-pile {
             height: 6rem;
             width: 4.2rem;
-            border-radius: 0.4rem;
-            border-color: rgb(77, 77, 77);
-            border-style: solid;
+            // border-radius: 0.4rem;
+            // border-color: rgb(77, 77, 77);
+            // border-style: solid;
     
             background-color: rgb(255, 101, 101);
         }
