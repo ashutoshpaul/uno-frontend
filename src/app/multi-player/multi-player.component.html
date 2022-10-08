@@ -39,7 +39,7 @@
       <div appCurrentPlayer [playerPosition]="currentPlayerPosition">
       </div>
     </div>
-    <div class="draw-discard-deck">
+    <div class="draw-discard-deck" appCurrentColor [color]="colorCode">
       <div class="direction">
         <mat-icon [ngClass]="{
           'direction-clockwise': clockwise,

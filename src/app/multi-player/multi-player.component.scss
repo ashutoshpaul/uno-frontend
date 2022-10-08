@@ -57,7 +57,7 @@
     height: 9rem;
     min-height: 100px;
     max-height: 300px;
-    background-color: yellow;
+    // background-color: yellow;
     padding: 0.5rem;
 
     .player-cards-tray-container {
@@ -68,7 +68,7 @@
         justify-content: center;
         align-items: flex-end;
 
-        background-color: aqua;
+        // background-color: aqua;
     }
 }
 
@@ -83,8 +83,6 @@
     max-height: 300px;
     // background-color: rgb(12, 110, 110);
     padding: 0.5rem;
-
-    border-bottom: 5px solid red;
 
     .direction {
         position: absolute;

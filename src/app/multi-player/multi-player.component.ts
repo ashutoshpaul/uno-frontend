@@ -22,6 +22,7 @@ import {
   optionsDialogIncomingOptionsConstant,
   optionsDialogOutgoingOptionsConstant,
 } from '../core/constants/animations.constants';
+import { COLOR_CODE_ENUM, VALID_COLOR_CODE } from '../core/enums/color-code.enum';
 
 export enum GAME_DIRECTIONS {
   clockwise = 'clockwise',
@@ -57,6 +58,8 @@ export class MultiPlayerComponent implements OnInit {
   isDrawerDeckCardRevealed: boolean = false;
 
   currentPlayerPosition: PLAYER_POSITION;
+
+  colorCode: VALID_COLOR_CODE;
 
   cards$: Observable<{ state: CARD_ANIMATION_ENUM }[]>;
 
@@ -225,6 +228,8 @@ export class MultiPlayerComponent implements OnInit {
   ngOnInit(): void {
     this.toggleCardsTray(false);
     this.cards$ = of(this.cards);
+
+    this.colorCode = COLOR_CODE_ENUM.green;
 
     // setTimeout(() => {
     //   this.promptLegalCards();
