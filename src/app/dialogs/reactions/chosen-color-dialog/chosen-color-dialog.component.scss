@@ -32,8 +32,7 @@ div {
             border-radius: 0.3rem;
             cursor: pointer;
 
-            animation: in 1s;
-            transition: transform 0.3s;
+            // animation: in 1s;
 
             border: solid 2px white;
 
@@ -66,7 +65,7 @@ div {
 }
 
 // @keyframes in {
-//     0% { transform: scale(1, 1); }
-//     50% { transform: scale(1.45, 1.45); }
+//     0% { transform: scale(0, 0); }
+//     50% { transform: scale(0, 0); }
 //     100% { transform: scale(1, 1); }
 // }

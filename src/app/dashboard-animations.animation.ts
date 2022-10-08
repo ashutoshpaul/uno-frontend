@@ -461,7 +461,7 @@ export const buttonAppearTrigger = trigger('buttonAppear', [
 ]);
 
 export const chosenColorAlertTrigger = trigger('chosenColorAlert', [
-  state('true', style({}), {params: { sectionCount: 0 }}),
+  state('true', style({})),
   state('false', style({})),
   state('picked', style({})),
   transition('0 <=> 1', [

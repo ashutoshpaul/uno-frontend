@@ -18,6 +18,7 @@ export class ChosenColorDialogComponent implements OnInit {
 
   sectionCount: number = 0;
   state: boolean;
+  isPicked: boolean = false;
 
   constructor(
     private readonly _dialogRef: MatDialogRef<ChosenColorDialogComponent>,
@@ -48,7 +49,7 @@ export class ChosenColorDialogComponent implements OnInit {
   }
 
   colorPicked(): void {
-    this.state = true;
+    this.isPicked = !this.isPicked;
   }
 
   restartPromptingColors(): void {

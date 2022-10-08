@@ -1,7 +1,7 @@
 <div (click)="colorPicked()">
     <header>Color changed to</header>
     <article [@chosenColorAlert]="{
-        value: state,
+        value: (isPicked) ? 'picked' : state,
         params: { sectionCount: sectionCount }
     }" (@chosenColorAlert.done)="restartPromptingColors()">
         <section class="blue"></section>
