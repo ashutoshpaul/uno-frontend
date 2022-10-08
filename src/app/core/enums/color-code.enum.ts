@@ -6,4 +6,4 @@ export enum COLOR_CODE_ENUM {
     yellow = 'yellow',
 }
 
-export type VALID_COLOR_CODE = Omit<COLOR_CODE_ENUM, COLOR_CODE_ENUM.black>;
+export type VALID_COLOR_CODE = Exclude<COLOR_CODE_ENUM, COLOR_CODE_ENUM.black>;

@@ -37,7 +37,7 @@
 
         .current-player-bottom {
             bottom: 0px;
-            box-shadow: 0px 0px 18px 9px rgba(147,255,120,1);
+            box-shadow: 0px 0px 18px 9px rgb(0, 193, 231);
         }
 
         .current-player-left {
@@ -446,13 +446,13 @@
 
 @keyframes current-opponent-player {
     0% {
-        box-shadow: 0px 0px 15px 6px rgba(147,255,120,1);
+        box-shadow: 0px 0px 15px 6px rgb(0, 120, 145);
     }
     50% {
-        box-shadow: 0px 0px 42px 15px rgba(147,255,120,1);
+        box-shadow: 0px 0px 30px 15px rgb(0, 193, 231);
     }
     100% {
-        box-shadow: 0px 0px 15px 6px rgba(147,255,120,1);
+        box-shadow: 0px 0px 15px 6px rgb(0, 120, 145);
     }
 }
 
