@@ -22,8 +22,8 @@ export class CurrentColorDirective implements OnChanges {
         break;
       case COLOR_CODE_ENUM.green:
         this.borderImage = this.position == 'bottom'
-        ? "linear-gradient(to right, transparent, transparent, green, transparent, transparent) 1"
-        : "linear-gradient(to right, transparent, green, transparent) 1";
+        ? "linear-gradient(to right, transparent, transparent, rgb(8, 240, 0), transparent, transparent) 1"
+        : "linear-gradient(to right, transparent, rgb(8, 240, 0), transparent) 1";
         break;
       case COLOR_CODE_ENUM.red:
         this.borderImage = this.position == 'bottom'
