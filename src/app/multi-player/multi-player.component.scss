@@ -427,6 +427,10 @@
         color: rgb(255, 153, 58);
         transform: scale(2.5);
     }
+
+    .uno-card > .uno-card-container > .uno-card-back {
+        transform: unset;
+    }
 }
 
 @keyframes legal-card-blink {
