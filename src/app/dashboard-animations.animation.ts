@@ -463,7 +463,6 @@ export const buttonAppearTrigger = trigger('buttonAppear', [
 export const chosenColorAlertTrigger = trigger('chosenColorAlert', [
   state('true', style({})),
   state('false', style({})),
-  state('picked', style({})),
   transition('0 <=> 1', [
     group([
       query(':nth-child(1)',

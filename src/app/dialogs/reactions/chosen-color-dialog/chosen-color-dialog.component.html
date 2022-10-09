@@ -1,12 +1,21 @@
 <div (click)="colorPicked()">
     <header>Color changed to</header>
-    <article [@chosenColorAlert]="{
-        value: (isPicked) ? 'picked' : state,
-        params: { sectionCount: sectionCount }
+    <article [ngClass]="{'remove-col-gap': isPicked}"
+    [@chosenColorAlert]="{
+        value: (isPicked && pickedColor) ? pickedColor
+        : (isPicked) ? 'picked' : state
     }" (@chosenColorAlert.done)="restartPromptingColors()">
-        <section class="blue"></section>
-        <section class="green"></section>
-        <section class="red"></section>
-        <section class="yellow"></section>
+        <section class="blue" 
+            [ngClass]="{'shrink': isShrank(colors.blue), 'expand': isExpanded(colors.blue)}">
+        </section>
+        <section class="green" 
+            [ngClass]="{'shrink': isShrank(colors.green), 'expand': isExpanded(colors.green)}">
+        </section>
+        <section class="red" 
+            [ngClass]="{'shrink': isShrank(colors.red), 'expand': isExpanded(colors.red)}">
+        </section>
+        <section class="yellow" 
+            [ngClass]="{'shrink': isShrank(colors.yellow), 'expand': isExpanded(colors.yellow)}">
+        </section>
     </article>
 </div>

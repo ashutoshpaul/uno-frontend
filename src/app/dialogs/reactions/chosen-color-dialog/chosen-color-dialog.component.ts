@@ -16,9 +16,11 @@ export interface DialogData {
 })
 export class ChosenColorDialogComponent implements OnInit {
 
-  sectionCount: number = 0;
   state: boolean;
   isPicked: boolean = false;
+  pickedColor: VALID_COLOR_CODE;
+
+  readonly colors: typeof COLOR_CODE_ENUM = COLOR_CODE_ENUM
 
   constructor(
     private readonly _dialogRef: MatDialogRef<ChosenColorDialogComponent>,
@@ -27,33 +29,27 @@ export class ChosenColorDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this._dialogRef.disableClose = true;
-    this.sectionCount = this.getSectionCount(this._data.chosenColor);
-    console.log(this.sectionCount);
-
+ 
     // setTimeout(() => {
     //   this._dialogRef.close();
     // }, 3000);
   }
 
-  getSectionCount(color: VALID_COLOR_CODE): number {
-    switch(color) {
-      case COLOR_CODE_ENUM.blue:
-        return 1;
-      case COLOR_CODE_ENUM.green:
-        return 2;
-      case COLOR_CODE_ENUM.red:
-        return 3;
-      case COLOR_CODE_ENUM.yellow:
-        return 4;
-    }
-  }
-
   colorPicked(): void {
     this.isPicked = !this.isPicked;
+    this.pickedColor = COLOR_CODE_ENUM.red;
   }
 
   restartPromptingColors(): void {
     this.state = !this.state;
+  }
+
+  isShrank(color: VALID_COLOR_CODE): boolean {
+    return this.isPicked && color != this.pickedColor;
+  }
+
+  isExpanded(color: VALID_COLOR_CODE): boolean {
+    return this.isPicked && color == this.pickedColor;
   }
 
 }

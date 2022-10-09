@@ -30,10 +30,6 @@ div {
             width: 2.5rem;
             height: 2.5rem;
             border-radius: 0.3rem;
-            cursor: pointer;
-
-            // animation: in 1s;
-
             border: solid 2px white;
 
             &.blue {
@@ -64,8 +60,33 @@ div {
     }
 }
 
-// @keyframes in {
-//     0% { transform: scale(0, 0); }
-//     50% { transform: scale(0, 0); }
-//     100% { transform: scale(1, 1); }
-// }
+.remove-col-gap {
+    animation: 0s 0.2s remove-col-gap forwards;
+    column-gap: 0;
+}
+
+.shrink {
+    animation: 0.5s shrink ease-in-out forwards;
+}
+
+.expand {
+    animation: 0.5s expand ease-in-out forwards;
+}
+
+@keyframes remove-col-gap {
+    100% { column-gap: 0; }
+}
+
+@keyframes shrink {
+    100% {
+        transform: scale(0);
+        width: 0;
+        display: none;
+    }
+}
+
+@keyframes expand {
+    100% {
+        width: 100%;
+    }
+}
