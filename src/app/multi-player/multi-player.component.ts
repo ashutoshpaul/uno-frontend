@@ -427,15 +427,17 @@ export class MultiPlayerComponent implements OnInit {
   }
 
   skipAlert(): void {
+    const playerPosition: PLAYER_POSITION = PLAYER_POSITION.left;
+    const animationDirection: PLAYER_POSITION = this._getSkipAnimationDirection(playerPosition);
     const dialogRef = this._dialog.open(SkipDialogComponent, {
       animation: {
-        to: "top",
+        to: animationDirection,
         incomingOptions: skipAlertDialogIncomingOptionsConstant,
         outgoingOptions: skipAlertDialogOutgoingOptionsConstant,
       },
       panelClass: 'alert-dialog',
-      position: { bottom: "0rem" },
-      data: { position: PLAYER_POSITION.bottom }
+      position: { [playerPosition]: "0rem" },
+      data: { position: playerPosition }
     });
 
     setTimeout(() => { dialogRef.close(); }, DURATION.alertDialog);
@@ -491,6 +493,19 @@ export class MultiPlayerComponent implements OnInit {
 
   private _isCardLegal(cardIndex: number): boolean {
     return this.cards[cardIndex].isLegal;
+  }
+
+  private _getSkipAnimationDirection(playerPosition: PLAYER_POSITION): PLAYER_POSITION {
+    switch(playerPosition) {
+      case PLAYER_POSITION.top:
+        return PLAYER_POSITION.bottom;
+      case PLAYER_POSITION.bottom:
+        return PLAYER_POSITION.top;
+      case PLAYER_POSITION.left:
+        return PLAYER_POSITION.right;
+      case PLAYER_POSITION.right:
+        return PLAYER_POSITION.left;
+    }
   }
 
   private _updateCardsTray(): void {
