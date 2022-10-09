@@ -53,6 +53,12 @@
       style="width: 150px; height: 30px">
       Reverse Alert
     </button>
+    <button
+      label="Skip"
+      (click)="skipAlert()" 
+      style="width: 150px; height: 30px">
+      Skip
+    </button>
     <div class="border">
       <div appCurrentPlayer [playerPosition]="currentPlayerPosition"></div>
     </div>
@@ -159,11 +165,11 @@
         [@placeOpponentCards]="{value: opponentCards.length}">
           <div appCardDisplacementCoordinate
             #coordinates="appCardDisplacementCoordinate"
-            position="front"
+            position="top"
             class="uno-card opponent-uno-card"
             id="front-player-uno-card-{{i}}"
             *ngFor="let card of opponentCards; let i = index"
-            [@frontPlayerCardActivity]="{
+            [@topPlayerCardActivity]="{
               value: card.state,
               params: {
                 xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),

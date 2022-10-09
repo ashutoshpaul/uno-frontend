@@ -15,6 +15,7 @@ import { CurrentPlayerDirective } from './current-player.directive';
 import { CurrentColorDirective } from './current-color.directive';
 import { ChosenColorDialogComponent } from './dialogs/reactions/chosen-color-dialog/chosen-color-dialog.component';
 import { ReverseDialogComponent } from './dialogs/reactions/reverse-dialog/reverse-dialog.component';
+import { SkipDialogComponent } from './dialogs/reactions/skip-dialog/skip-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ReverseDialogComponent } from './dialogs/reactions/reverse-dialog/rever
     ChooseColorDialogComponent,
     OptionsDialogComponent,
     ReverseDialogComponent,
+    SkipDialogComponent,
     ChosenColorDialogComponent,
   ],
   imports: [

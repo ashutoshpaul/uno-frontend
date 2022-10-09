@@ -5,7 +5,7 @@ import {
   revealCardsTrigger,
   drawerDeckCardActivityTrigger,
   cardActivityTrigger,
-  frontPlayerCardActivityTrigger,
+  topPlayerCardActivityTrigger,
   placeOpponentCardsTrigger,
 } from '../dashboard-animations.animation';
 import { AnimationEvent  } from "@angular/animations";
@@ -18,7 +18,7 @@ import { AnimationEvent  } from "@angular/animations";
     revealCardsTrigger,
     drawerDeckCardActivityTrigger,
     cardActivityTrigger,
-    frontPlayerCardActivityTrigger,
+    topPlayerCardActivityTrigger,
     placeOpponentCardsTrigger,
   ],
 })

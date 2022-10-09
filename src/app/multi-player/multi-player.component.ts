@@ -8,7 +8,7 @@ import {
   revealCardsTrigger, 
   drawerDeckCardActivityTrigger, 
   cardActivityTrigger, 
-  frontPlayerCardActivityTrigger, 
+  topPlayerCardActivityTrigger, 
   placeOpponentCardsTrigger,
   leftPlayerCardActivityTrigger,
   rightPlayerCardActivityTrigger,
@@ -24,11 +24,14 @@ import {
   chooseColorDialogOutgoingOptionsConstant,
   optionsDialogIncomingOptionsConstant,
   optionsDialogOutgoingOptionsConstant,
+  skipAlertDialogIncomingOptionsConstant,
+  skipAlertDialogOutgoingOptionsConstant,
 } from '../core/constants/animations.constants';
 import { COLOR_CODE_ENUM, VALID_COLOR_CODE } from '../core/enums/color-code.enum';
 import { ChosenColorDialogComponent } from '../dialogs/reactions/chosen-color-dialog/chosen-color-dialog.component';
 import { ReverseDialogComponent } from '../dialogs/reactions/reverse-dialog/reverse-dialog.component';
 import { DURATION } from '../core/constants/durations.constants';
+import { SkipDialogComponent } from '../dialogs/reactions/skip-dialog/skip-dialog.component';
 
 export enum GAME_DIRECTIONS {
   clockwise = 'clockwise',
@@ -50,7 +53,7 @@ export enum PLAYER_POSITION {
     revealCardsTrigger,
     drawerDeckCardActivityTrigger,
     cardActivityTrigger,
-    frontPlayerCardActivityTrigger,
+    topPlayerCardActivityTrigger,
     placeOpponentCardsTrigger,
     leftPlayerCardActivityTrigger,
     rightPlayerCardActivityTrigger,
@@ -414,6 +417,25 @@ export class MultiPlayerComponent implements OnInit {
         color: COLOR_CODE_ENUM.red,
         direction: GAME_DIRECTIONS.clockwise,
       }
+    });
+
+    setTimeout(() => { dialogRef.close(); }, DURATION.alertDialog);
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    // });
+  }
+
+  skipAlert(): void {
+    const dialogRef = this._dialog.open(SkipDialogComponent, {
+      animation: {
+        to: "top",
+        incomingOptions: skipAlertDialogIncomingOptionsConstant,
+        outgoingOptions: skipAlertDialogOutgoingOptionsConstant,
+      },
+      panelClass: 'alert-dialog',
+      position: { bottom: "3rem" },
+      data: { position: PLAYER_POSITION.bottom }
     });
 
     setTimeout(() => { dialogRef.close(); }, DURATION.alertDialog);

@@ -171,7 +171,7 @@ export const drawerDeckCardActivityTrigger = trigger('drawerDeckCardActivity', [
   ]),
 ]);
 
-export const frontPlayerCardActivityTrigger = trigger('frontPlayerCardActivity', [
+export const topPlayerCardActivityTrigger = trigger('topPlayerCardActivity', [
   state('stationary', style({
     top: "0px",
     left: "0px",

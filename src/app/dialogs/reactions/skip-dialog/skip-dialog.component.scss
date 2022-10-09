@@ -1,0 +1,40 @@
+div {
+    width: 18vh;
+    height: 18vh;
+    max-width: 400px;
+    min-width: 100px;
+    max-height: 400px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    pointer-events: none;
+
+    animation: 0.4s 0.1s alert-dialog-in ease-in-out; // optionsDialogIncomingOptionsConstant
+
+    @keyframes alert-dialog-in {
+        50% { height: 25vh; }
+    }
+
+    main {
+        width: 100%;
+        height: 18vh;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+
+        mat-icon {
+            animation: 0.5s 0.6s glow ease-in-out infinite;
+            animation-iteration-count: 2;
+            transform: scale(4.5);
+            color: black;
+        }
+    }
+}
+
+@keyframes glow {
+    50% { transform: scale(5.7) }
+}

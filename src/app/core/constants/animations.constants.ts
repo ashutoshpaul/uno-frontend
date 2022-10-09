@@ -69,3 +69,17 @@ export const alertDialogOutgoingOptionsConstant = {
     duration: 500,
   },
 };
+
+export const skipAlertDialogIncomingOptionsConstant = {
+  keyframeAnimationOptions: {
+    easing: "ease-out",
+    duration: 200,
+  },
+};
+
+export const skipAlertDialogOutgoingOptionsConstant = {
+  keyframeAnimationOptions: {
+    easing: "ease-in-out",
+    duration: 300,
+  },
+};

@@ -30,7 +30,7 @@
             class="uno-card opponent-uno-card"
             id="front-player-uno-card-{{i}}"
             *ngFor="let card of opponentCards; let i = index"
-            [@frontPlayerCardActivity]="{
+            [@topPlayerCardActivity]="{
               value: card.state,
               params: {
                 xDiscardPosition: -destinationOfFrontPlayerDiscardPileXPosition(i),
