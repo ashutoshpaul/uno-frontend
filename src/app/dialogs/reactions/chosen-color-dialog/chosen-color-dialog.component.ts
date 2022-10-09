@@ -19,7 +19,7 @@ export class ChosenColorDialogComponent implements OnInit {
 
   state: boolean;
   isPicked: boolean = false;
-  isColorsLoaded: boolean = false;
+  isDialogStable: boolean = false;
   pickedColor: VALID_COLOR_CODE;
 
   readonly colors: typeof COLOR_CODE_ENUM = COLOR_CODE_ENUM
@@ -44,7 +44,7 @@ export class ChosenColorDialogComponent implements OnInit {
 
   restartPromptingColors(event: AnimationEvent): void {
     if(event.toState == 'loaded') {
-      this.isColorsLoaded = true;
+      this.isDialogStable = true;
     }
     this.state = !this.state;
   }

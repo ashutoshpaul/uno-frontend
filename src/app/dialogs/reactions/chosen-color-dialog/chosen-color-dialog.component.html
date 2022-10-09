@@ -2,7 +2,7 @@
     <header>Color changed to</header>
     <article [ngClass]="{'remove-col-gap': isPicked}"
     [@chosenColorAlert]="{
-        value: (isColorsLoaded)
+        value: (isDialogStable)
         ? (isPicked) ? 'stop' : state : 'loaded'
     }" (@chosenColorAlert.done)="restartPromptingColors($event)">
         <section class="blue" 
