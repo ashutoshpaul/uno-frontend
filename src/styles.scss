@@ -46,5 +46,8 @@
 
 .alert-dialog {
     overflow: hidden;
-    border-radius: 0.8rem;
+    
+    .mat-dialog-container {
+        background: transparent;
+    }
 }

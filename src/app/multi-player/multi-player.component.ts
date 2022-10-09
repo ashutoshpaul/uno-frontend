@@ -434,7 +434,7 @@ export class MultiPlayerComponent implements OnInit {
         outgoingOptions: skipAlertDialogOutgoingOptionsConstant,
       },
       panelClass: 'alert-dialog',
-      position: { bottom: "3rem" },
+      position: { bottom: "0rem" },
       data: { position: PLAYER_POSITION.bottom }
     });
 
