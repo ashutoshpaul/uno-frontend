@@ -48,6 +48,15 @@
     overflow: hidden;
     
     .mat-dialog-container {
+        border-radius: 0.8rem;
+        background: white;
+    }
+}
+
+.skip-alert-dialog {
+    overflow: hidden;
+    
+    .mat-dialog-container {
         background: transparent;
     }
 }

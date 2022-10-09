@@ -427,7 +427,7 @@ export class MultiPlayerComponent implements OnInit {
   }
 
   skipAlert(): void {
-    const playerPosition: PLAYER_POSITION = PLAYER_POSITION.left;
+    const playerPosition: PLAYER_POSITION = PLAYER_POSITION.bottom;
     const animationDirection: PLAYER_POSITION = this._getSkipAnimationDirection(playerPosition);
     const dialogRef = this._dialog.open(SkipDialogComponent, {
       animation: {
@@ -435,7 +435,7 @@ export class MultiPlayerComponent implements OnInit {
         incomingOptions: skipAlertDialogIncomingOptionsConstant,
         outgoingOptions: skipAlertDialogOutgoingOptionsConstant,
       },
-      panelClass: 'alert-dialog',
+      panelClass: 'skip-alert-dialog',
       position: { [playerPosition]: "0rem" },
       data: { position: playerPosition }
     });
