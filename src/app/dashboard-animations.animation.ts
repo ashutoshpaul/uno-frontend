@@ -463,6 +463,7 @@ export const buttonAppearTrigger = trigger('buttonAppear', [
 export const chosenColorAlertTrigger = trigger('chosenColorAlert', [
   state('true', style({})),
   state('false', style({})),
+  state('stop', style({})),
   transition('0 <=> 1', [
     group([
       query(':nth-child(1)',
@@ -490,6 +491,30 @@ export const chosenColorAlertTrigger = trigger('chosenColorAlert', [
         animate('0.3s 0.9s ease-in-out', keyframes([
           style({ transform: "scale(1)" }),
           style({ transform: "scale(1.5)" }),
+          style({ transform: "scale(1)" }),
+        ])),
+      ),
+    ]),
+  ]),
+  transition('* => stop', [
+    group([
+      query(':nth-child(1)',
+        animate('0.3s ease-in-out', keyframes([
+          style({ transform: "scale(1)" }),
+        ])),
+      ),
+      query(':nth-child(2)',
+        animate('0.3s ease-in-out', keyframes([
+          style({ transform: "scale(1)" }),
+        ])),
+      ),
+      query(':nth-child(3)',
+        animate('0.3s ease-in-out', keyframes([
+          style({ transform: "scale(1)" }),
+        ])),
+      ),
+      query(':nth-child(4)',
+        animate('0.3s ease-in-out', keyframes([
           style({ transform: "scale(1)" }),
         ])),
       ),

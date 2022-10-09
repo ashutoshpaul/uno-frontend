@@ -60,17 +60,18 @@ div {
     }
 }
 
+// delay is in sync with chosenColorAlertTrigger
 .remove-col-gap {
-    animation: 0s 0.2s remove-col-gap forwards;
+    animation: 0s 0.5s remove-col-gap forwards;
     column-gap: 0;
 }
 
 .shrink {
-    animation: 0.5s shrink ease-in-out forwards;
+    animation: 0.5s 0.3s shrink ease-in-out forwards;
 }
 
 .expand {
-    animation: 0.5s expand ease-in-out forwards;
+    animation: 0.5s 0.3s expand ease-in-out forwards;
 }
 
 @keyframes remove-col-gap {
