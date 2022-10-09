@@ -120,6 +120,7 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        perspective: 1000px;
         
         mat-icon {
             color: white;
@@ -439,30 +440,30 @@
 
 @keyframes clockwise-direction {
     0% { 
-        transform: translateX(-9vw) rotateZ(0deg) scale(0.4);
+        transform: translateX(-9vw) rotateZ(0deg) rotateY(60deg) scale(0.4);
         opacity: 0;
     }
     50% { 
-        transform: translateX(0vw) rotateZ(0deg) scale(1.2);
+        transform: translateX(0vw) rotateZ(0deg) rotateY(0deg) scale(1.2);
         opacity: 1;
     }
     100% { 
-        transform: translateX(9vw) rotateZ(0deg) scale(0.4);
+        transform: translateX(9vw) rotateZ(0deg) rotateY(-60deg) scale(0.4);
         opacity: 0;
     }
 }
 
 @keyframes anti-clockwise-direction {
     0% { 
-        transform: translateX(9vw) rotateZ(180deg) scale(0.4);
+        transform: translateX(9vw) rotateZ(180deg) rotateY(-60deg) scale(0.4);
         opacity: 0;
     }
     50% { 
-        transform: translateX(0vw) rotateZ(180deg) scale(1.2);
+        transform: translateX(0vw) rotateZ(180deg) rotateY(0deg) scale(1.2);
         opacity: 1;
     }
     100% { 
-        transform: translateX(-9vw) rotateZ(180deg) scale(0.4);
+        transform: translateX(-9vw) rotateZ(180deg) rotateY(60deg) scale(0.4);
         opacity: 0;
     }
 }
