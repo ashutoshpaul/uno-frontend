@@ -390,6 +390,10 @@ export class MultiPlayerComponent implements OnInit {
       data: { chosenColor: COLOR_CODE_ENUM.red },
     });
 
+    // setTimeout(() => {
+    //   dialogRef.close();
+    // }, 6000);
+
     // dialogRef.afterClosed().subscribe(result => {
     //   console.log('The dialog was closed');
     // });

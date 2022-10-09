@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AnimationEvent } from '@angular/animations';
 import { COLOR_CODE_ENUM, VALID_COLOR_CODE } from 'src/app/core/enums/color-code.enum';
 import { chosenColorAlertTrigger } from 'src/app/dashboard-animations.animation';
 
@@ -18,6 +19,7 @@ export class ChosenColorDialogComponent implements OnInit {
 
   state: boolean;
   isPicked: boolean = false;
+  isColorsLoaded: boolean = false;
   pickedColor: VALID_COLOR_CODE;
 
   readonly colors: typeof COLOR_CODE_ENUM = COLOR_CODE_ENUM
@@ -40,7 +42,10 @@ export class ChosenColorDialogComponent implements OnInit {
     this.pickedColor = COLOR_CODE_ENUM.red;
   }
 
-  restartPromptingColors(): void {
+  restartPromptingColors(event: AnimationEvent): void {
+    if(event.toState == 'loaded') {
+      this.isColorsLoaded = true;
+    }
     this.state = !this.state;
   }
 
