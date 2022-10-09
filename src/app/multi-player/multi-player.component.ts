@@ -18,6 +18,8 @@ import {
 import { ChooseColorDialogComponent } from '../dialogs/actions/choose-color-dialog/choose-color-dialog.component';
 import { OptionsDialogComponent } from '../dialogs/actions/options-dialog/options-dialog.component';
 import {
+  alertDialogIncomingOptionsConstant,
+  alertDialogOutgoingOptionsConstant,
   chooseColorDialogIncomingOptionsConstant, 
   chooseColorDialogOutgoingOptionsConstant,
   optionsDialogIncomingOptionsConstant,
@@ -25,6 +27,8 @@ import {
 } from '../core/constants/animations.constants';
 import { COLOR_CODE_ENUM, VALID_COLOR_CODE } from '../core/enums/color-code.enum';
 import { ChosenColorDialogComponent } from '../dialogs/reactions/chosen-color-dialog/chosen-color-dialog.component';
+import { ReverseDialogComponent } from '../dialogs/reactions/reverse-dialog/reverse-dialog.component';
+import { DURATION } from '../core/constants/durations.constants';
 
 export enum GAME_DIRECTIONS {
   clockwise = 'clockwise',
@@ -393,6 +397,26 @@ export class MultiPlayerComponent implements OnInit {
     // setTimeout(() => {
     //   dialogRef.close();
     // }, 6000);
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    // });
+  }
+
+  reverseAlert(): void {
+    const dialogRef = this._dialog.open(ReverseDialogComponent, {
+      animation: {
+        incomingOptions: alertDialogIncomingOptionsConstant,
+        outgoingOptions: alertDialogOutgoingOptionsConstant,
+      },
+      panelClass: 'alert-dialog',
+      data: { 
+        color: COLOR_CODE_ENUM.red,
+        direction: GAME_DIRECTIONS.clockwise,
+      }
+    });
+
+    setTimeout(() => { dialogRef.close(); }, DURATION.alertDialog);
 
     // dialogRef.afterClosed().subscribe(result => {
     //   console.log('The dialog was closed');
