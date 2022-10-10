@@ -1,11 +1,7 @@
 div {
-    background-color: white;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 1rem;
-    border-radius: 0.8rem;
-    overflow: hidden;
     
     &.bottom {
         margin-bottom: 1.5rem;
@@ -38,11 +34,15 @@ div {
         justify-content: center;
         align-items: flex-start;
         pointer-events: none;
+        background-color: white;
+        padding: 1.3rem;
+        border-radius: 0.8rem;
+        overflow: hidden;
     
         animation: 0.4s 0.1s alert-dialog-in ease-in-out; // optionsDialogIncomingOptionsConstant
     
         @keyframes alert-dialog-in {
-            50% { height: 25vh; }
+            50% { margin-bottom: 3rem; }
         }
     
         section {
