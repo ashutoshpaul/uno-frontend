@@ -246,7 +246,7 @@ export class MultiPlayerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.registerInternetEvent();
+    this.registerInternetEvents();
     this.toggleCardsTray(false);
     this.cards$ = of(this.cards);
 
@@ -290,7 +290,7 @@ export class MultiPlayerComponent implements OnInit {
     // }, 4000);
   }
 
-  registerInternetEvent(): void {
+  registerInternetEvents(): void {
     this.online$ = fromEvent(window, 'online');
     this.offline$ = fromEvent(window, 'offline');
 
