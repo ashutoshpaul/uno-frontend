@@ -15,6 +15,7 @@ export class OfflineDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this._dialogRef.disableClose = true;
   }
 
   refresh(): void {
