@@ -67,7 +67,7 @@ export class CardDisplacementCoordinateDirective {
       const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 44;
       return -1 * originOfCardY;
     } else if (this.position === PLAYER_POSITION.top) {
-      const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 5 * 16;
+      const originOfCardY: number = dashboardHeight - drawerDeckYPosition - 1 * 16;
       return originOfCardY;
     } else if (this.position === PLAYER_POSITION.left) {
       const drawerDeckXPosition: number = document.getElementById("drawer-deck").getBoundingClientRect().left;

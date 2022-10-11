@@ -3,8 +3,8 @@
         <mat-icon>wifi_off</mat-icon>
     </section>
     <section>{{ message }}</section>
-    <section class="refresh">
+    <section class="refresh" (click)="refresh()">
         <div>Refresh</div>
-        <mat-icon (click)="refresh()">refresh</mat-icon>
+        <mat-icon>refresh</mat-icon>
     </section>
 </main>

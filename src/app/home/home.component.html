@@ -1,0 +1,13 @@
+<main>
+    <div class="uno">
+        <img src="./../../assets/images/uno-logo.svg" />
+    </div>
+    <div class="field">
+        <input 
+            type="text"
+            placeholder="Buddy. Your name?"
+            maxlength="15"
+            [formControl]="playerName">
+        <mat-icon *ngIf="isNameValid">play_arrow</mat-icon>
+    </div>
+</main>
