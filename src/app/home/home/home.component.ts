@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 // import {
 //   debounceTime,
 //   distinctUntilChanged,
@@ -18,7 +20,11 @@ export class HomeComponent implements OnInit {
 
   isNameValid: boolean = false;
 
-  constructor() { }
+  constructor(
+    private readonly _activatedRoute: ActivatedRoute,
+    private readonly _router: Router,
+    private readonly _sessionStorage: SessionStorageService,
+  ) { }
 
   ngOnInit(): void {
     this.playerName.valueChanges.pipe(
@@ -26,6 +32,11 @@ export class HomeComponent implements OnInit {
     ).subscribe(_ => {
       this.isNameValid = !this.playerName.invalid;
     });
+  }
+
+  goToLobby(): void {
+    this._sessionStorage.setItem('playerName', this.playerName.value);
+    this._router.navigate(['lobby'], { relativeTo: this._activatedRoute });
   }
 
 }

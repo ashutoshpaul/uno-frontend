@@ -8,11 +8,11 @@ export class SessionStorageService {
   constructor() { }
 
   setItem(key: string, body: any): void {
-    sessionStorage.setItem(key, JSON.stringify(body));
+    sessionStorage.setItem(key, body);
   }
 
   getItem(key: string): any {
-    return JSON.parse(sessionStorage.getItem(key));
+    return sessionStorage.getItem(key);
   }
 
   remove(key: string): void {
