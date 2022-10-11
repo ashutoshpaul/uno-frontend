@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnimationEvent } from '@angular/animations';
-import { Observable, of } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
+import { fromEvent, Observable, of } from 'rxjs';
 import { NgDialogAnimationService } from "ng-dialog-animation";
 import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from '../core/enums/animation.enum';
 import { 
@@ -78,6 +79,9 @@ export class MultiPlayerComponent implements OnInit {
   colorCode: VALID_COLOR_CODE;
 
   cards$: Observable<{ state: CARD_ANIMATION_ENUM }[]>;
+
+  onLine$: Observable<Event>;
+  offLine$: Observable<Event>;
 
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
@@ -242,6 +246,7 @@ export class MultiPlayerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.registerInternetEvent();
     this.toggleCardsTray(false);
     this.cards$ = of(this.cards);
 
@@ -283,6 +288,27 @@ export class MultiPlayerComponent implements OnInit {
     //     this.currentPlayerPosition = PLAYER_POSITION.bottom;
     //   }
     // }, 4000);
+  }
+
+  registerInternetEvent(): void {
+    this.onLine$ = fromEvent(window, 'online');
+    this.offLine$ = fromEvent(window, 'offline');
+
+    let dialogRef: MatDialogRef<OfflineDialogComponent>;
+
+    this.offLine$.subscribe(_ => {
+      dialogRef = this._dialog.open(OfflineDialogComponent, {
+        animation: {
+          incomingOptions: chooseColorDialogIncomingOptionsConstant,
+          outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
+        },
+        panelClass: 'choose-color-dialog'
+      });
+    });
+
+    this.onLine$.subscribe(e => {
+      if(dialogRef) dialogRef.close();
+    })
   }
 
   cardClicked(cardIndex: number): void {
