@@ -16,6 +16,7 @@ import { CurrentColorDirective } from './current-color.directive';
 import { ChosenColorDialogComponent } from './dialogs/reactions/chosen-color-dialog/chosen-color-dialog.component';
 import { ReverseDialogComponent } from './dialogs/reactions/reverse-dialog/reverse-dialog.component';
 import { SkipDialogComponent } from './dialogs/reactions/skip-dialog/skip-dialog.component';
+import { OfflineDialogComponent } from './dialogs/reactions/offline-dialog/offline-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SkipDialogComponent } from './dialogs/reactions/skip-dialog/skip-dialog
     ChooseColorDialogComponent,
     OptionsDialogComponent,
     ReverseDialogComponent,
+    OfflineDialogComponent,
     SkipDialogComponent,
     ChosenColorDialogComponent,
   ],

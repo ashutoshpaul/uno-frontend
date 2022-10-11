@@ -31,6 +31,7 @@ import { ChosenColorDialogComponent } from '../dialogs/reactions/chosen-color-di
 import { ReverseDialogComponent } from '../dialogs/reactions/reverse-dialog/reverse-dialog.component';
 import { DURATION } from '../core/constants/durations.constants';
 import { SkipDialogComponent } from '../dialogs/reactions/skip-dialog/skip-dialog.component';
+import { OfflineDialogComponent } from '../dialogs/reactions/offline-dialog/offline-dialog.component';
 
 export interface IOptions {
   isFullScreen: boolean;
@@ -378,6 +379,20 @@ export class MultiPlayerComponent implements OnInit {
 
   chooseColor(): void {
     const dialogRef = this._dialog.open(ChooseColorDialogComponent, {
+      animation: {
+        incomingOptions: chooseColorDialogIncomingOptionsConstant,
+        outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
+      },
+      panelClass: 'choose-color-dialog'
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    // });
+  }
+
+  offlineAlert(): void {
+    const dialogRef = this._dialog.open(OfflineDialogComponent, {
       animation: {
         incomingOptions: chooseColorDialogIncomingOptionsConstant,
         outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
