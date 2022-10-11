@@ -80,8 +80,8 @@ export class MultiPlayerComponent implements OnInit {
 
   cards$: Observable<{ state: CARD_ANIMATION_ENUM }[]>;
 
-  onLine$: Observable<Event>;
-  offLine$: Observable<Event>;
+  online$: Observable<Event>;
+  offline$: Observable<Event>;
 
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
@@ -291,12 +291,12 @@ export class MultiPlayerComponent implements OnInit {
   }
 
   registerInternetEvent(): void {
-    this.onLine$ = fromEvent(window, 'online');
-    this.offLine$ = fromEvent(window, 'offline');
+    this.online$ = fromEvent(window, 'online');
+    this.offline$ = fromEvent(window, 'offline');
 
     let dialogRef: MatDialogRef<OfflineDialogComponent>;
 
-    this.offLine$.subscribe(_ => {
+    this.offline$.subscribe(_ => {
       dialogRef = this._dialog.open(OfflineDialogComponent, {
         animation: {
           incomingOptions: chooseColorDialogIncomingOptionsConstant,
@@ -306,7 +306,7 @@ export class MultiPlayerComponent implements OnInit {
       });
     });
 
-    this.onLine$.subscribe(e => {
+    this.online$.subscribe(_ => {
       if(dialogRef) dialogRef.close();
     })
   }
