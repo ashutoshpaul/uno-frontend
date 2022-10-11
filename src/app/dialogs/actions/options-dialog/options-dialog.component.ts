@@ -10,7 +10,8 @@ import { IOptions } from 'src/app/multi-player/multi-player.component';
 })
 export class OptionsDialogComponent implements OnInit {
 
-  isFullScreen = false;
+  isFullScreen: boolean = false;
+  networkType: string;
 
   constructor(
     private readonly _dialogRef: MatDialogRef<OptionsDialogComponent>,
@@ -18,6 +19,7 @@ export class OptionsDialogComponent implements OnInit {
 
   ngOnInit(): void {
     if(screenfull.isEnabled) this.isFullScreen = screenfull['isFullscreen'] ?? false;
+    this.networkType = (navigator as Navigator)['connection']['effectiveType'];
   }
 
   toggleFullScreen(): void {

@@ -1,6 +1,9 @@
 <main class="dialog">
     <section class="header">
-        <article class="connection">123</article>
+        <article class="connection">
+            <div class="label">Network:</div>
+            <div class="network">{{ networkType | uppercase }}</div>
+        </article>
         <article class="full-screen" (click)="toggleFullScreen()">
             <mat-icon *ngIf="!isFullScreen">fullscreen</mat-icon>
             <mat-icon *ngIf="isFullScreen">fullscreen_exit</mat-icon>

@@ -42,14 +42,35 @@ main {
             align-items: center;
             justify-content: stretch;
             padding: 0;
-            column-gap: 0.7rem;
+            column-gap: 1.2rem;
+            cursor: unset;
 
             article {
                 height: 100%;
 
                 &.connection {
+                    height: 100%;
                     width: 100%;
-                    // background-color: #005804;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    color: #005804;
+                    pointer-events: none;
+
+                    div {
+                        &.label {
+                            font-size: 0.9rem;
+                            font-family: 'Roboto', 'Poppins', monospace;
+                            color: rgb(112, 111, 111);
+                        }
+    
+                        &.network {
+                            font-size: 1.1rem;
+                            font-family: 'Roboto', 'Poppins', monospace;
+                            color: rgb(0, 108, 209);
+                        }
+                    }
+
                 }
 
                 &.full-screen {
