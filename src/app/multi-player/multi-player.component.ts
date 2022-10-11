@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AnimationEvent } from '@angular/animations';
 import { Observable, of } from 'rxjs';
 import { NgDialogAnimationService } from "ng-dialog-animation";
-import * as screenfull from 'screenfull';
 import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from '../core/enums/animation.enum';
 import { 
   revealCardsTrigger, 
@@ -32,6 +31,10 @@ import { ChosenColorDialogComponent } from '../dialogs/reactions/chosen-color-di
 import { ReverseDialogComponent } from '../dialogs/reactions/reverse-dialog/reverse-dialog.component';
 import { DURATION } from '../core/constants/durations.constants';
 import { SkipDialogComponent } from '../dialogs/reactions/skip-dialog/skip-dialog.component';
+
+export interface IOptions {
+  isFullScreen: boolean;
+}
 
 export enum GAME_DIRECTIONS {
   clockwise = 'clockwise',
@@ -458,17 +461,13 @@ export class MultiPlayerComponent implements OnInit {
       position: { bottom: "0rem", right: "1.5vw" }
     });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log('The dialog was closed');
+    // dialogRef.afterClosed().subscribe((options: IOptions) => {
+    //   if(options) {}
     // });
   }
 
   toggleGameDirection(): void {
     this.clockwise = !this.clockwise;
-  }
-
-  toggleFullScreen(): void {
-    if(screenfull.isEnabled) screenfull.toggle();
   }
 
   pickCard(): void {
