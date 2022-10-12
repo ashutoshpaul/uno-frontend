@@ -22,6 +22,8 @@ import {
   alertDialogOutgoingOptionsConstant,
   chooseColorDialogIncomingOptionsConstant, 
   chooseColorDialogOutgoingOptionsConstant,
+  offlineOpponentDialogIncomingOptionsConstant,
+  offlineOpponentDialogOutgoingOptionsConstant,
   optionsDialogIncomingOptionsConstant,
   optionsDialogOutgoingOptionsConstant,
   skipAlertDialogIncomingOptionsConstant,
@@ -532,8 +534,8 @@ export class MultiPlayerComponent implements OnInit {
   offlinePlayerAction(): void {
     const dialogRef = this._dialog.open(OfflinePlayerDialogComponent, {
       animation: {
-        incomingOptions: alertDialogIncomingOptionsConstant,
-        outgoingOptions: alertDialogOutgoingOptionsConstant,
+        incomingOptions: offlineOpponentDialogIncomingOptionsConstant,
+        outgoingOptions: offlineOpponentDialogOutgoingOptionsConstant,
       },
       panelClass: 'choose-color-dialog',
       data: { playerName: 'Samuel' },

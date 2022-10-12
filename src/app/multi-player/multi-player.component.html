@@ -1,4 +1,5 @@
 <div class="dashboard" id="dashboard">
+  <ng-container *ngIf="false">
     <button
       label="Discard First Card" 
       (click)="discardDrawerDeckCard()" 
@@ -71,6 +72,7 @@
       style="width: 150px; height: 30px">
       Offline Player
     </button>
+  </ng-container>
     <div class="border">
       <div appCurrentPlayer [playerPosition]="currentPlayerPosition"></div>
     </div>

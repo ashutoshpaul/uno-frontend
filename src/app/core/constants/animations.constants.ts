@@ -83,3 +83,28 @@ export const skipAlertDialogOutgoingOptionsConstant = {
     duration: 300,
   },
 };
+
+export const offlineOpponentDialogIncomingOptionsConstant = {
+  keyframes: [
+    { transform: "scale(0)" },
+    { transform: "scale(1.3)" },
+    { transform: "scale(1)" },
+  ],
+  keyframeAnimationOptions: {
+    easing: "ease-out",
+    duration: 700,
+  },
+};
+
+export const offlineOpponentDialogOutgoingOptionsConstant = {
+  keyframes: [
+    { transform: "scale(1)" },
+    { transform: "scale(0.8)" },
+    { transform: "scale(0.5)" },
+    { transform: "scale(0)" },
+  ],
+  keyframeAnimationOptions: {
+    easing: "ease-in-out",
+    duration: 500,
+  },
+};

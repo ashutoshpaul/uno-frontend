@@ -1,7 +1,25 @@
+<!-- <main (click)="playerBackOnline()"> -->
 <main>
-    <mat-icon>error</mat-icon>
-    <div class="message"> {{ playerName }} went offline. </div>
-    <div class="actions">
-        <div class="remove">Remove {{ playerName }}</div>
-    </div>
+    <ng-container *ngIf="!(playerBackOnline$ | async); else online">
+        <mat-icon>error</mat-icon>
+        <div class="message">
+            {{ playerName }} went offline.
+        </div>
+        <div class="rejoin">
+            {{ rejoinMessage }}
+        </div>
+        <div class="actions">
+            <div class="remove" (click)="removePlayer()">
+                Remove {{ playerName }}
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #online>
+        <div class="online">
+            <mat-icon>wifi</mat-icon>
+            <div class="message">
+                {{ playerName }} is back
+            </div>
+        </div>
+    </ng-template>
 </main>
