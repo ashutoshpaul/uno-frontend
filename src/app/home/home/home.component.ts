@@ -14,7 +14,7 @@ import { enterButtonTrigger } from './../../dashboard-animations.animation';
 })
 export class HomeComponent implements OnInit {
 
-  errorMessage: string = 'Only letters and numbers';
+  invalidPatternMessage: string = 'Only letters and digits allowed';
 
   playerName: FormControl = new FormControl('', [
     Validators.required, 

@@ -11,7 +11,7 @@
                 [formControl]="playerName"
                 (keydown.enter)="goToLobby()">
             <div *ngIf="isPatternValid()" class="error">
-                *{{ errorMessage }}
+                *{{ invalidPatternMessage }}
             </div>
         </div>
         <mat-icon 
