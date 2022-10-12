@@ -33,18 +33,18 @@ main {
     .field {
         position: relative;
         width: 15rem;
+        height: calc(2rem + 1rem);
         // background-color: yellow;
 
         .flex-field {
             display: flex;
-            flex-direction: row;
-            justify-content: stretch;
-            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
 
             input {
                 height: 2rem;
                 width: 100%;
-                min-width: 5rem;
                 padding: 0rem 1rem;
                 border-radius: 0.5rem;
                 border: none;
@@ -59,13 +59,25 @@ main {
                     width: 73%;
                 }
             }
+
+            .error {
+                width: 100%;
+                padding: 0rem 1rem;
+
+                font-size: 1rem;
+                font-family: 'Roboto', 'Poppins', monospace;
+                line-height: 2rem;
+                text-align: center;
+                color: #efff00;
+                font-weight: bold;
+            }
         }
 
 
         mat-icon {
             position: absolute;
             right: 0rem;
-            bottom: 0.3rem;
+            top: 0.2rem;
             color: rgb(255, 255, 255);
             transform: scale(2);
             cursor: pointer;

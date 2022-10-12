@@ -14,6 +14,8 @@ import { enterButtonTrigger } from './../../dashboard-animations.animation';
 })
 export class HomeComponent implements OnInit {
 
+  errorMessage: string = 'Only letters and numbers';
+
   playerName: FormControl = new FormControl('', [
     Validators.required, 
     Validators.minLength(3), 
@@ -38,6 +40,10 @@ export class HomeComponent implements OnInit {
   goToLobby(): void {
     this._sessionStorage.setItem('playerName', this.playerName.value);
     this._router.navigate(['lobby'], { relativeTo: this._activatedRoute });
+  }
+
+  isPatternValid(): boolean {
+    return !!this.playerName.errors?.pattern;
   }
 
 }

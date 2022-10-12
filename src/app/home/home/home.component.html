@@ -10,6 +10,9 @@
                 maxlength="15"
                 [formControl]="playerName"
                 (keydown.enter)="goToLobby()">
+            <div *ngIf="isPatternValid()" class="error">
+                *{{ errorMessage }}
+            </div>
         </div>
         <mat-icon 
             [@enterButton]="isNameValid"
