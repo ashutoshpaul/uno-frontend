@@ -15,7 +15,10 @@ import { enterButtonTrigger } from './../../dashboard-animations.animation';
 export class HomeComponent implements OnInit {
 
   playerName: FormControl = new FormControl('', [
-    Validators.required, Validators.minLength(3), Validators.maxLength(15)
+    Validators.required, 
+    Validators.minLength(3), 
+    Validators.maxLength(15),
+    Validators.pattern('[a-zA-Z0-9]+'),
   ]);
 
   isNameValid: boolean = false;
