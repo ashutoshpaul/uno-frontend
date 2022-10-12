@@ -5,7 +5,7 @@ import { GAME_DIRECTIONS } from 'src/app/multi-player/multi-player.component';
 
 interface DialogData {
   color: VALID_COLOR_CODE;
-  direction: GAME_DIRECTIONS,
+  direction: GAME_DIRECTIONS;
 }
 
 @Component({

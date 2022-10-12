@@ -34,6 +34,7 @@ import { DURATION } from '../core/constants/durations.constants';
 import { SkipDialogComponent } from '../dialogs/reactions/skip-dialog/skip-dialog.component';
 import { OfflineDialogComponent } from '../dialogs/reactions/offline-dialog/offline-dialog.component';
 import { JoinPlayersDialogComponent } from '../dialogs/reactions/join-players-dialog/join-players-dialog.component';
+import { OfflinePlayerDialogComponent } from '../dialogs/actions/offline-player-dialog/offline-player-dialog.component';
 
 export interface IOptions {
   isFullScreen: boolean;
@@ -525,6 +526,21 @@ export class MultiPlayerComponent implements OnInit {
 
     // dialogRef.afterClosed().subscribe((options: IOptions) => {
     //   if(options) {}
+    // });
+  }
+
+  offlinePlayerAction(): void {
+    const dialogRef = this._dialog.open(OfflinePlayerDialogComponent, {
+      animation: {
+        incomingOptions: alertDialogIncomingOptionsConstant,
+        outgoingOptions: alertDialogOutgoingOptionsConstant,
+      },
+      panelClass: 'choose-color-dialog',
+      data: { playerName: 'Samuel' },
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
     // });
   }
 

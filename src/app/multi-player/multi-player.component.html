@@ -65,6 +65,12 @@
       style="width: 150px; height: 30px">
       Players Joined
     </button>
+    <button
+      label="Offline Player"
+      (click)="offlinePlayerAction()" 
+      style="width: 150px; height: 30px">
+      Offline Player
+    </button>
     <div class="border">
       <div appCurrentPlayer [playerPosition]="currentPlayerPosition"></div>
     </div>

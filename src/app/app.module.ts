@@ -18,6 +18,7 @@ import { ReverseDialogComponent } from './dialogs/reactions/reverse-dialog/rever
 import { SkipDialogComponent } from './dialogs/reactions/skip-dialog/skip-dialog.component';
 import { OfflineDialogComponent } from './dialogs/reactions/offline-dialog/offline-dialog.component';
 import { JoinPlayersDialogComponent } from './dialogs/reactions/join-players-dialog/join-players-dialog.component';
+import { OfflinePlayerDialogComponent } from './dialogs/actions/offline-player-dialog/offline-player-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { JoinPlayersDialogComponent } from './dialogs/reactions/join-players-dia
     ReverseDialogComponent,
     OfflineDialogComponent,
     JoinPlayersDialogComponent,
+    OfflinePlayerDialogComponent,
     SkipDialogComponent,
     ChosenColorDialogComponent,
   ],
