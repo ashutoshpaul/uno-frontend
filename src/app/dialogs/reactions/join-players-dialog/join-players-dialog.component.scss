@@ -62,6 +62,13 @@ main {
 
             &.seconds {
                 bottom: 0rem;
+                animation: 1s out ease-in infinite;
+
+                @keyframes out {
+                    0% { opacity: 1; transform: scale(1); }
+                    50% { opacity: 1; }
+                    100% { opacity: 0; transform: scale(2.5); }
+                }
             }
         }
     }
