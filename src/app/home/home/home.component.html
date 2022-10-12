@@ -3,12 +3,19 @@
         <img src="./../../assets/images/uno-logo.svg" />
     </div>
     <div class="field">
-        <input 
-            type="text"
-            placeholder="Hi Buddy. Your name?"
-            maxlength="15"
-            [formControl]="playerName"
-            (keydown.enter)="goToLobby()">
-        <mat-icon *ngIf="isNameValid" (click)="goToLobby()">play_arrow</mat-icon>
+        <div class="flex-field">
+            <input [ngClass]="{ 'shrink-width': isNameValid }"
+                type="text"
+                placeholder="Hi Buddy. Your name?"
+                maxlength="15"
+                [formControl]="playerName"
+                (keydown.enter)="goToLobby()">
+        </div>
+        <mat-icon 
+            [@enterButton]="isNameValid"
+            *ngIf="isNameValid" 
+            (click)="goToLobby()">
+            play_arrow
+        </mat-icon>
     </div>
 </main>
