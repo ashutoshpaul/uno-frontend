@@ -26,4 +26,43 @@ main {
             color: rgb(66, 66, 66)
         }
     }
+
+    section {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0vw 1vw;
+        row-gap: 1rem;
+
+        text-align: center;
+        font-size: 1rem;
+        font-family: 'Roboto', 'Poppins', monospace;
+
+        // background-color: yellow;
+
+        mat-icon {
+            position: absolute;
+            top: 1.4rem;
+            transform: scale(3);
+            color: rgb(36, 36, 36);
+        }
+
+        div {
+            position: absolute;
+
+            &.label {
+                top: 4.5rem;
+                font-size: 1.2rem;
+                font-weight: 600;
+            }
+
+            &.seconds {
+                bottom: 0rem;
+            }
+        }
+    }
 }

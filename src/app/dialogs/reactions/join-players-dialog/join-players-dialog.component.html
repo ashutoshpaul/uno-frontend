@@ -1,5 +1,18 @@
-<main>
-    <mat-spinner [diameter]="35"></mat-spinner>
-    <div> {{ message }} </div>
-    <div class="players-count"> {{ joinedPlayers }} of {{ totalPlayers }} joined</div>
+<main (click)="startGameAlert()">
+    <ng-container *ngIf="!(isStartGame$ | async); else startGame">
+        <mat-spinner [diameter]="35"></mat-spinner>
+        <div> {{ message }} </div>
+        <div class="players-count">
+            {{ joinedPlayers }} of {{ totalPlayers }} joined
+        </div>
+    </ng-container>
+    <ng-template #startGame>
+        <section>
+            <mat-icon>groups</mat-icon>
+            <div class="label"> {{ startMessage }} </div>
+            <div *ngIf="secondsCounter$ | async as seconds" class="seconds">
+                {{ seconds }}
+            </div>
+        </section>
+    </ng-template>
 </main>
