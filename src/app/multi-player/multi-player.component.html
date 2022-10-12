@@ -59,6 +59,12 @@
       style="width: 150px; height: 30px">
       Offline Alert
     </button>
+    <button
+      label="Players Joined"
+      (click)="playersJoinedAlert()" 
+      style="width: 150px; height: 30px">
+      Players Joined
+    </button>
     <div class="border">
       <div appCurrentPlayer [playerPosition]="currentPlayerPosition"></div>
     </div>

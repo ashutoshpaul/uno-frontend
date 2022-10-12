@@ -33,6 +33,7 @@ import { ReverseDialogComponent } from '../dialogs/reactions/reverse-dialog/reve
 import { DURATION } from '../core/constants/durations.constants';
 import { SkipDialogComponent } from '../dialogs/reactions/skip-dialog/skip-dialog.component';
 import { OfflineDialogComponent } from '../dialogs/reactions/offline-dialog/offline-dialog.component';
+import { JoinPlayersDialogComponent } from '../dialogs/reactions/join-players-dialog/join-players-dialog.component';
 
 export interface IOptions {
   isFullScreen: boolean;
@@ -500,6 +501,26 @@ export class MultiPlayerComponent implements OnInit {
       },
       panelClass: 'options-dialog',
       position: { bottom: "0rem", right: "1.5vw" }
+    });
+
+    // dialogRef.afterClosed().subscribe((options: IOptions) => {
+    //   if(options) {}
+    // });
+  }
+
+  playersJoinedAlert(): void {
+    const dialogRef = this._dialog.open(JoinPlayersDialogComponent, {
+      animation: {
+        to: "top",
+        incomingOptions: optionsDialogIncomingOptionsConstant,
+        outgoingOptions: optionsDialogOutgoingOptionsConstant,
+      },
+      panelClass: 'join-players-dialog',
+      position: { bottom: "0rem" },
+      data: {
+        joinedPlayers: 2,
+        totalPlayers: 4,
+      },
     });
 
     // dialogRef.afterClosed().subscribe((options: IOptions) => {
