@@ -515,7 +515,7 @@ export const enterButtonTrigger = trigger('enterButton', [
     style({ transform: "scale(0)", opacity: "0" }),
     animate('0.5s 0.2s ease-in-out', keyframes([
       style({ transform: "scale(0)", opacity: "0" }),
-      style({ transform: "scale(4)", opacity: "1" }),
+      style({ transform: "scale(3.5)", opacity: "1" }),
       style({ transform: "scale(2)", opacity: "1" }),
     ])),
   ]),

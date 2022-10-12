@@ -3,7 +3,6 @@ import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { enterButtonTrigger } from './../../dashboard-animations.animation';
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 @Component({
   selector: 'app-home',
@@ -28,10 +27,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.playerName.valueChanges.pipe(
-      debounceTime(200), distinctUntilChanged()
-    ).subscribe(_ => {
-      console.log(!this.playerName.invalid);
+    this.playerName.valueChanges.subscribe(_ => {
       this.isNameValid = !this.playerName.invalid;
     });
   }
