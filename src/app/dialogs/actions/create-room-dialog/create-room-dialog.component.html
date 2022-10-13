@@ -1,1 +1,35 @@
-<p>create-room-dialog works!</p>
+<main>
+    <div class="header">Create Room</div>
+    <div class="body">
+        <input 
+            type="text" 
+            autofocus
+            maxlength="20"
+            placeholder="Enter room name"
+            [formControl]="roomNameControl"
+            (keydown.enter)="createRoom()">
+            <div class="error">
+                <div 
+                    *ngIf="isDirty && isInvalid" 
+                    class="error-container">
+                    {{ errorMessage }}
+                </div>
+            </div>
+    </div>
+    <div class="footer">
+        <div 
+            class="create" 
+            (click)="createRoom()"
+            [ngClass]="{
+                'disabled': isInvalid, 
+                'active': !isInvalid
+            }">
+                Create
+            </div>
+        <div 
+            class="close" 
+            (click)="close()">
+            Close
+        </div>
+    </div>
+</main>

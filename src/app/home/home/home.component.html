@@ -9,7 +9,7 @@
                 autofocus
                 placeholder="Hi Buddy. Your name?"
                 maxlength="15"
-                [formControl]="playerName"
+                [formControl]="playerNameControl"
                 (keydown.enter)="goToLobby()">
             <div *ngIf="isPatternValid()" class="error">
                 *{{ invalidPatternMessage }}
