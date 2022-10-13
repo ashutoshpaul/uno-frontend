@@ -1,1 +1,28 @@
-<p>join-room-dialog works!</p>
+<main>
+    <div class="header">Join Room</div>
+    <div class="body">
+        <input 
+            type="text" 
+            autofocus
+            maxlength="20"
+            placeholder="Enter room name"
+            [formControl]="roomControl"
+            (keydown.enter)="joinRoom()">
+    </div>
+    <div class="footer">
+        <div 
+            class="create" 
+            (click)="joinRoom()"
+            [ngClass]="{
+                'disabled': isInvalid, 
+                'active': !isInvalid
+            }">
+                Join
+            </div>
+        <div 
+            class="close" 
+            (click)="close()">
+            Close
+        </div>
+    </div>
+</main>
