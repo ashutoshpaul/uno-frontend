@@ -9,13 +9,13 @@ const routes: Routes = [
     path: "",
     pathMatch: "full",
     component: HomeComponent,
-    data: { animation: "fromRight" },
+    data: { animation: "right" },
   },
   {
     path: "lobby",
     component: LobbyComponent,
     canActivate: [NameGuard],
-    data: { animation: "toLeft" },
+    data: { animation: "left" },
   }
 ];
 
