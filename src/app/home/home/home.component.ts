@@ -14,11 +14,7 @@ import { enterButtonTrigger } from './../../dashboard-animations.animation';
 })
 export class HomeComponent implements OnInit {
 
-  invalidPatternMessage: string = 'Only letters and digits allowed';
-
   playerNameControl: FormControl;
-
-  isNameValid: boolean = false;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -39,20 +35,30 @@ export class HomeComponent implements OnInit {
 
     if (savedName) {
       this.playerNameControl.setValue(savedName);
-      this.isNameValid = !this.playerNameControl.invalid;
     }
-    this.playerNameControl.valueChanges.subscribe(_ => {
-      this.isNameValid = !this.playerNameControl.invalid;
-    });
   }
 
   goToLobby(): void {
-    this._sessionStorage.setItem('playerName', this.playerNameControl.value);
-    this._router.navigate(['lobby'], { relativeTo: this._activatedRoute });
+    if(!this.isInvalid) {
+      this._sessionStorage.setItem('playerName', this.playerNameControl.value);
+      this._router.navigate(['lobby'], { relativeTo: this._activatedRoute });
+    }
   }
 
-  isPatternValid(): boolean {
-    return !!this.playerNameControl.errors?.pattern;
+  get isInvalid(): boolean {
+    return this.playerNameControl.invalid;
+  }
+
+  get isDirty(): boolean {
+    return this.playerNameControl.dirty;
+  }
+
+  get errorMessage(): string {
+    if (this.playerNameControl.hasError("required")) { return "Enter value"; }
+    if (this.playerNameControl.hasError("minlength")) { return "Should be more than 2 letters"; }
+    if (this.playerNameControl.hasError("maxlength")) { return "Should be less than 16 letter"; }
+    if (this.playerNameControl.hasError("pattern")) { return "Only letter and digits allowed"; }
+    return null;
   }
 
 }

@@ -4,20 +4,20 @@
     </div>
     <div class="field">
         <div class="flex-field">
-            <input [ngClass]="{ 'shrink-width': isNameValid }"
+            <input [ngClass]="{ 'shrink-width': !isInvalid }"
                 type="text"
                 autofocus
                 placeholder="Hi Buddy. Your name?"
-                maxlength="15"
+                maxlength="20"
                 [formControl]="playerNameControl"
                 (keydown.enter)="goToLobby()">
-            <div *ngIf="isPatternValid()" class="error">
-                *{{ invalidPatternMessage }}
+            <div *ngIf="isDirty && isInvalid" class="error">
+                {{ errorMessage }}
             </div>
         </div>
         <mat-icon 
-            [@enterButton]="isNameValid"
-            *ngIf="isNameValid" 
+            [@enterButton]="!isInvalid"
+            *ngIf="!isInvalid" 
             (click)="goToLobby()">
             play_arrow
         </mat-icon>
