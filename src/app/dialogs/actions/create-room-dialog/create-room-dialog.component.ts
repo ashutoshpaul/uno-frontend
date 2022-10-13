@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogData } from '../../reactions/chosen-color-dialog/chosen-color-dialog.component';
 
 @Component({
   selector: 'app-create-room-dialog',
@@ -7,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateRoomDialogComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private readonly _dialogRef: MatDialogRef<CreateRoomDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) private readonly _data: DialogData,
+  ) { }
 
   ngOnInit(): void {
   }

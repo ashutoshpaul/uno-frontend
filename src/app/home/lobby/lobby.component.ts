@@ -52,6 +52,7 @@ export class LobbyComponent implements OnInit {
         outgoingOptions: roomDialogOutgoingOptionsConstant,
       },
       panelClass: 'choose-color-dialog',
+      data: { rooms: ['ABC', 'DEF', 'GHI', 'JKL'] },
     });
 
     // dialogRef.afterClosed().subscribe((options: IOptions) => {
