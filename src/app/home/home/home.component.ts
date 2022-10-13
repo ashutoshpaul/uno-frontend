@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     Validators.required, 
     Validators.minLength(3), 
     Validators.maxLength(15),
-    Validators.pattern('[a-zA-Z0-9]+'),
+    Validators.pattern('[a-zA-Z0-9]+'), // only letters and digits allowed
   ]);
 
   isNameValid: boolean = false;
