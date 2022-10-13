@@ -6,6 +6,7 @@
         <div class="flex-field">
             <input [ngClass]="{ 'shrink-width': isNameValid }"
                 type="text"
+                autofocus
                 placeholder="Hi Buddy. Your name?"
                 maxlength="15"
                 [formControl]="playerName"

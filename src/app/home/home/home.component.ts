@@ -32,6 +32,11 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const savedName: string = this._sessionStorage.getItem('playerName');
+    if (savedName) {
+      this.playerName.setValue(savedName);
+      this.isNameValid = true;
+    }
     this.playerName.valueChanges.subscribe(_ => {
       this.isNameValid = !this.playerName.invalid;
     });
