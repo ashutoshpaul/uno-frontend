@@ -105,14 +105,14 @@ main {
                 border-radius: 0.4rem;
 
                 &.create {
-                    background-color: green;
+                    background-color: #0090c7;
                     transition: 0.2s;
 
                     &:hover {
                         &.active {
                             transform: scale(1.2);
                             border: 1px solid white;
-                            box-shadow: 0px 0px 0px 1px green;
+                            box-shadow: 0px 0px 0px 1px #0090c7;
                         }
                     }
 
