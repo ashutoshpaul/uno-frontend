@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
     const savedName: string = this._sessionStorage.getItem('playerName');
     if (savedName) {
       this.playerName.setValue(savedName);
-      this.isNameValid = true;
+      this.isNameValid = !this.playerName.invalid;
     }
     this.playerName.valueChanges.subscribe(_ => {
       this.isNameValid = !this.playerName.invalid;
