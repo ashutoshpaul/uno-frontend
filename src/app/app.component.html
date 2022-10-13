@@ -1,4 +1,6 @@
-<router-outlet></router-outlet>
+<main [@slider]="prepareRoute(outlet)">
+  <router-outlet #outlet="outlet"></router-outlet>
+</main>
 <!-- <app-multi-player></app-multi-player> -->
 <!-- <app-two-player></app-two-player> -->
 <!-- <div class="dashboard" id="dashboard">
