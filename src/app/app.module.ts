@@ -19,6 +19,8 @@ import { SkipDialogComponent } from './dialogs/reactions/skip-dialog/skip-dialog
 import { OfflineDialogComponent } from './dialogs/reactions/offline-dialog/offline-dialog.component';
 import { JoinPlayersDialogComponent } from './dialogs/reactions/join-players-dialog/join-players-dialog.component';
 import { OfflinePlayerDialogComponent } from './dialogs/actions/offline-player-dialog/offline-player-dialog.component';
+import { CreateRoomDialogComponent } from './dialogs/actions/create-room-dialog/create-room-dialog.component';
+import { JoinRoomDialogComponent } from './dialogs/actions/join-room-dialog/join-room-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { OfflinePlayerDialogComponent } from './dialogs/actions/offline-player-d
     OfflineDialogComponent,
     JoinPlayersDialogComponent,
     OfflinePlayerDialogComponent,
+    CreateRoomDialogComponent,
+    JoinRoomDialogComponent,
     SkipDialogComponent,
     ChosenColorDialogComponent,
   ],

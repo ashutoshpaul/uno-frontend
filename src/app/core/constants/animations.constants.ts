@@ -108,3 +108,25 @@ export const offlineOpponentDialogOutgoingOptionsConstant = {
     duration: 500,
   },
 };
+
+export const roomDialogIncomingOptionsConstant = {
+  keyframes: [
+    { transform: "scale(0)" },
+    { transform: "scale(1)" },
+  ],
+  keyframeAnimationOptions: {
+    easing: "ease-in-out",
+    duration: 300,
+  },
+};
+
+export const roomDialogOutgoingOptionsConstant = {
+  keyframes: [
+    { transform: "scale(1)" },
+    { transform: "scale(0)" },
+  ],
+  keyframeAnimationOptions: {
+    easing: "ease-in-out",
+    duration: 300,
+  },
+};

@@ -1,5 +1,15 @@
 <main>
-    <div class="uno">
-        <img src="./../../assets/images/uno-logo.svg" />
-    </div>
+    <section>
+        <div class="container">
+            <div class="header">
+                <div class="name">Hi {{ playerName }}</div>
+                <mat-icon (click)="editPlayerName()">edit</mat-icon>
+            </div>
+            <div class="body">
+                <div class="create-room" (click)="createRoom()">Create Room</div>
+                <div class="join-room" (click)="joinRoom()">Join Room</div>
+            </div>
+            <div class="footer">3</div>
+        </div>
+    </section>
 </main>
