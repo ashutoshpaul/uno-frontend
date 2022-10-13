@@ -5,6 +5,7 @@ import { roomDialogIncomingOptionsConstant, roomDialogOutgoingOptionsConstant } 
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { CreateRoomDialogComponent } from 'src/app/dialogs/actions/create-room-dialog/create-room-dialog.component';
 import { JoinRoomDialogComponent } from 'src/app/dialogs/actions/join-room-dialog/join-room-dialog.component';
+import { IRoom, ROOM_STATUS } from './room/room.component';
 
 @Component({
   selector: 'app-lobby',
@@ -12,6 +13,11 @@ import { JoinRoomDialogComponent } from 'src/app/dialogs/actions/join-room-dialo
   styleUrls: ['./lobby.component.scss']
 })
 export class LobbyComponent implements OnInit {
+
+  room: IRoom = { 
+    status: ROOM_STATUS.roomCreated, 
+    name: "ABCDE",
+  };
 
   playerName: string;
 

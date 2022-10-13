@@ -9,7 +9,9 @@
                 <div class="create-room" (click)="createRoom()">Create Room</div>
                 <div class="join-room" (click)="joinRoom()">Join Room</div>
             </div>
-            <div class="footer">3</div>
+            <div class="footer">
+                <app-room [room]="room"></app-room>
+            </div>
         </div>
     </section>
 </main>
