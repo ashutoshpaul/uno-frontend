@@ -11,6 +11,8 @@ export class PlayersListComponent implements OnChanges, OnInit {
   readonly MAX_PLAYERS: number = 4;
 
   @Input() players: string[];
+  @Input() isGameStarted: boolean;
+
   players$: Observable<string[]>;
 
   constructor() { }
@@ -23,6 +25,7 @@ export class PlayersListComponent implements OnChanges, OnInit {
   }
 
   get message(): string {
+    if(this.isGameStarted) return 'Game has been started';
     if (this.players.length == 0) return 'Waiting for players to join room...';
     if (this.players.length < this.MAX_PLAYERS) return 'Waiting for more players to join';
     if (this.players.length > this.MAX_PLAYERS) return 'Maximum four players can play at a time';

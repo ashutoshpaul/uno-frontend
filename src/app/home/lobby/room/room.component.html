@@ -1,5 +1,5 @@
 <main>
-    <article>
+    <article *ngIf="isRoomDeleted else error">
         <section class="header">
             <div class="name">
                 {{ room.name }}
@@ -9,11 +9,15 @@
             </div>
         </section>
         <section class="body">
-            <app-players-list [players]="players"></app-players-list>
+            <app-players-list [players]="players" [isGameStarted]="isGameStarted"></app-players-list>
         </section>
         <section class="footer">
-            <div class="start-game"> {{ action }} </div>
-            <div class="leave-room">Leave Room</div>
+            <div class="delete-room" (click)="deleteRoom()">Delete Room</div>
+            <div class="leave-room" (click)="leaveRoom()">Leave Room</div>
+            <div class="start-game" (click)="invokeAction()"> {{ action }} </div>
         </section>
     </article>
+    <ng-template #error>
+        <div class="error"> Oops! Room doesn't exist </div>
+    </ng-template>
 </main>

@@ -15,7 +15,7 @@ import { IRoom, ROOM_STATUS } from './room/room.component';
 export class LobbyComponent implements OnInit {
 
   room: IRoom = { 
-    status: ROOM_STATUS.roomCreated, 
+    status: ROOM_STATUS.roomCreated,
     name: "ABCDE",
   };
 

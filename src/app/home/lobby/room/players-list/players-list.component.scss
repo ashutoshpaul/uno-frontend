@@ -37,9 +37,53 @@ main {
             flex-direction: column;
             justify-content: flex-start;
             align-items: flex-start;
+            row-gap: 0.5rem;
 
             div {
-                margin-bottom: 0.5rem;
+                width: 100%;
+                // background-color: yellow;
+
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+
+                padding: 0.05rem 1%;
+                box-sizing: border-box;
+                border-radius: 0.5rem;
+
+                &:hover {
+                    background-color: rgb(201, 201, 201, 0.5);
+                }
+
+                .left {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    background-color: transparent;
+                }
+
+                .right {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    align-items: center;
+                    background-color: transparent;
+                    
+                    mat-icon {
+                        color: rgb(252, 157, 157);
+                        transform: scale(0.8);
+                        transition: 0.2s;
+                        cursor: pointer;
+
+                        &:hover {
+                            color: red;
+                            transform: scale(1.1);
+                        }
+                    }
+
+                }
             }
         }
 
@@ -51,7 +95,8 @@ main {
             justify-content: center;
             align-items: center;
 
-            color: rgb(124, 122, 122)
+            font-weight: 300;
+            color: rgb(128, 125, 125);
             // background-color: darkcyan;
         }
     }
