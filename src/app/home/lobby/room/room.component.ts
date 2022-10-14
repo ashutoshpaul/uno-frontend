@@ -33,7 +33,7 @@ export class RoomComponent implements OnChanges, OnInit {
   constructor() { }
 
   ngOnChanges(): void {
-    this.roomStatus = this.room.status;
+    this.roomStatus = this.room?.status;
     this.room$ = of(this.room);
   }
 
@@ -61,7 +61,15 @@ export class RoomComponent implements OnChanges, OnInit {
   }
 
   get isRoomDeleted(): boolean {
-    return this.room.status == ROOM_STATUS.roomDeleted;
+    return this.room?.status == ROOM_STATUS.roomDeleted;
   }
 
+  get isRoomAvailable(): boolean {
+    return !!this.room;
+  }
+
+  get errorMessage(): string {
+    if(this.isRoomDeleted) return "Oops! Room doesn't exist.";
+    return "Create or join a room to play.";
+  }
 }
