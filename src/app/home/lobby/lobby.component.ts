@@ -20,6 +20,7 @@ export class LobbyComponent implements OnInit {
   };
 
   playerName: string;
+  isGameStarted: boolean = false;
 
   constructor(
     private readonly _router: Router,

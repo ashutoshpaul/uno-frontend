@@ -8,9 +8,11 @@
                 {{ (room.status == roomStatuses.roomCreated) ? 'Room Created' : 'Room Joined' }}
             </div>
         </section>
-        <section class="body"></section>
+        <section class="body">
+            <app-players-list [players]="players"></app-players-list>
+        </section>
         <section class="footer">
-            <div class="start-game">Start Game</div>
+            <div class="start-game"> {{ action }} </div>
             <div class="leave-room">Leave Room</div>
         </section>
     </article>

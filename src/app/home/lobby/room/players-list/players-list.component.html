@@ -1,0 +1,13 @@
+<main #main *ngIf="(players$ | async) as players; else empty">
+    <section class="players">
+        <div *ngFor="let player of players; let i = index;">
+            {{ i + 1 }}. {{ player }}
+        </div>
+    </section>
+    <section class="message"> {{ message }} </section>
+</main>
+<ng-template #empty>
+    <main class="empty">
+        {{ message }}
+    </main>
+</ng-template>

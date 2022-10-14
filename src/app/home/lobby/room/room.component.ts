@@ -18,12 +18,19 @@ export interface IRoom {
 export class RoomComponent implements OnInit {
 
   @Input() room: IRoom;
+  @Input() isGameStarted: boolean = false;
+
+  players: string[] = ['Samuel', 'Jack', 'Harry'];
 
   readonly roomStatuses: typeof ROOM_STATUS = ROOM_STATUS;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  get action() {
+    return (this.isGameStarted) ? 'Join Game' : 'Start Game';
   }
 
 }
