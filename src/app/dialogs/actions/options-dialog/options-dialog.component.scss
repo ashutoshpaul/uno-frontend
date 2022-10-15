@@ -71,6 +71,22 @@ main {
 
                 }
 
+                &.chat {
+                    display: flex;
+                    // background-color: #9f0000;
+
+                    mat-icon {
+                        color: black;
+                        cursor: pointer;
+                        transition: 0.2s;
+                        transform: scale(1);
+
+                        &:hover {
+                            transform: scale(1.6);
+                        }
+                    }
+                }
+
                 &.full-screen {
                     // background-color: #9f0000;
 

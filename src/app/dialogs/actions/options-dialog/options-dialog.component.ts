@@ -30,6 +30,11 @@ export class OptionsDialogComponent implements OnInit {
     }, 500);
   }
 
+  toggleChat(): void {
+    this.close();
+    // setTimeout(() => {}, 500);
+  }
+
   close(options?: IOptions): void {
     this._dialogRef.close(options);
   }
