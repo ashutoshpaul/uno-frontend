@@ -46,6 +46,10 @@ main {
                         
                         .header {
                             text-align: right;
+
+                            .name {
+                                visibility: hidden;
+                            }
                         }
 
                         .body {
