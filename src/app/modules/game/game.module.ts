@@ -5,13 +5,13 @@ import { GameRoutingModule } from './game-routing.module';
 import { UnoBoardComponent } from './uno-board/uno-board.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
-import { CardDisplacementCoordinateDirective } from 'src/app/card-displacement-coordinate.directive';
-import { CardGlowDirective } from 'src/app/card-glow.directive';
-import { CardDirective } from 'src/app/card.directive';
-import { CurrentColorDirective } from 'src/app/current-color.directive';
-import { CurrentPlayerDirective } from 'src/app/current-player.directive';
 import { RouterModule } from '@angular/router';
 import { GameComponent } from './game.component';
+import { CardDisplacementCoordinateDirective } from 'src/app/core/directives/card-displacement-coordinate.directive';
+import { CardGlowDirective } from 'src/app/core/directives/card-glow.directive';
+import { CardDirective } from 'src/app/core/directives/card.directive';
+import { CurrentColorDirective } from 'src/app/core/directives/current-color.directive';
+import { CurrentPlayerDirective } from 'src/app/core/directives/current-player.directive';
 
 @NgModule({
   declarations: [ 

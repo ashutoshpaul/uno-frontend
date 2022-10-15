@@ -1,5 +1,5 @@
 import { Directive, Input, OnChanges, HostBinding } from '@angular/core';
-import { COLOR_CODE_ENUM, VALID_COLOR_CODE } from './core/enums/color-code.enum';
+import { VALID_COLOR_CODE, COLOR_CODE_ENUM } from '../enums/color-code.enum';
 
 @Directive({
   selector: '[appCurrentColor]'
