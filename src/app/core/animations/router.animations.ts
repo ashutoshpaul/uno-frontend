@@ -55,4 +55,49 @@ export const sliderTrigger = trigger('slider', [
             ], { optional: true}),
         ]),
     ]),
+    transition('left => game', [
+        group([
+            query(':leave', [
+                query('main', [
+                    style({
+                        opacity: "1",
+                    }),
+                ]),
+                query('main', [
+                    animate(`1s linear`, style({ 
+                        opacity: '0'
+                    })),
+                ]),
+            ], { optional: true }),
+            query(':enter', [
+                query('div', [
+                    style({
+                        opacity: "0",
+                    }),
+                ]),
+                query('div', [
+                    animate(`1.5s 1s ease-in-out`, style({ 
+                        opacity: "1",
+                    })),
+                ]),
+            ]),
+        ]),
+    ]),
+    // on refresh
+    transition('* => game', [
+        group([
+            query(':enter', [
+                query('div', [
+                    style({
+                        opacity: "0",
+                    }),
+                ]),
+                query('div', [
+                    animate(`1s ease-in-out`, style({ 
+                        opacity: "1",
+                    })),
+                ]),
+            ]),
+        ]),
+    ]),
 ]);

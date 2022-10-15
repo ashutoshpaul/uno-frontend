@@ -2,7 +2,7 @@ import { AnimationEvent } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { sliderTrigger } from './animations/router.animations';
+import { sliderTrigger } from './core/animations/router.animations';
 import { CARD_ANIMATION_ENUM } from './core/enums/animation.enum';
 import { revealCardsTrigger, cardActivityTrigger, drawerDeckCardActivityTrigger } from './dashboard-animations.animation';
 
