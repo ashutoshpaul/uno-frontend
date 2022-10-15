@@ -1,10 +1,20 @@
 <main>
-    <section style="margin-bottom: 1.2rem;">
-        <mat-icon>exit_to_app</mat-icon>
-    </section>
-    <section>{{ message }}</section>
-    <section class="wait">Waiting for players to rejoin...</section>
-    <section class="leave" (click)="leaveRoom()">
-        <div>Leave Room</div>
-    </section>
+    <ng-container *ngIf="isNoPlayers$ | async else online">
+        <section style="margin-bottom: 1.2rem;">
+            <mat-icon>exit_to_app</mat-icon>
+        </section>
+        <section>{{ message }}</section>
+        <section class="wait">Waiting for players to rejoin...</section>
+        <section class="leave" (click)="leaveRoom()">
+            <div>Leave Room</div>
+        </section>
+    </ng-container>
+    <ng-template #online>
+        <div class="online">
+            <mat-icon>wifi</mat-icon>
+            <div class="message">
+                {{ playerName }} is back
+            </div>
+        </div>
+    </ng-template>
 </main>
