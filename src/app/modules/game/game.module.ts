@@ -12,6 +12,7 @@ import { CardGlowDirective } from 'src/app/core/directives/card-glow.directive';
 import { CardDirective } from 'src/app/core/directives/card.directive';
 import { CurrentColorDirective } from 'src/app/core/directives/current-color.directive';
 import { CurrentPlayerDirective } from 'src/app/core/directives/current-player.directive';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [ 
@@ -22,6 +23,7 @@ import { CurrentPlayerDirective } from 'src/app/core/directives/current-player.d
     CardGlowDirective,
     CurrentPlayerDirective,
     CurrentColorDirective,
+    ChatComponent,
   ],
   imports: [
     CommonModule,

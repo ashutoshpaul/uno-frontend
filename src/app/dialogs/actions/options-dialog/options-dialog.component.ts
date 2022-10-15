@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import * as screenfull from 'screenfull';
+import { ChatService } from 'src/app/core/services/chat.service';
 import { IOptions } from 'src/app/multi-player/multi-player.component';
 
 @Component({
@@ -13,8 +14,11 @@ export class OptionsDialogComponent implements OnInit {
   isFullScreen: boolean = false;
   networkType: string;
 
+  readonly DELAY: number = 500;
+
   constructor(
     private readonly _dialogRef: MatDialogRef<OptionsDialogComponent>,
+    private readonly _chatService: ChatService,
   ) { }
 
   ngOnInit(): void {
@@ -27,12 +31,14 @@ export class OptionsDialogComponent implements OnInit {
     setTimeout(() => {
       this.isFullScreen = !this.isFullScreen;
       if(screenfull.isEnabled) screenfull.toggle();
-    }, 500);
+    }, this.DELAY);
   }
 
   toggleChat(): void {
     this.close();
-    // setTimeout(() => {}, 500);
+    setTimeout(() => {
+      this._chatService.toggleChat();
+    }, this.DELAY);
   }
 
   close(options?: IOptions): void {

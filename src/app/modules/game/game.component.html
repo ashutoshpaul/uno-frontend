@@ -1,1 +1,15 @@
-<app-uno-board></app-uno-board>
+<mat-drawer-container>
+
+    <mat-drawer 
+        class="example-sidenav" 
+        mode="side" 
+        position="end" 
+        [opened]="isChatOpen$ | async">
+        <app-chat></app-chat>
+    </mat-drawer>
+
+    <ng-container>
+        <app-uno-board></app-uno-board>
+    </ng-container>
+
+</mat-drawer-container>
