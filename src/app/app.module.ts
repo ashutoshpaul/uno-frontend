@@ -17,6 +17,7 @@ import { OfflinePlayerDialogComponent } from './dialogs/actions/offline-player-d
 import { CreateRoomDialogComponent } from './dialogs/actions/create-room-dialog/create-room-dialog.component';
 import { JoinRoomDialogComponent } from './dialogs/actions/join-room-dialog/join-room-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PlayersLeftDialogComponent } from './dialogs/reactions/players-left-dialog/players-left-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     OptionsDialogComponent,
     ReverseDialogComponent,
     OfflineDialogComponent,
+    PlayersLeftDialogComponent,
     JoinPlayersDialogComponent,
     OfflinePlayerDialogComponent,
     CreateRoomDialogComponent,

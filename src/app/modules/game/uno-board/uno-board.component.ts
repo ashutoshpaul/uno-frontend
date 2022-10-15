@@ -37,6 +37,7 @@ import { JoinPlayersDialogComponent } from 'src/app/dialogs/reactions/join-playe
 import { OfflineDialogComponent } from 'src/app/dialogs/reactions/offline-dialog/offline-dialog.component';
 import { ReverseDialogComponent } from 'src/app/dialogs/reactions/reverse-dialog/reverse-dialog.component';
 import { SkipDialogComponent } from 'src/app/dialogs/reactions/skip-dialog/skip-dialog.component';
+import { PlayersLeftDialogComponent } from 'src/app/dialogs/reactions/players-left-dialog/players-left-dialog.component';
 
 export interface IOptions {
   isFullScreen: boolean;
@@ -539,6 +540,20 @@ export class UnoBoardComponent implements OnInit {
       },
       panelClass: 'choose-color-dialog',
       data: { playerName: 'Samuel' },
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    // });
+  }
+
+  allPlayersLeft(): void {
+    const dialogRef = this._dialog.open(PlayersLeftDialogComponent, {
+      animation: {
+        incomingOptions: offlineOpponentDialogIncomingOptionsConstant,
+        outgoingOptions: offlineOpponentDialogOutgoingOptionsConstant,
+      },
+      panelClass: 'choose-color-dialog',
     });
 
     // dialogRef.afterClosed().subscribe(result => {

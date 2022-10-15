@@ -1,4 +1,4 @@
-import { transition, trigger, query, style, animate, group, sequence } from "@angular/animations";
+import { transition, trigger, query, style, animate, group } from "@angular/animations";
 
 const DURATION: string = '1s';
 
@@ -85,19 +85,19 @@ export const sliderTrigger = trigger('slider', [
     ]),
     // on refresh
     transition('* => game', [
-        group([
-            query(':enter', [
-                query('div', [
-                    style({
-                        opacity: "0",
-                    }),
-                ]),
-                query('div', [
-                    animate(`1s ease-in-out`, style({ 
-                        opacity: "1",
-                    })),
-                ]),
-            ]),
-        ]),
+        // group([
+        //     query(':enter', [
+        //         query('div', [
+        //             style({
+        //                 opacity: "0",
+        //             }),
+        //         ]),
+        //         query('div', [
+        //             animate(`1s ease-in-out`, style({ 
+        //                 opacity: "1",
+        //             })),
+        //         ]),
+        //     ]),
+        // ]),
     ]),
 ]);
