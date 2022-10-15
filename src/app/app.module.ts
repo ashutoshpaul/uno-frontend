@@ -26,13 +26,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
-    CardDirective,
+    // CardDirective,
     TwoPlayerComponent,
     MultiPlayerComponent,
-    CardDisplacementCoordinateDirective,
-    CardGlowDirective,
-    CurrentPlayerDirective,
-    CurrentColorDirective,
+    // CardDisplacementCoordinateDirective,
+    // CardGlowDirective,
+    // CurrentPlayerDirective,
+    // CurrentColorDirective,
     ChooseColorDialogComponent,
     OptionsDialogComponent,
     ReverseDialogComponent,

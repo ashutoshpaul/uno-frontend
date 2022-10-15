@@ -1,1 +1,281 @@
-<p>uno-board works!</p>
+<div class="dashboard" id="dashboard">
+    <ng-container *ngIf="false">
+      <button
+        label="Discard First Card" 
+        (click)="discardDrawerDeckCard()" 
+        style="width: 150px; height: 30px">
+        Discard First Card
+      </button>
+      <button
+        label="Shuffle Cards" 
+        (click)="shuffleCards()" 
+        style="width: 150px; height: 30px">
+        Shuffle Cards
+      </button>
+      <button
+        label="Choose Color" 
+        (click)="chooseColor()" 
+        style="width: 150px; height: 30px">
+        Choose Color
+      </button>
+      <button
+        label="Chosen Color" 
+        (click)="chosenColorAlert()" 
+        style="width: 150px; height: 30px">
+        Chosen Color
+      </button>
+      <button
+        label="Change Direction"
+        (click)="toggleGameDirection()" 
+        style="width: 150px; height: 30px">
+        Change Direction
+      </button>
+      <button
+        label="Pick Card"
+        (click)="pickCard()" 
+        style="width: 150px; height: 30px">
+        Pick Card
+      </button>
+      <button
+        label="Toggle Skip"
+        (click)="toggleSkip()" 
+        style="width: 150px; height: 30px">
+        Toggle Skip
+      </button>
+      <button
+        label="Reverse Alert"
+        (click)="reverseAlert()" 
+        style="width: 150px; height: 30px">
+        Reverse Alert
+      </button>
+      <button
+        label="Skip"
+        (click)="skipAlert()" 
+        style="width: 150px; height: 30px">
+        Skip
+      </button>
+      <button
+        label="Offline Alert"
+        (click)="offlineAlert()" 
+        style="width: 150px; height: 30px">
+        Offline Alert
+      </button>
+      <button
+        label="Players Joined"
+        (click)="playersJoinedAlert()" 
+        style="width: 150px; height: 30px">
+        Players Joined
+      </button>
+      <button
+        label="Offline Player"
+        (click)="offlinePlayerAction()" 
+        style="width: 150px; height: 30px">
+        Offline Player
+      </button>
+    </ng-container>
+      <div class="border">
+        <div appCurrentPlayer [playerPosition]="currentPlayerPosition"></div>
+      </div>
+      <div class="draw-discard-deck" appCurrentColor [color]="colorCode">
+        <div class="direction">
+          <mat-icon [ngClass]="{
+            'direction-clockwise': clockwise,
+            'direction-anti-clockwise': !clockwise
+          }">east</mat-icon>
+        </div>
+        <div class="draw-discard-deck-container" appCurrentColor [color]="colorCode" position="top">
+          <div 
+            class="drawer-deck" 
+            id="drawer-deck"
+            (click)="addCard()">
+            <!-- discard -->
+            <div [@drawerDeckCardActivity]="{
+                value: isDrawerDeckCardRevealed,
+                params: { xDiscardPosition: destinationOfDiscardPileXPositionFromDrawerDeck() }
+              }" 
+              class="uno-card drawer-deck-uno-card">
+              <div card class="uno-card-container"></div>
+            </div>
+            <!-- shuffle-three-cards -->
+            <div class="shuffle-three-cards" [@shuffleCards]="isShuffleCards">
+              <div class="uno-card drawer-deck-uno-card">
+                <div 
+                  card class="uno-card-container" 
+                  style="transform: rotateY(180deg)">
+                </div>
+              </div>
+              <div class="uno-card drawer-deck-uno-card">
+                <div
+                  card class="uno-card-container" 
+                  style="transform: rotateY(180deg)">
+                </div>
+              </div>
+              <div class="uno-card drawer-deck-uno-card">
+                <div
+                  card class="uno-card-container" 
+                  style="transform: rotateY(180deg)">
+                </div>
+              </div>
+              <mat-icon>pan_tool</mat-icon>
+            </div>
+            <!-- pick-one-card -->
+            <div class="pick-one-card" *ngIf="isPickCard">
+              <div class="uno-card drawer-deck-uno-card">
+                <div 
+                  card class="uno-card-container"
+                  style="transform: rotateY(180deg)">
+                </div>
+              </div>
+              <div class="uno-card drawer-deck-uno-card">
+                <div
+                  card class="uno-card-container"
+                  style="transform: rotateY(180deg)">
+                </div>
+              </div>
+              <mat-icon>pan_tool_alt</mat-icon>
+            </div>
+          </div>
+          <div class="discard-pile" id="discard-pile"></div>
+        </div>
+      </div>
+  
+      <!-- left-opponent-player -->
+      <div class="left-opponent-cards-tray">
+        <div class="opponent-name-container opponent-name" [ngClass]="{'active': true}">
+          <div>left-player</div>
+        </div>
+        <ng-container *ngIf="cards$ | async as freshCards">
+          <div class="left-opponent-cards-tray-container"
+            [@placeOpponentCards]="{value: leftOpponentCards.length}">
+            <div appCardDisplacementCoordinate
+              #coordinates="appCardDisplacementCoordinate"
+              position="left"
+              class="uno-card opponent-uno-card"
+              id="left-player-uno-card-{{i}}"
+              *ngFor="let card of leftOpponentCards; let i = index"
+              [@leftPlayerCardActivity]="{
+                value: card.state,
+                  params: {
+                    xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
+                    yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
+                    xOriginPosition: coordinates.originOfCardXPosition(i),
+                    yOriginPosition: coordinates.originOfCardYPosition(i)
+                  }
+              }"
+              (click)="leftPlayerCardClicked(i)">
+              <div card cardType="opponent" class="uno-card-container"></div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+  
+      <!-- front-opponent-player -->
+      <div class="front-opponent-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
+        <div class="opponent-name-container opponent-name">
+          <div>front-player</div>
+        </div>
+        <ng-container *ngIf="cards$ | async as freshCards">
+          <div class="front-opponent-cards-tray-container"
+          [@placeOpponentCards]="{value: opponentCards.length}">
+            <div appCardDisplacementCoordinate
+              #coordinates="appCardDisplacementCoordinate"
+              position="top"
+              class="uno-card opponent-uno-card"
+              id="front-player-uno-card-{{i}}"
+              *ngFor="let card of opponentCards; let i = index"
+              [@topPlayerCardActivity]="{
+                value: card.state,
+                params: {
+                  xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
+                  yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
+                  xOriginPosition: coordinates.originOfCardXPosition(i),
+                  yOriginPosition: coordinates.originOfCardYPosition()
+                }
+              }"
+              (click)="frontPlayerCardClicked(i)">
+              <div card cardType="opponent" class="uno-card-container"></div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+  
+      <!-- right-opponent-player -->
+      <div class="right-opponent-cards-tray">
+        <div class="opponent-name-container opponent-name">
+          <div>right-player</div>
+        </div>
+        <div class="right-opponent-cards-tray-container"
+          [@placeOpponentCards]="{value: leftOpponentCards.length}">
+          <div appCardDisplacementCoordinate
+            #coordinates="appCardDisplacementCoordinate"
+            position="right"
+            class="uno-card opponent-uno-card"
+            id="right-player-uno-card-{{i}}"
+            *ngFor="let card of rightOpponentCards; let i = index"
+            [@rightPlayerCardActivity]="{
+              value: card.state,
+              params: {
+                xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
+                yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
+                xOriginPosition: coordinates.originOfCardXPosition(i),
+                yOriginPosition: coordinates.originOfCardYPosition(i)
+              }
+            }"
+            (click)="rightPlayerCardClicked(i)">
+            <div card cardType="opponent" class="uno-card-container"></div>
+        </div>
+        </div>
+    </div>
+
+    <!-- player -->
+    <div class="player-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
+        <ng-container *ngIf="cards$ | async as freshCards">
+        <div class="skip-button" (click)="skip()"
+            matTooltip="Skip" matTooltipPosition="before" matTooltipClass="skip-tooltip"
+            [@buttonAppear]="isSkipVisible">
+            <mat-icon>arrow_drop_down_circle</mat-icon>
+        </div>
+        <div
+            [@revealCards]="{value: freshCards.length}"
+            (@revealCards.start)="toggleCardsTray(false)"
+            (@revealCards.done)="toggleCardsTray(true)"
+            class="player-cards-tray-container">
+            <div appCardDisplacementCoordinate
+            #coordinates="appCardDisplacementCoordinate"
+            position="bottom"
+            class="uno-card"
+            id="uno-card-{{i}}"
+              *ngFor="let card of freshCards; let i = index"
+            [@cardActivity]="{
+                value: card.state,
+                params: { 
+                xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
+                yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
+                xOriginPosition: coordinates.originOfCardXPosition(i),
+                yOriginPosition: coordinates.originOfCardYPosition()
+                }
+            }"
+            (mouseenter)="cardHovering(i)"
+            (mouseleave)="cardHovered(i)"
+            (@cardActivity.start)="disableCardsTrayTemporarily($event)"
+            (click)="cardClicked(i)">
+            <div 
+                card 
+                appCardGlow 
+                [color]="card.color"
+                [isLegal]="card.isLegal" 
+                class="uno-card-container">
+            </div>
+            </div>
+        </div>
+        </ng-container>
+    </div>
+    
+    <!-- options button -->
+    <div
+        #options_button
+        class="options-button"
+        (click)="openOptionsDialog()">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+    </div>
+</div>

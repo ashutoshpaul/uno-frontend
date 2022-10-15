@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UnoBoardComponent } from './uno-board/uno-board.component';
+import { GameComponent } from './game.component';
 
 const routes: Routes = [
   {
     path: "",
-    component: UnoBoardComponent,
+    component: GameComponent,
   }
 ];
 

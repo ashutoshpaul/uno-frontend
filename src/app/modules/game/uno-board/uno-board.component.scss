@@ -1,0 +1,493 @@
+.dashboard {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    // background-color: #00041e;
+    background: rgb(2,0,36);
+    background: linear-gradient(10deg, rgba(2,0,36,1) 0%, rgba(0,59,71,1) 100%);
+
+        .current-player-bottom, .current-player-top, .current-player-left, .current-player-right {
+            position: absolute;
+        }
+
+        .current-player-left, .current-player-top, .current-player-right {
+            animation: 1.2s current-opponent-player ease-in-out infinite;
+        }
+
+        .current-player-top, .current-player-bottom {
+            width: 100vw;
+            left: 0px;
+            right: 0px;
+            height: 0px;
+        }
+
+        .current-player-left, .current-player-right {
+            height: 100vh;
+            width: 0;
+            top: 0px;
+            bottom: 0px;
+            width: 0px;
+        }
+
+        .current-player-top {
+            top: 0px;
+        }
+
+        .current-player-bottom {
+            bottom: 0px;
+            box-shadow: 0px 0px 18px 9px rgb(0, 193, 231);
+        }
+
+        .current-player-left {
+            left: 0px;
+        }
+
+        .current-player-right {
+            right: 0px;
+        }
+}
+
+.player-cards-tray {
+    position: absolute;
+    bottom: 4vh;
+    left: 13vw;
+    right: 13vw;
+    height: 9rem;
+    min-height: 100px;
+    max-height: 300px;
+    // background-color: yellow;
+    padding: 0.5rem;
+
+    .player-cards-tray-container {
+        width: 100%;
+        height: 100%;
+        display:inline-flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+
+        // background-color: aqua;
+    }
+
+    .skip-button {
+        position: absolute;
+        top: -2rem;
+        right: 2rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        
+        .mat-icon {
+            color: rgb(0, 193, 231);
+            transform: rotateZ(-90deg) scale(1.8);
+            transition: transform 0.3s;
+            
+            &:hover {
+                transform: rotateZ(-90deg) scale(2.8);
+            }
+        }
+
+    }
+}
+
+.draw-discard-deck {
+    position: absolute;
+    top: calc(50vh - 8rem / 2);
+    width: 26vw;
+    min-width: 200px;
+    max-width: 300px;
+    height: 8.5rem;
+    min-height: 100px;
+    max-height: 300px;
+    // background-color: rgb(8, 240, 0);
+    padding: 0.3rem;
+    border-bottom: 0.1rem solid;
+
+    .direction {
+        position: absolute;
+        top: -1.5rem;
+        left: 0px;
+        right: 0px;
+        width: 100%;
+        
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        perspective: 1000px;
+        
+        mat-icon {
+            color: white;
+            font-weight: 500;
+            transform: scale(1.6);
+            text-shadow:
+                0 0 2px #fff,
+                0 0 3px #fff;
+
+            &.direction-clockwise {
+                animation: 2s clockwise-direction linear infinite;
+            }
+
+            &.direction-anti-clockwise {
+                animation: 2s anti-clockwise-direction linear infinite;
+            }
+        }
+    }
+
+    .draw-discard-deck-container {
+        width: 100%;
+        height: 100%;
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+
+        // background-color: aqua;
+        border-bottom: 0.15rem solid;
+
+        .drawer-deck {
+            height: 6rem;
+            width: 4.2rem;
+            // border-radius: 0.4rem;
+            // border-color: rgb(77, 77, 77);
+            // border-style: solid;
+
+            background-color: rgb(139, 255, 139);
+
+            cursor: pointer;
+        }
+    
+        .discard-pile {
+            height: 6rem;
+            width: 4.2rem;
+            // border-radius: 0.4rem;
+            // border-color: rgb(77, 77, 77);
+            // border-style: solid;
+    
+            background-color: rgb(255, 101, 101);
+        }
+    }
+}
+
+.uno-card {
+    position: relative;
+    height: 7rem;
+    width: 5rem;
+    min-width: 4rem;
+    border-radius: 0.4rem;
+    
+    cursor: pointer;
+    perspective: 1000px;
+    margin-left: clamp(-4rem, -2.5rem, -2.8rem);
+
+    &.drawer-deck-uno-card {
+        position: absolute;
+        height: inherit;
+        width: inherit;
+        margin-left: unset;
+    }
+
+    &.opponent-uno-card {
+        height: 5.5rem;
+        width: 4rem;
+        min-width: 2.5rem;
+    }
+
+    .uno-card-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 0.4rem;
+        border-color: rgb(77, 77, 77);
+        border-style: solid;
+        border-width: 2px;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+
+        animation: 1.2s 1s legal-card-blink infinite;
+
+        .uno-card-front, .uno-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        
+        .uno-card-front {
+            background: red;
+        }
+        
+        .uno-card-back {
+            background: url(./../../../../assets/images/uno-back.jpeg);
+            background-repeat: round;
+            transform: rotateY(180deg);
+        }
+    }
+}
+
+.cardsTrayDisabled {
+    pointer-events: none;
+}
+
+.front-opponent-cards-tray {
+    position: absolute;
+    top: 4vh;
+    left: 4vw;
+    margin-left: 7rem;
+    right: 4vw;
+    margin-right: 7rem;
+    height: 5.5rem;
+    min-height: 70px;
+    max-height: 250px;
+    // background-color: rgb(255, 123, 0);
+    padding: 0.5rem;
+
+    .opponent-name-container {
+        position: absolute;
+        left: calc(12rem);
+        right: calc(12rem);
+    }
+
+    .front-opponent-cards-tray-container {
+        width: calc(100% - 2.5rem);
+        height: 100%;
+        display:inline-flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+        padding-left: 2.5rem;
+    
+        // background-color: rgb(72, 255, 0);
+    }
+}
+
+.left-opponent-cards-tray {
+    position: absolute;
+    height: 5.5rem;
+    min-height: 70px;
+    max-height: 250px;
+    
+    left: calc(4vw + 5.5rem);
+    bottom: calc(4vh + 11rem);
+    
+    transform-origin: bottom left;
+    transform: rotateZ(-90deg);
+
+    width: calc(100vh - 11vh - 11rem);
+    // background-color: rgb(255, 0, 149);
+    padding: 0.5rem;
+
+    .opponent-name-container {
+        position: absolute;
+        left: calc(6rem);
+        right: calc(6rem);
+    }
+
+    .left-opponent-cards-tray-container {
+        width: calc(100% - 2.5rem);
+        height: 100%;
+        display:inline-flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+        padding-left: 2.5rem;
+    
+        // background-color: rgb(29, 167, 98);
+    }
+}
+
+.right-opponent-cards-tray {
+    position: absolute;
+    height: 5.5rem;
+    min-height: 70px;
+    max-height: 250px;
+    
+    right: calc(4vw + 5.5rem);
+    bottom: calc(4vh + 11rem);
+    
+    transform-origin: bottom right;
+    transform: rotateZ(90deg);
+
+    width: calc(100vh - 11vh - 11rem);
+    // background-color: rgb(89, 0, 255);
+    padding: 0.5rem;
+
+    .opponent-name-container {
+        position: absolute;
+        left: calc(6rem);
+        right: calc(6rem);
+    }
+
+    .right-opponent-cards-tray-container {
+        width: calc(100% - 2.5rem);
+        height: 100%;
+        display:inline-flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+        padding-left: 2.5rem;
+    
+        // background-color: rgb(230, 190, 105);
+    }
+}
+
+.opponent-name {
+    bottom: -2rem;
+    height: 1rem;
+    color: white;
+    padding-top: 5px;
+
+    letter-spacing: 1px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+
+    border-width: 2px;
+    border-style: solid;
+    border-image: linear-gradient(to right, transparent, white, transparent) 1;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+
+    &.active {
+        animation: 1.2s active-opponent-name-blink ease-in-out infinite;
+    }
+}
+
+.options-button {
+    position: absolute;
+    bottom: 0px;
+    right: 4.5vw;
+    width: 2.7rem;
+    height: 1.7rem;
+    overflow: hidden;
+    border-radius: 0.6rem;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: white;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+
+    transition: 0.2s;
+    
+    &:hover {
+        height: 2.5rem;
+
+        mat-icon {
+            font-weight: bold;
+            height: 100%;
+            animation: vertical 0.7s reverse infinite;
+        }
+    }
+}
+
+.shuffle-three-cards {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+
+    mat-icon {
+        position: absolute;
+        bottom: 2rem;
+        color: rgb(255, 153, 58);
+        transform: scale(2.5) rotateZ(90deg);
+    }
+}
+
+.pick-one-card {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+
+    .uno-card:nth-child(2) {
+        margin-left: 3px;
+        transform: rotateY(180deg) translateY(0rem);
+        animation: 1s pick-card ease-in-out infinite;
+        box-shadow: 0px 0px 12px 10px rgba(0,0,0,0.59);
+    }
+
+    mat-icon {
+        position: absolute;
+        bottom: 0rem;
+        left: 1.2rem;
+        color: rgb(255, 153, 58);
+        transform: scale(2.5);
+    }
+
+    .uno-card > .uno-card-container > .uno-card-back {
+        transform: unset;
+    }
+}
+
+@keyframes legal-card-blink {
+    50% { box-shadow: unset; }
+}
+
+@keyframes vertical {
+    0% { transform: scale(1.5) translateY(0.2rem); }
+    100% { transform: scale(1.5) translateY(1rem); }
+}
+
+@keyframes clockwise-direction {
+    0% { 
+        transform: translateX(-9vw) rotateZ(0deg) rotateY(60deg) scale(0.4);
+        opacity: 0;
+    }
+    50% { 
+        transform: translateX(0vw) rotateZ(0deg) rotateY(0deg) scale(1.2);
+        opacity: 1;
+    }
+    100% { 
+        transform: translateX(9vw) rotateZ(0deg) rotateY(-60deg) scale(0.4);
+        opacity: 0;
+    }
+}
+
+@keyframes anti-clockwise-direction {
+    0% { 
+        transform: translateX(9vw) rotateZ(180deg) rotateY(-60deg) scale(0.4);
+        opacity: 0;
+    }
+    50% { 
+        transform: translateX(0vw) rotateZ(180deg) rotateY(0deg) scale(1.2);
+        opacity: 1;
+    }
+    100% { 
+        transform: translateX(-9vw) rotateZ(180deg) rotateY(60deg) scale(0.4);
+        opacity: 0;
+    }
+}
+
+@keyframes current-opponent-player {
+    0% {
+        box-shadow: 0px 0px 15px 6px rgb(0, 120, 145);
+    }
+    50% {
+        box-shadow: 0px 0px 30px 15px rgb(0, 193, 231);
+    }
+    100% {
+        box-shadow: 0px 0px 15px 6px rgb(0, 120, 145);
+    }
+}
+
+@keyframes pick-card {
+    50% { transform: rotateY(180deg) translateY(-1rem); }
+}
+
+@keyframes active-opponent-name-blink {
+    50% { text-shadow: 0 0 4px #fff, 0 0 6px #fff; }
+}

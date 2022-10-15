@@ -1,4 +1,4 @@
-<div class="dashboard" id="dashboard">
+<!-- <div class="dashboard" id="dashboard">
   <ng-container *ngIf="false">
     <button
       label="Discard First Card" 
@@ -88,7 +88,7 @@
           class="drawer-deck" 
           id="drawer-deck"
           (click)="addCard()">
-          <!-- discard -->
+          
           <div [@drawerDeckCardActivity]="{
               value: isDrawerDeckCardRevealed,
               params: { xDiscardPosition: destinationOfDiscardPileXPositionFromDrawerDeck() }
@@ -96,7 +96,7 @@
             class="uno-card drawer-deck-uno-card">
             <div card class="uno-card-container"></div>
           </div>
-          <!-- shuffle-three-cards -->
+          
           <div class="shuffle-three-cards" [@shuffleCards]="isShuffleCards">
             <div class="uno-card drawer-deck-uno-card">
               <div 
@@ -118,7 +118,7 @@
             </div>
             <mat-icon>pan_tool</mat-icon>
           </div>
-          <!-- pick-one-card -->
+          
           <div class="pick-one-card" *ngIf="isPickCard">
             <div class="uno-card drawer-deck-uno-card">
               <div 
@@ -139,7 +139,7 @@
       </div>
     </div>
 
-    <!-- left-opponent-player -->
+    
     <div class="left-opponent-cards-tray">
       <div class="opponent-name-container opponent-name" [ngClass]="{'active': true}">
         <div>left-player</div>
@@ -169,7 +169,7 @@
       </ng-container>
     </div>
 
-    <!-- front-opponent-player -->
+    
     <div class="front-opponent-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
       <div class="opponent-name-container opponent-name">
         <div>front-player</div>
@@ -199,7 +199,7 @@
       </ng-container>
     </div>
 
-    <!-- right-opponent-player -->
+    
     <div class="right-opponent-cards-tray">
       <div class="opponent-name-container opponent-name">
         <div>right-player</div>
@@ -227,7 +227,7 @@
       </div>
     </div>
 
-    <!-- player -->
+    
     <div class="player-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
       <ng-container *ngIf="cards$ | async as freshCards">
         <div class="skip-button" (click)="skip()"
@@ -271,11 +271,11 @@
       </ng-container>
     </div>
   
-    <!-- options button -->
+    
     <div
       #options_button
       class="options-button"
       (click)="openOptionsDialog()">
       <mat-icon>keyboard_arrow_up</mat-icon>
     </div>
-</div>
+</div> -->
