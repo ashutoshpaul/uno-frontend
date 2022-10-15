@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home/home.component';
-import { MaterialModule } from '../material.module';
+import { MaterialModule } from '../../material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LobbyComponent } from './lobby/lobby.component';
 import { RoomComponent } from './lobby/room/room.component';

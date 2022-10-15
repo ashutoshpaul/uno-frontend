@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 export enum ROOM_STATUS {
@@ -30,7 +31,10 @@ export class RoomComponent implements OnChanges, OnInit {
 
   readonly roomStatuses: typeof ROOM_STATUS = ROOM_STATUS;
 
-  constructor() { }
+  constructor(
+    private readonly _router: Router,
+    private readonly _activatedRoute: ActivatedRoute,
+  ) { }
 
   ngOnChanges(): void {
     this.roomStatus = this.room?.status;
@@ -48,9 +52,13 @@ export class RoomComponent implements OnChanges, OnInit {
     }
   }
 
-  joinGame(): void {}
+  joinGame(): void {
+    this._navigateToGame();
+  }
 
-  startGame(): void {}
+  startGame(): void {
+    this._navigateToGame();
+  }
 
   leaveRoom(): void {}
 
@@ -71,5 +79,9 @@ export class RoomComponent implements OnChanges, OnInit {
   get errorMessage(): string {
     if(this.isRoomDeleted) return "Oops! Room doesn't exist.";
     return "Create or join a room to play.";
+  }
+
+  private _navigateToGame(): void {
+    this._router.navigate(['./../', 'play'], { relativeTo: this._activatedRoute });
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
-import { enterButtonTrigger } from './../../dashboard-animations.animation';
+import { enterButtonTrigger } from '../../../dashboard-animations.animation';
 
 @Component({
   selector: 'app-home',
