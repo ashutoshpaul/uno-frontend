@@ -98,6 +98,16 @@ main {
             font-weight: 300;
             color: rgb(128, 125, 125);
             // background-color: darkcyan;
+
+            &.game-started {
+                animation: 1.5s blink ease-in-out infinite;
+
+                @keyframes blink {
+                    0% { opacity: 0.4; }
+                    50% { color: black; opacity: 1; }
+                    100% { opacity: 0.4; }
+                }
+            }
         }
     }
 }

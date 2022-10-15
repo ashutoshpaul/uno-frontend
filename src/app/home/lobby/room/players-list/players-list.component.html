@@ -7,7 +7,7 @@
             </div>
         </div>
     </section>
-    <section class="message"> {{ message }} </section>
+    <section class="message" [ngClass]="{'game-started': isGameStarted}"> {{ message }} </section>
 </main>
 <ng-template #empty>
     <main class="empty">
