@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { GameRoutingModule } from './game-routing.module';
 import { UnoBoardComponent } from './uno-board/uno-board.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { RouterModule } from '@angular/router';
 import { GameComponent } from './game.component';
@@ -30,6 +30,7 @@ import { ChatComponent } from './chat/chat.component';
     RouterModule,
     GameRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     MaterialModule,
   ]
 })

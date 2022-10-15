@@ -1,1 +1,120 @@
-<main></main>
+<main>
+    <section class="messages">
+        <div class="message-container">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">Good</div>
+            </article>
+        </div>
+        <div class="message-container">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">Nice</div>
+            </article>
+        </div>
+        <div class="message-container" [ngClass]="{'my-message': true}">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">Oh My God!!! funny funny funny funny funny funny funny funny funny</div>
+            </article>
+        </div>
+        <div class="message-container">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">funny funny funny funny funny funny funny funny funny funny</div>
+            </article>
+        </div>
+        <div class="message-container">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">232 4254354 sfs fsfsdfdfsdfdf  fsdfd fsd fsdfsdf sdfsdfsd dsfsdf</div>
+            </article>
+        </div>
+        <div class="message-container">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">Good</div>
+            </article>
+        </div>
+        <div class="message-container">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">Nice</div>
+            </article>
+        </div>
+        <div class="message-container" [ngClass]="{'my-message': true}">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">Oh My God!!! funny funny funny funny funny funny funny funny funny</div>
+            </article>
+        </div>
+        <div class="message-container">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">funny funny funny funny funny funny funny funny funny funny</div>
+            </article>
+        </div>
+        <div class="message-container">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">232 4254354 sfs fsfsdfdfsdfdf  fsdfd fsd fsdfsdf sdfsdfsd dsfsdf</div>
+            </article>
+        </div>
+        <div class="message-container">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">Good</div>
+            </article>
+        </div>
+        <div class="message-container">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">Nice</div>
+            </article>
+        </div>
+        <div class="message-container" [ngClass]="{'my-message': true}">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">Oh My God!!! funny funny funny funny funny funny funny funny funny</div>
+            </article>
+        </div>
+        <div class="message-container">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">funny funny funny funny funny funny funny funny funny funny</div>
+            </article>
+        </div>
+        <div class="message-container">
+            <article class="message">
+                <div class="header">Samuel</div>
+                <div class="body">232 4254354 sfs fsfsdfdfsdfdf  fsdfd fsd fsdfsdf sdfsdfsd dsfsdf</div>
+            </article>
+        </div>
+        <!-- <article class="message"></article>
+        <article class="message"></article>
+        <article class="message"></article>
+        <article class="message"></article>
+        <article class="message"></article>
+        <article class="message"></article>
+        <article class="message"></article>
+        <article class="message"></article>
+        <article class="message"></article>
+        <article class="message"></article>
+        <article class="message"></article>
+        <article class="message"></article>
+        <article class="message"></article>
+        <article class="message"></article> -->
+    </section>
+    <section class="write">
+        <input 
+            type="text" 
+            minlength="1" 
+            maxlength="100"
+            placeholder="Type here..."
+            [(ngModel)]="message"
+            (keydown.enter)="sendMessage()">
+        <div>
+            <mat-icon (click)="sendMessage()">send</mat-icon>
+        </div>
+    </section>
+</main>
