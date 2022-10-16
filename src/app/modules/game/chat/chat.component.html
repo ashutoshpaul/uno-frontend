@@ -1,5 +1,5 @@
 <main>
-    <section class="messages">
+    <section class="messages" #messages>
         <ng-container *ngIf="(messages$ | async) as chatMessages else noMessagesYet">
             <ng-container *ngFor="let chatMessage of chatMessages">
                 <div class="message-container" 
