@@ -16,7 +16,7 @@ export class ChatService {
 
   constructor(
     private readonly _sessionStorage: SessionStorageService,
-  ) { 
+  ) {
     // setInterval(() => {
     //   this.emitMessage();
     // }, 3000);

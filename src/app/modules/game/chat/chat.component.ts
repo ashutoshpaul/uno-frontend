@@ -32,6 +32,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
+    // console.log('scrolled');
     this._scrollToBottom();
   }
 
