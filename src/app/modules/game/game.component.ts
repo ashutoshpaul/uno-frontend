@@ -8,6 +8,7 @@ import { ChatService } from 'src/app/core/services/chat.service';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
+
   isChatOpen$: Observable<boolean>;
 
   constructor(
@@ -15,7 +16,8 @@ export class GameComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isChatOpen$ = this._chatService._chat;
+    this._chatService.removeChatStatus();
+    this.isChatOpen$ = this._chatService.chat;
   }
 
 }

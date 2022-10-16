@@ -5,7 +5,16 @@
             <div class="network">{{ networkType | uppercase }}</div>
         </article>
         <article class="chat" (click)="toggleChat()">
-            <mat-icon>chat</mat-icon>
+            <mat-icon *ngIf="(unseenChatCount$ | async) > 0 else noUnseenMessages"
+                [matBadge]="unseenChatCount$ | async" 
+                matBadgeColor="warn"
+                matBadgeSize="medium"
+                [matBadgeHidden]="false">
+                chat
+            </mat-icon>
+            <ng-template #noUnseenMessages>
+                <mat-icon class="no-unseen-messages">chat</mat-icon>
+            </ng-template>
         </article>
         <article class="full-screen" (click)="toggleFullScreen()">
             <mat-icon *ngIf="!isFullScreen">fullscreen</mat-icon>

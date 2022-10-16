@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatBadgeModule } from '@angular/material/badge';
 
 const modules = [
   MatDialogModule,
@@ -11,6 +12,7 @@ const modules = [
   MatTooltipModule,
   MatProgressSpinnerModule,
   MatSidenavModule,
+  MatBadgeModule,
 ];
 
 @NgModule({
