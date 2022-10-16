@@ -13,6 +13,7 @@ main {
     background: rgb(2,0,36);
     box-sizing: border-box;
     padding: 0rem 0.6rem;
+    padding-right: 0.2rem;
 
     font-size: 1rem;
     font-family: 'Roboto', 'Poppins', monospace;
@@ -22,6 +23,9 @@ main {
         &.messages {
             overflow-y: auto;
             padding-top: 0.6rem;
+
+            box-sizing: border-box;
+            padding-right: 0.4rem;
 
             width: 100%;
             // background-color: green;
@@ -46,6 +50,7 @@ main {
                         
                         .header {
                             text-align: right;
+                            flex-flow: row-reverse;
 
                             .name {
                                 visibility: hidden;
@@ -119,6 +124,8 @@ main {
             padding-bottom: 1rem;
             box-sizing: border-box;
 
+            padding-right: 0.4rem;
+
             input {
                 width: 100%;
                 height: 2rem;
@@ -164,9 +171,9 @@ main {
 }
 
 ::-webkit-scrollbar {
-    width: 0px;
+    width: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: rgb(136, 136, 136, 0.7); 
-  }
+}
