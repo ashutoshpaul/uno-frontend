@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { IMessage } from 'src/app/core/interfaces/message.interface';
 import { ChatService } from 'src/app/core/services/chat.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { ChatService } from 'src/app/core/services/chat.service';
 export class GameComponent implements OnInit {
 
   isChatOpen$: Observable<boolean>;
+  message$: Observable<IMessage>;
 
   constructor(
     private readonly _chatService: ChatService,
@@ -17,7 +19,9 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this._chatService.removeChatStatus();
-    this.isChatOpen$ = this._chatService.chat;
+    this.isChatOpen$ = this._chatService.chat$;
+
+    this.message$ = this._chatService.message$;
   }
 
 }

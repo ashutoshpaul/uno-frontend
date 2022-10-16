@@ -31,7 +31,6 @@ main {
             // background-color: green;
             display: inline-grid;
             flex-direction: column;
-            justify-content: flex-end;
             align-items: stretch;
             row-gap: 0.6rem;
 
@@ -109,6 +108,12 @@ main {
                 }
             }
 
+            .empty {
+                color: white;
+                text-align: center;
+                font-size: 0.85rem;
+            }
+
         }
 
         &.write {
@@ -172,6 +177,10 @@ main {
 
 ::-webkit-scrollbar {
     width: 2px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {

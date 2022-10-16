@@ -1,140 +1,22 @@
 <main>
     <section class="messages">
-        <div class="message-container">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
+        <ng-container *ngIf="(messages$ | async) as chatMessages else noMessagesYet">
+            <ng-container *ngFor="let chatMessage of chatMessages">
+                <div class="message-container" 
+                    [ngClass]="{ 'my-message': chatMessage.isSentByMe }">
+                    <article class="message">
+                        <div class="header">
+                            <div class="name">{{ chatMessage.name }}</div>
+                            <div class="time">{{ chatMessage.time }}</div>
+                        </div>
+                        <div class="body">{{ chatMessage.content }}</div>
+                    </article>
                 </div>
-                <div class="body">Good</div>
-            </article>
-        </div>
-        <div class="message-container">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">Nice</div>
-            </article>
-        </div>
-        <div class="message-container" [ngClass]="{'my-message': true}">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">Oh My God!!! funny funny funny funny funny funny funny funny funny</div>
-            </article>
-        </div>
-        <div class="message-container">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">funny funny funny funny funny funny funny funny funny funny</div>
-            </article>
-        </div>
-        <div class="message-container">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">232 4254354 sfs fsfsdfdfsdfdf  fsdfd fsd fsdfsdf sdfsdfsd dsfsdf</div>
-            </article>
-        </div>
-        <div class="message-container">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">Good</div>
-            </article>
-        </div>
-        <div class="message-container">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">Nice</div>
-            </article>
-        </div>
-        <div class="message-container" [ngClass]="{'my-message': true}">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">Oh My God!!! funny funny funny funny funny funny funny funny funny</div>
-            </article>
-        </div>
-        <div class="message-container">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">funny funny funny funny funny funny funny funny funny funny</div>
-            </article>
-        </div>
-        <div class="message-container">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">232 4254354 sfs fsfsdfdfsdfdf  fsdfd fsd fsdfsdf sdfsdfsd dsfsdf</div>
-            </article>
-        </div>
-        <div class="message-container">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">Good</div>
-            </article>
-        </div>
-        <div class="message-container">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">Nice</div>
-            </article>
-        </div>
-        <div class="message-container" [ngClass]="{'my-message': true}">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">Oh My God!!! funny funny funny funny funny funny funny funny funny</div>
-            </article>
-        </div>
-        <div class="message-container">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">funny funny funny funny funny funny funny funny funny funny</div>
-            </article>
-        </div>
-        <div class="message-container">
-            <article class="message">
-                <div class="header">
-                    <div class="name">Samuel</div>
-                    <div class="time">9:05AM</div>
-                </div>
-                <div class="body">232 4254354 sfs fsfsdfdfsdfdf  fsdfd fsd fsdfsdf sdfsdfsd dsfsdf</div>
-            </article>
-        </div>
+            </ng-container>
+        </ng-container>
+        <ng-template #noMessagesYet>
+            <div class="empty">No messages</div>
+        </ng-template>
     </section>
     <section class="write">
         <input
