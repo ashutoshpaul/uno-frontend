@@ -26,7 +26,7 @@ export class RoomComponent implements OnChanges, OnInit {
 
   room$: Observable<IRoom>;
 
-  players: string[] = ['Samuel', 'Jack', 'Harry'];
+  players: string[] = ['Samuel', 'Jack', 'Bob'];
   roomStatus: ROOM_STATUS;
 
   readonly roomStatuses: typeof ROOM_STATUS = ROOM_STATUS;

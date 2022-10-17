@@ -1,5 +1,5 @@
 <main #main *ngIf="(players$ | async) as players; else empty">
-    <section class="players">
+    <section class="players" [@playerRoom]="{value: players.length}">
         <div *ngFor="let player of players; let i = index;">
             <div class="left"> {{ i + 1 }}. {{ player }} </div>
             <div class="right">
