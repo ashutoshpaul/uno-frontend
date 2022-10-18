@@ -39,7 +39,7 @@ export class PlayersListComponent implements OnChanges, OnInit {
     // }, 3000);
     // setInterval(() => {
     //   this.players.splice(0, 1);
-    // }, 5000);
+    // }, 3000);
   }
 
   get message(): string {

@@ -567,7 +567,6 @@ export const playerRoomTrigger = trigger('playerRoom', [
           }),
           style({
             opacity: "0",
-            transform: "translateY(-1rem)",
           }),
         ])),
       ], { optional: true }),
