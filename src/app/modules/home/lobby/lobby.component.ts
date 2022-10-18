@@ -31,7 +31,7 @@ export class LobbyComponent implements OnInit {
 
   ngOnInit(): void {
     this.playerName = this._sessionStorage.getItem('playerName');
-
+    this._sessionStorage.remove('isExit'); // clear session
   }
 
   editPlayerName(): void {

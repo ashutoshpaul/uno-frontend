@@ -38,10 +38,6 @@ import { OfflineDialogComponent } from '../dialogs/reactions/offline-dialog/offl
 import { JoinPlayersDialogComponent } from '../dialogs/reactions/join-players-dialog/join-players-dialog.component';
 import { OfflinePlayerDialogComponent } from '../dialogs/actions/offline-player-dialog/offline-player-dialog.component';
 
-export interface IOptions {
-  isFullScreen: boolean;
-}
-
 export enum GAME_DIRECTIONS {
   clockwise = 'clockwise',
   antiClockwise = 'anti-clockwise'

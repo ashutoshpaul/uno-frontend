@@ -40,10 +40,6 @@ import { ReverseDialogComponent } from 'src/app/dialogs/reactions/reverse-dialog
 import { SkipDialogComponent } from 'src/app/dialogs/reactions/skip-dialog/skip-dialog.component';
 import { PlayersLeftDialogComponent } from 'src/app/dialogs/reactions/players-left-dialog/players-left-dialog.component';
 
-export interface IOptions {
-  isFullScreen: boolean;
-}
-
 export enum GAME_DIRECTIONS {
   clockwise = 'clockwise',
   antiClockwise = 'anti-clockwise'
@@ -510,10 +506,6 @@ export class UnoBoardComponent implements OnInit {
       panelClass: 'options-dialog',
       position: { bottom: "0rem", right: "1.5vw" }
     });
-
-    // dialogRef.afterClosed().subscribe((options: IOptions) => {
-    //   if(options) {}
-    // });
   }
 
   playersJoinedAlert(): void {

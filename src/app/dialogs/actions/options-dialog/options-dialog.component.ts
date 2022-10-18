@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as screenfull from 'screenfull';
+import { IOptionsResponse } from 'src/app/core/interfaces/response.interface';
 import { ChatService } from 'src/app/core/services/chat.service';
-import { IOptions } from 'src/app/multi-player/multi-player.component';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 
 @Component({
   selector: 'app-options-dialog',
@@ -21,7 +23,10 @@ export class OptionsDialogComponent implements OnInit {
 
   constructor(
     private readonly _dialogRef: MatDialogRef<OptionsDialogComponent>,
+    private readonly _router: Router,
+    private readonly _activatedRoute: ActivatedRoute,
     private readonly _chatService: ChatService,
+    private readonly _sessionStorage: SessionStorageService,
   ) { }
 
   ngOnInit(): void {
@@ -48,12 +53,18 @@ export class OptionsDialogComponent implements OnInit {
     }, this.DELAY);
   }
 
-  close(options?: IOptions): void {
-    this._dialogRef.close(options);
+  close(isExitGame: boolean = false): void {
+    this._dialogRef.close(<IOptionsResponse>{ isExit: isExitGame });
+    if(isExitGame) {
+      this._sessionStorage.setItem('isExit', true);
+      setTimeout(() => {
+        this._router.navigate(['./../', 'lobby'], { relativeTo: this._activatedRoute });
+      }, this.DELAY);
+    }
   }
 
   exit(): void {
-    this._dialogRef.close();
+    this.close(true);
   }
 
 }
