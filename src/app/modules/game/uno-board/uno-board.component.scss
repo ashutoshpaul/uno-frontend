@@ -396,6 +396,31 @@
     }
 }
 
+.message_notification-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    padding: 0.25rem;
+    overflow: hidden;
+    border-radius: 0.6rem;
+    background-color: white;
+    pointer-events: none;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    
+    mat-icon {
+        height: unset;
+        width: unset;
+        color: rgb(255, 30, 30);
+    }
+}
+
 .shuffle-three-cards {
     position: absolute;
     width: inherit;

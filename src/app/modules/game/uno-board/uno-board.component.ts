@@ -27,7 +27,8 @@ import {
   leftPlayerCardActivityTrigger, 
   rightPlayerCardActivityTrigger, 
   shuffleCardsTrigger, 
-  buttonAppearTrigger 
+  buttonAppearTrigger,
+  messageNotificationTrigger,
 } from 'src/app/dashboard-animations.animation';
 import { ChooseColorDialogComponent } from 'src/app/dialogs/actions/choose-color-dialog/choose-color-dialog.component';
 import { OfflinePlayerDialogComponent } from 'src/app/dialogs/actions/offline-player-dialog/offline-player-dialog.component';
@@ -69,6 +70,7 @@ export enum PLAYER_POSITION {
     rightPlayerCardActivityTrigger,
     shuffleCardsTrigger,
     buttonAppearTrigger,
+    messageNotificationTrigger,
   ],
 })
 export class UnoBoardComponent implements OnInit {
@@ -87,6 +89,8 @@ export class UnoBoardComponent implements OnInit {
 
   online$: Observable<Event>;
   offline$: Observable<Event>;
+
+  isMessageNotificationTriggered$: Observable<boolean>;
 
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
@@ -575,6 +579,14 @@ export class UnoBoardComponent implements OnInit {
 
   skip(): void {
     this.isSkipVisible = false;
+  }
+
+  notifyMessage(): void {
+    this.isMessageNotificationTriggered$ = of(true);
+  }
+
+  resetMessageNotification(): void {
+    this.isMessageNotificationTriggered$ = of(false);
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {

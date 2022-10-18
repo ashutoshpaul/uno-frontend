@@ -573,3 +573,20 @@ export const playerRoomTrigger = trigger('playerRoom', [
     ], { optional: true }),
   ]),
 ]);
+
+export const messageNotificationTrigger = trigger('messageNotification', [
+  state('trigger', style({ display: "none" })),
+  transition('* => trigger', [
+    style({ right: "-10rem" }),
+    sequence([
+      animate('0.7s ease-in-out', style({ right: "1rem" })),
+      animate('0.2s 0.2s ease-in-out', style({ opacity: "0.2" })), // blink three times
+      animate('0.2s ease-in-out', style({ opacity: "1" })),
+      animate('0.2s ease-in-out', style({ opacity: "0.2" })),
+      animate('0.2s ease-in-out', style({ opacity: "1" })),
+      animate('0.2s ease-in-out', style({ opacity: "0.2" })),
+      animate('0.2s ease-in-out', style({ opacity: "1" })),
+    ]),
+    animate('0.7s 0.2s ease-in-out', style({ right: "-10rem" })),
+  ]),
+]);

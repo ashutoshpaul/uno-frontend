@@ -79,6 +79,12 @@
         All players left
       </button>
     </ng-container>
+    <button
+        label="Discard First Card" 
+        (click)="notifyMessage()" 
+        style="width: 150px; height: 30px">
+        Message Notification
+      </button>
       <div class="border">
         <div appCurrentPlayer [playerPosition]="currentPlayerPosition"></div>
       </div>
@@ -277,11 +283,20 @@
         </ng-container>
     </div>
     
+    <!-- message notification button -->
+    <ng-container *ngIf="(isMessageNotificationTriggered$ | async) as notification">
+      <div [@messageNotification]="'trigger'"
+        (@messageNotification.done)="resetMessageNotification()"
+        class="message_notification-button">
+        <mat-icon>mail</mat-icon>
+      </div>
+    </ng-container>
+
     <!-- options button -->
     <div
-        #options_button
-        class="options-button"
-        (click)="openOptionsDialog()">
-        <mat-icon>keyboard_arrow_up</mat-icon>
+      #options_button
+      class="options-button"
+      (click)="openOptionsDialog()">
+      <mat-icon>keyboard_arrow_up</mat-icon>
     </div>
 </div>
