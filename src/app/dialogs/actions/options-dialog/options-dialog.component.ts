@@ -54,13 +54,8 @@ export class OptionsDialogComponent implements OnInit {
   }
 
   close(isExitGame: boolean = false): void {
+    if(isExitGame) this._sessionStorage.setItem('isExit', true);
     this._dialogRef.close(<IOptionsResponse>{ isExit: isExitGame });
-    if(isExitGame) {
-      this._sessionStorage.setItem('isExit', true);
-      setTimeout(() => {
-        this._router.navigate(['./../', 'lobby'], { relativeTo: this._activatedRoute });
-      }, this.DELAY);
-    }
   }
 
   exit(): void {

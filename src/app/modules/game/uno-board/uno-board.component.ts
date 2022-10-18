@@ -39,6 +39,8 @@ import { OfflineDialogComponent } from 'src/app/dialogs/reactions/offline-dialog
 import { ReverseDialogComponent } from 'src/app/dialogs/reactions/reverse-dialog/reverse-dialog.component';
 import { SkipDialogComponent } from 'src/app/dialogs/reactions/skip-dialog/skip-dialog.component';
 import { PlayersLeftDialogComponent } from 'src/app/dialogs/reactions/players-left-dialog/players-left-dialog.component';
+import { Router, ActivatedRoute } from '@angular/router';
+import { IOptionsResponse } from 'src/app/core/interfaces/response.interface';
 
 export enum GAME_DIRECTIONS {
   clockwise = 'clockwise',
@@ -247,6 +249,8 @@ export class UnoBoardComponent implements OnInit {
   get clockwise(): boolean { return this.gameDirection === GAME_DIRECTIONS.clockwise; }
 
   constructor(
+    private readonly _router: Router,
+    private readonly _activatedRoute: ActivatedRoute,
     private readonly _dialog: NgDialogAnimationService,
   ) {}
 
@@ -505,6 +509,12 @@ export class UnoBoardComponent implements OnInit {
       },
       panelClass: 'options-dialog',
       position: { bottom: "0rem", right: "1.5vw" }
+    });
+
+    dialogRef.afterClosed().subscribe((response: IOptionsResponse) => {
+      if(response?.isExit) {
+        this._router.navigate(['./../', 'lobby'], { relativeTo: this._activatedRoute });
+      }
     });
   }
 
