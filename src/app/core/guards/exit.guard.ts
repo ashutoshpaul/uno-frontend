@@ -4,6 +4,7 @@ import { NgDialogAnimationService } from 'ng-dialog-animation';
 import { Observable, of } from 'rxjs';
 import { OptionsDialogComponent } from 'src/app/dialogs/actions/options-dialog/options-dialog.component';
 import { optionsDialogIncomingOptionsConstant, optionsDialogOutgoingOptionsConstant } from '../constants/animations.constants';
+import { DURATION } from '../constants/durations.constants';
 import { IOptionsResponse } from '../interfaces/response.interface';
 import { SessionStorageService } from '../services/session-storage.service';
 
@@ -37,8 +38,10 @@ export class ExitGuard implements CanDeactivate<OptionsDialogComponent> {
       });
 
       dialogRef.afterClosed().subscribe((response: IOptionsResponse) => {
-        if(response.isExit) { 
-          this._router.navigate(['./../', 'lobby'], { relativeTo: this._activatedRoute });
+        if(response?.isExit) {
+          setTimeout(() => {
+            this._router.navigate(['./../', 'lobby'], { relativeTo: this._activatedRoute });
+          }, DURATION.delayOptionsDialog);
         }
         return false;
       });

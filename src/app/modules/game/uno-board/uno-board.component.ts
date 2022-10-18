@@ -513,7 +513,9 @@ export class UnoBoardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((response: IOptionsResponse) => {
       if(response?.isExit) {
-        this._router.navigate(['./../', 'lobby'], { relativeTo: this._activatedRoute });
+        setTimeout(() => {
+          this._router.navigate(['./../', 'lobby'], { relativeTo: this._activatedRoute });
+        }, DURATION.delayOptionsDialog);
       }
     });
   }

@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as screenfull from 'screenfull';
+import { DURATION } from 'src/app/core/constants/durations.constants';
 import { IOptionsResponse } from 'src/app/core/interfaces/response.interface';
 import { ChatService } from 'src/app/core/services/chat.service';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
@@ -18,8 +19,6 @@ export class OptionsDialogComponent implements OnInit {
   networkType: string;
 
   unseenChatCount$: Observable<number>;
-
-  readonly DELAY: number = 500;
 
   constructor(
     private readonly _dialogRef: MatDialogRef<OptionsDialogComponent>,
@@ -40,7 +39,7 @@ export class OptionsDialogComponent implements OnInit {
     setTimeout(() => {
       this.isFullScreen = !this.isFullScreen;
       if(screenfull.isEnabled) screenfull.toggle();
-    }, this.DELAY);
+    }, DURATION.delayOptionsDialog);
   }
 
   toggleChat(): void {
@@ -50,7 +49,7 @@ export class OptionsDialogComponent implements OnInit {
         this._chatService.resetUnseenChatCount();
       }
       this._chatService.toggleChat();
-    }, this.DELAY);
+    }, DURATION.delayOptionsDialog);
   }
 
   close(isExitGame: boolean = false): void {
