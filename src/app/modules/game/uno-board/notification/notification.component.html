@@ -1,0 +1,38 @@
+<ng-container *ngIf="(notification$ | async) as notification">
+    <main [ngSwitch]="notification.event">
+        <article *ngSwitchCase="events.drawFourCards">
+            <mat-icon class="card">library_add</mat-icon>
+            <mat-icon class="card">library_add</mat-icon>
+            <mat-icon class="card">library_add</mat-icon>
+            <mat-icon class="card">library_add</mat-icon>
+            <div> +4 Cards</div>
+        </article>
+        <article *ngSwitchCase="events.drawTwoCards">
+            <mat-icon class="card">library_add</mat-icon>
+            <mat-icon class="card">library_add</mat-icon>
+            <div> +2 Cards </div>
+        </article>
+        <article *ngSwitchCase="events.playerRemoved">
+            <mat-icon class="negative">person_remove</mat-icon>
+            <div>
+                {{ notification.additional?.playerName }} removed {{ notification.additional?.removedPlayerName }}
+            </div>
+        </article>
+        <article *ngSwitchCase="events.roomCreated">
+            <mat-icon class="positive">location_on</mat-icon>
+            <div>Room created</div>
+        </article>
+        <article *ngSwitchCase="events.roomDeleted">
+            <mat-icon class="negative">location_off</mat-icon>
+            <div>Room deleted</div>
+        </article>
+        <article *ngSwitchCase="events.roomJoined">
+            <mat-icon class="positive">pin_drop</mat-icon>
+            <div>Room joined</div>
+        </article>
+        <article *ngSwitchCase="events.failed">
+            <mat-icon class="negative">error</mat-icon>
+            <div>Something went wrong</div>
+        </article>
+    </main>
+</ng-container>

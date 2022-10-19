@@ -590,3 +590,12 @@ export const messageNotificationTrigger = trigger('messageNotification', [
     animate('0.5s 0.2s ease-in-out', style({ right: "-8rem" })),
   ]),
 ]);
+
+export const gameNotificationTrigger = trigger('gameNotification', [
+  state('trigger', style({ display: "none" })),
+  transition('* => trigger', [
+    style({ top: "-10rem", display: "unset" }),
+    animate('0.5s ease-in-out', style({ top: "1rem" })),
+    animate('0.5s 1.5s ease-in-out', style({ top: "-10rem", display: "none" })),
+  ]),
+]);

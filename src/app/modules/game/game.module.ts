@@ -13,6 +13,7 @@ import { CardDirective } from 'src/app/core/directives/card.directive';
 import { CurrentColorDirective } from 'src/app/core/directives/current-color.directive';
 import { CurrentPlayerDirective } from 'src/app/core/directives/current-player.directive';
 import { ChatComponent } from './chat/chat.component';
+import { NotificationComponent } from './uno-board/notification/notification.component';
 
 @NgModule({
   declarations: [ 
@@ -24,6 +25,7 @@ import { ChatComponent } from './chat/chat.component';
     CurrentPlayerDirective,
     CurrentColorDirective,
     ChatComponent,
+    NotificationComponent,
   ],
   imports: [
     CommonModule,

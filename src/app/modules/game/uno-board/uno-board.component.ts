@@ -29,6 +29,7 @@ import {
   shuffleCardsTrigger, 
   buttonAppearTrigger,
   messageNotificationTrigger,
+  gameNotificationTrigger,
 } from 'src/app/dashboard-animations.animation';
 import { ChooseColorDialogComponent } from 'src/app/dialogs/actions/choose-color-dialog/choose-color-dialog.component';
 import { OfflinePlayerDialogComponent } from 'src/app/dialogs/actions/offline-player-dialog/offline-player-dialog.component';
@@ -41,8 +42,8 @@ import { SkipDialogComponent } from 'src/app/dialogs/reactions/skip-dialog/skip-
 import { PlayersLeftDialogComponent } from 'src/app/dialogs/reactions/players-left-dialog/players-left-dialog.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IOptionsResponse } from 'src/app/core/interfaces/response.interface';
-import { SnackbarService } from 'src/app/core/services/snackbar.service';
-import { SNACKBAR_EVENT } from 'src/app/core/enums/snackbar.enum';
+import { NOTIFICATION_EVENT } from 'src/app/core/enums/notification.enum';
+import { IGameNotification } from 'src/app/core/interfaces/notification.interface';
 
 export enum GAME_DIRECTIONS {
   clockwise = 'clockwise',
@@ -71,6 +72,7 @@ export enum PLAYER_POSITION {
     shuffleCardsTrigger,
     buttonAppearTrigger,
     messageNotificationTrigger,
+    gameNotificationTrigger,
   ],
 })
 export class UnoBoardComponent implements OnInit {
@@ -91,6 +93,8 @@ export class UnoBoardComponent implements OnInit {
   offline$: Observable<Event>;
 
   isMessageNotificationTriggered$: Observable<boolean>;
+
+  notification$: Observable<IGameNotification>;
 
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
@@ -254,7 +258,6 @@ export class UnoBoardComponent implements OnInit {
     private readonly _router: Router,
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _dialog: NgDialogAnimationService,
-    private readonly _snackbarService: SnackbarService,
   ) {}
 
   ngOnInit(): void {
@@ -573,7 +576,9 @@ export class UnoBoardComponent implements OnInit {
   }
 
   openSnackbar(): void {
-    this._snackbarService.openSnackbar(SNACKBAR_EVENT.roomCreated);
+    this.notification$ = of(<IGameNotification>{
+      event: NOTIFICATION_EVENT.roomJoined
+    });
   }
 
   toggleGameDirection(): void {
@@ -598,6 +603,10 @@ export class UnoBoardComponent implements OnInit {
 
   resetMessageNotification(): void {
     this.isMessageNotificationTriggered$ = of(false);
+  }
+
+  resetGameNotification(): void {
+    this.notification$ = of(null);
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {

@@ -273,12 +273,20 @@
         </div>
         </ng-container>
     </div>
+
+    <!-- notification -->
+    <app-notification 
+      *ngIf="notification$ | async"
+      [@gameNotification]="'trigger'"
+      (@gameNotification.done)="resetGameNotification()"
+      [notification$]="notification$">
+    </app-notification>
     
     <!-- message notification button -->
     <ng-container *ngIf="(isMessageNotificationTriggered$ | async) as notification">
       <div [@messageNotification]="'trigger'"
         (@messageNotification.done)="resetMessageNotification()"
-        class="message_notification-button">
+        class="message-notification-button">
         <mat-icon>mail</mat-icon>
       </div>
     </ng-container>
