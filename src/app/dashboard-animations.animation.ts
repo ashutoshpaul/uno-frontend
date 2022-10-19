@@ -107,17 +107,18 @@ export const cardActivityTrigger = trigger('cardActivity', [
       style({ 
         height: "7rem",
         width: "5rem",
-        minWidth: "4.2rem",
       }),
       style({ 
         height: "6.5rem",
         width: "4.5rem",
+        minWidth: "4.2rem",
         top: "calc({{yDiscardPosition}}px/2)",
         right: "calc({{xDiscardPosition}}px/2)",
       }),
       style({ 
         height: "6rem",
         width: "4.2rem",
+        minWidth: "4.2rem",
         top: "{{yDiscardPosition}}px",
         right: "{{xDiscardPosition}}px",
       }),
