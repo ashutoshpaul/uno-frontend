@@ -37,8 +37,14 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   sendMessage(): void {
-    console.log(this.message);
-    this._clearMessage();
+    if (this.isMessageValid) {
+      console.log(this.message);
+      this._clearMessage();
+    }
+  }
+
+  get isMessageValid(): boolean {
+    return this.message?.length > 0;
   }
 
   private _clearMessage() {

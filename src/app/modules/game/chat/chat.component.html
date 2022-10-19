@@ -25,9 +25,10 @@
             maxlength="100"
             placeholder="Type here..."
             [(ngModel)]="message"
+            [ngClass]="{ 'is-valid': isMessageValid }"
             (keydown.enter)="sendMessage()">
         <div>
-            <mat-icon (click)="sendMessage()">send</mat-icon>
+            <mat-icon *ngIf="isMessageValid" (click)="sendMessage()">send</mat-icon>
         </div>
     </section>
 </main>
