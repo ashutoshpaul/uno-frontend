@@ -65,17 +65,17 @@
         style="width: 150px; height: 30px">
         All players left
       </button>
+      <button
+        (click)="openSnackbar()" 
+        style="width: 150px; height: 30px">
+        notification
+      </button>
+      <button
+        (click)="notifyMessage()" 
+        style="width: 150px; height: 30px">
+        Message Notification
+      </button>
     </ng-container>
-    <button
-      (click)="openSnackbar()" 
-      style="width: 150px; height: 30px">
-      notification
-    </button>
-    <button
-      (click)="notifyMessage()" 
-      style="width: 150px; height: 30px">
-      Message Notification
-    </button>
       <div class="border">
         <div appCurrentPlayer [playerPosition]="currentPlayerPosition"></div>
       </div>
