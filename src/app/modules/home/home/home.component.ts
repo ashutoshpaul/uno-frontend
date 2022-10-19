@@ -16,6 +16,8 @@ export class HomeComponent implements OnInit {
 
   playerNameControl: FormControl;
 
+  private _isBlurred: boolean = true;
+
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _router: Router,
@@ -44,6 +46,14 @@ export class HomeComponent implements OnInit {
       this._router.navigate(['lobby'], { relativeTo: this._activatedRoute });
     }
   }
+
+  inputBlurred(isBlur: boolean = true): void {
+    this.isBlur = isBlur;
+  }
+
+  get isBlur(): boolean { return this._isBlurred; }
+
+  set isBlur(isBlur: boolean) { this._isBlurred = isBlur; }
 
   get isInvalid(): boolean {
     return this.playerNameControl.invalid;

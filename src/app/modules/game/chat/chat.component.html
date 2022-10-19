@@ -25,10 +25,10 @@
             maxlength="100"
             placeholder="Type here..."
             [(ngModel)]="chat"
-            [ngClass]="{ 'is-valid': isMessageValid }"
-            (keydown.enter)="sendMessage()">
+            [ngClass]="{ 'is-valid': isChatValid }"
+            (keydown.enter)="sendChat()">
         <div>
-            <mat-icon *ngIf="isMessageValid" (click)="sendMessage()">send</mat-icon>
+            <mat-icon *ngIf="isChatValid" (click)="sendChat()">send</mat-icon>
         </div>
     </section>
 </main>

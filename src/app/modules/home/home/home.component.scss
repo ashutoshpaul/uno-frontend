@@ -91,10 +91,14 @@ main {
             position: absolute;
             right: 0rem;
             top: 0.2rem;
-            color: rgb(255, 0, 0);
+            color: rgb(255, 255, 255);
             transform: scale(2);
             cursor: pointer;
             transition: 0.2s;
+
+            &.focused {
+                color: red;
+            }
 
             &:hover {
                 transform: scale(3);

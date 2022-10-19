@@ -10,12 +10,14 @@
                 placeholder="Hi Buddy. Your name?"
                 maxlength="20"
                 [formControl]="playerNameControl"
-                (keydown.enter)="goToLobby()">
+                (keydown.enter)="goToLobby()"
+                (blur)="inputBlurred()"
+                (focus)="inputBlurred(false)">
             <div *ngIf="isDirty && isInvalid" class="error">
                 {{ errorMessage }}
             </div>
         </div>
-        <mat-icon 
+        <mat-icon [ngClass]="{ 'focused': !isBlur }"
             [@enterButton]="!isInvalid"
             *ngIf="!isInvalid" 
             (click)="goToLobby()">

@@ -36,22 +36,22 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this._scrollToBottom();
   }
 
-  sendMessage(): void {
-    if (this.isMessageValid) {
-      console.log(this.trimmedMessage);
-      this._clearMessage();
+  sendChat(): void {
+    if (this.isChatValid) {
+      console.log(this.trimmedChat);
+      this._clearChat();
     }
   }
 
-  get isMessageValid(): boolean {
-    return this.trimmedMessage.length > 0;
+  get isChatValid(): boolean {
+    return this.trimmedChat.length > 0;
   }
 
-  get trimmedMessage(): string {
+  get trimmedChat(): string {
     return this.chat?.trim() || '';
   }
 
-  private _clearMessage() {
+  private _clearChat() {
     this.chat = '';
   }
 
