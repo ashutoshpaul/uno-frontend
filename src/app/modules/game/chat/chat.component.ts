@@ -17,7 +17,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   messages: IMessage[] = [];
   messages$: Observable<IMessage[]>;
   
-  message: string;
+  chat: string;
 
   constructor() { }
 
@@ -38,17 +38,21 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   sendMessage(): void {
     if (this.isMessageValid) {
-      console.log(this.message);
+      console.log(this.trimmedMessage);
       this._clearMessage();
     }
   }
 
   get isMessageValid(): boolean {
-    return this.message?.trim().length > 0;
+    return this.trimmedMessage.length > 0;
+  }
+
+  get trimmedMessage(): string {
+    return this.chat?.trim() || '';
   }
 
   private _clearMessage() {
-    this.message = '';
+    this.chat = '';
   }
 
   private _scrollToBottom() {

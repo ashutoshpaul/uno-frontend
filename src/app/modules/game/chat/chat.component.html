@@ -24,7 +24,7 @@
             minlength="1" 
             maxlength="100"
             placeholder="Type here..."
-            [(ngModel)]="message"
+            [(ngModel)]="chat"
             [ngClass]="{ 'is-valid': isMessageValid }"
             (keydown.enter)="sendMessage()">
         <div>
