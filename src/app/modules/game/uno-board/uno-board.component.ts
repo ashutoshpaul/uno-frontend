@@ -41,6 +41,8 @@ import { SkipDialogComponent } from 'src/app/dialogs/reactions/skip-dialog/skip-
 import { PlayersLeftDialogComponent } from 'src/app/dialogs/reactions/players-left-dialog/players-left-dialog.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IOptionsResponse } from 'src/app/core/interfaces/response.interface';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { SNACKBAR_EVENT } from 'src/app/core/enums/snackbar.enum';
 
 export enum GAME_DIRECTIONS {
   clockwise = 'clockwise',
@@ -252,6 +254,7 @@ export class UnoBoardComponent implements OnInit {
     private readonly _router: Router,
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _dialog: NgDialogAnimationService,
+    private readonly _snackbarService: SnackbarService,
   ) {}
 
   ngOnInit(): void {
@@ -567,6 +570,10 @@ export class UnoBoardComponent implements OnInit {
     // dialogRef.afterClosed().subscribe(result => {
     //   console.log('The dialog was closed');
     // });
+  }
+
+  openSnackbar(): void {
+    this._snackbarService.openSnackbar(SNACKBAR_EVENT.roomCreated);
   }
 
   toggleGameDirection(): void {

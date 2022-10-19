@@ -1,90 +1,81 @@
 <div class="dashboard" id="dashboard">
     <ng-container *ngIf="false">
       <button
-        label="Discard First Card" 
         (click)="discardDrawerDeckCard()" 
         style="width: 150px; height: 30px">
         Discard First Card
       </button>
       <button
-        label="Shuffle Cards" 
         (click)="shuffleCards()" 
         style="width: 150px; height: 30px">
         Shuffle Cards
       </button>
       <button
-        label="Choose Color" 
         (click)="chooseColor()" 
         style="width: 150px; height: 30px">
         Choose Color
       </button>
       <button
-        label="Chosen Color" 
         (click)="chosenColorAlert()" 
         style="width: 150px; height: 30px">
         Chosen Color
       </button>
       <button
-        label="Change Direction"
         (click)="toggleGameDirection()" 
         style="width: 150px; height: 30px">
         Change Direction
       </button>
       <button
-        label="Pick Card"
         (click)="pickCard()" 
         style="width: 150px; height: 30px">
         Pick Card
       </button>
       <button
-        label="Toggle Skip"
         (click)="toggleSkip()" 
         style="width: 150px; height: 30px">
         Toggle Skip
       </button>
       <button
-        label="Reverse Alert"
         (click)="reverseAlert()" 
         style="width: 150px; height: 30px">
         Reverse Alert
       </button>
       <button
-        label="Skip"
         (click)="skipAlert()" 
         style="width: 150px; height: 30px">
         Skip
       </button>
       <button
-        label="Offline Alert"
         (click)="offlineAlert()" 
         style="width: 150px; height: 30px">
         Offline Alert
       </button>
       <button
-        label="Players Joined"
         (click)="playersJoinedAlert()" 
         style="width: 150px; height: 30px">
         Players Joined
       </button>
       <button
-        label="Offline Player"
         (click)="offlinePlayerAction()" 
         style="width: 150px; height: 30px">
         Offline Player
       </button>
       <button
-        label="All players left"
         (click)="allPlayersLeft()" 
         style="width: 150px; height: 30px">
         All players left
       </button>
-      <button
-        label="Message Notification"
-        (click)="notifyMessage()" 
-        style="width: 150px; height: 30px">
-        Message Notification
-      </button>
     </ng-container>
+    <button
+      (click)="openSnackbar()" 
+      style="width: 150px; height: 30px">
+      notification
+    </button>
+    <button
+      (click)="notifyMessage()" 
+      style="width: 150px; height: 30px">
+      Message Notification
+    </button>
       <div class="border">
         <div appCurrentPlayer [playerPosition]="currentPlayerPosition"></div>
       </div>

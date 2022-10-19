@@ -18,7 +18,7 @@ body {
     border-radius: 0.8rem;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    
+
     .mat-dialog-container {
         // height main(22vh) + padding-vertical(1.6rem * 2) + 12px(smoothness)
         height: calc(22vh + 1.6rem * 2 + 12px);
@@ -43,6 +43,33 @@ body {
                 pointer-events: none;
             }
         }
+    }
+}
+
+.snackbar {
+    background-color: transparent;
+    padding: 0px;
+    
+    &.mat-snack-bar-container {
+        background-color: transparent;
+        box-shadow: none;
+        padding: 0px;
+        margin: 0px;
+        margin: 1rem 4rem;
+        overflow: hidden;
+        pointer-events: none;
+
+        background-color: rgb(255, 255, 255);
+        border-radius: 0.5rem;
+
+        width: 15rem;
+        max-width: 15rem;
+        min-width: 15rem;
+        height: 2.5rem;
+        min-height: 2.5rem;
+        max-height: 2.5rem;
+        box-sizing: border-box;
+        padding: 0.5rem 1rem;
     }
 }
 

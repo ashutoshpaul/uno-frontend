@@ -18,6 +18,7 @@ import { CreateRoomDialogComponent } from './dialogs/actions/create-room-dialog/
 import { JoinRoomDialogComponent } from './dialogs/actions/join-room-dialog/join-room-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PlayersLeftDialogComponent } from './dialogs/reactions/players-left-dialog/players-left-dialog.component';
+import { NotificationSnackbarComponent } from './snackbars/notification-snackbar/notification-snackbar.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { PlayersLeftDialogComponent } from './dialogs/reactions/players-left-dia
     JoinRoomDialogComponent,
     SkipDialogComponent,
     ChosenColorDialogComponent,
+    NotificationSnackbarComponent,
   ],
   imports: [
     BrowserModule,

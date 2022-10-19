@@ -5,6 +5,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const modules = [
   MatDialogModule,
@@ -13,6 +14,7 @@ const modules = [
   MatProgressSpinnerModule,
   MatSidenavModule,
   MatBadgeModule,
+  MatSnackBarModule,
 ];
 
 @NgModule({
