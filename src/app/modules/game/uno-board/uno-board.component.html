@@ -232,11 +232,17 @@
 
     <!-- player -->
     <div class="player-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
-        <ng-container *ngIf="cards$ | async as freshCards">
-        <div class="skip-button" (click)="skip()"
-            matTooltip="Skip" matTooltipPosition="before" matTooltipClass="skip-tooltip"
-            [@buttonAppear]="isSkipVisible">
-            <mat-icon>arrow_drop_down_circle</mat-icon>
+      <ng-container *ngIf="cards$ | async as freshCards">
+        <div class="uno-button" (click)="uno()"
+          [@unoButtonSlide]="{value: unoButtonState$ | async}"
+          matTooltip="UNO" matTooltipPosition="before" matTooltipClass="skip-tooltip">
+          <mat-icon>record_voice_over</mat-icon>
+        </div>
+        <div class="skip-button" 
+          (click)="skip()" (mouseenter)="skipHover(true)" (mouseleave)="skipHover(false)"
+          matTooltip="Skip" matTooltipPosition="before" matTooltipClass="skip-tooltip"
+          [@buttonAppear]="isSkipVisible">
+          <mat-icon>arrow_drop_down_circle</mat-icon>
         </div>
         <div
             [@revealCards]="{value: freshCards.length}"
@@ -271,7 +277,7 @@
             </div>
             </div>
         </div>
-        </ng-container>
+      </ng-container>
     </div>
 
     <!-- notification -->

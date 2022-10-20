@@ -76,3 +76,11 @@ export const enterButtonTrigger = trigger('enterButton', [
     ])),
   ]),
 ]);
+
+export const unoButtonSlideTrigger = trigger('unoButtonSlide', [
+  state('stationary', style({})),
+  state('slide', style({ right: "9rem" })),
+  transition('stationary => slide', [
+    animate('0.2s ease-in-out', style({ right: "9rem" })),
+  ]),
+]);

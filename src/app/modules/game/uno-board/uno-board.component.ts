@@ -31,8 +31,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { IOptionsResponse } from 'src/app/core/interfaces/response.interface';
 import { NOTIFICATION_EVENT } from 'src/app/core/enums/notification.enum';
 import { IGameNotification } from 'src/app/core/interfaces/notification.interface';
-import { buttonAppearTrigger } from 'src/app/core/animations/button.animation';
-import { revealCardsTrigger, drawerDeckCardActivityTrigger, cardActivityTrigger, topPlayerCardActivityTrigger, placeOpponentCardsTrigger, leftPlayerCardActivityTrigger, rightPlayerCardActivityTrigger, shuffleCardsTrigger } from 'src/app/core/animations/card.animation';
+import { buttonAppearTrigger, unoButtonSlideTrigger } from 'src/app/core/animations/button.animation';
+import { 
+  revealCardsTrigger,
+  drawerDeckCardActivityTrigger,
+  cardActivityTrigger,
+  topPlayerCardActivityTrigger,
+  placeOpponentCardsTrigger,
+  leftPlayerCardActivityTrigger,
+  rightPlayerCardActivityTrigger,
+  shuffleCardsTrigger,
+} from 'src/app/core/animations/card.animation';
 import { messageNotificationTrigger, gameNotificationTrigger } from 'src/app/core/animations/notification.animation';
 import { GAME_DIRECTIONS } from 'src/app/core/enums/game.enum';
 import { PLAYER_POSITION } from 'src/app/core/enums/position.enum';
@@ -53,6 +62,7 @@ import { PLAYER_POSITION } from 'src/app/core/enums/position.enum';
     buttonAppearTrigger,
     messageNotificationTrigger,
     gameNotificationTrigger,
+    unoButtonSlideTrigger,
   ],
 })
 export class UnoBoardComponent implements OnInit {
@@ -71,6 +81,8 @@ export class UnoBoardComponent implements OnInit {
 
   online$: Observable<Event>;
   offline$: Observable<Event>;
+
+  unoButtonState$: Observable<'stationary' | 'slide'>;
 
   isMessageNotificationTriggered$: Observable<boolean>;
 
@@ -576,6 +588,12 @@ export class UnoBoardComponent implements OnInit {
   skip(): void {
     this.isSkipVisible = false;
   }
+
+  skipHover(isHover: boolean = false): void {
+    this.unoButtonState$ = (isHover) ? of('slide') : of('stationary');
+  }
+
+  uno(): void {}
 
   notifyMessage(): void {
     this.isMessageNotificationTriggered$ = of(true);
