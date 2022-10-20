@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TwoPlayerComponent } from './two-player/two-player.component';
-import { MultiPlayerComponent } from './multi-player/multi-player.component';
 import { ChooseColorDialogComponent } from './dialogs/actions/choose-color-dialog/choose-color-dialog.component';
 import { MaterialModule } from './material.module';
 import { OptionsDialogComponent } from './dialogs/actions/options-dialog/options-dialog.component';
@@ -23,13 +21,6 @@ import { NotificationSnackbarComponent } from './snackbars/notification-snackbar
 @NgModule({
   declarations: [
     AppComponent,
-    // CardDirective,
-    TwoPlayerComponent,
-    MultiPlayerComponent,
-    // CardDisplacementCoordinateDirective,
-    // CardGlowDirective,
-    // CurrentPlayerDirective,
-    // CurrentColorDirective,
     ChooseColorDialogComponent,
     OptionsDialogComponent,
     ReverseDialogComponent,

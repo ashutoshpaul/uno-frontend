@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { playerRoomTrigger } from 'src/app/dashboard-animations.animation';
+import { playerRoomTrigger } from 'src/app/core/animations/room.animation';
 
 @Component({
   selector: 'app-players-list',

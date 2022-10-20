@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from '../core/enums/animation.enum';
-import { 
-  revealCardsTrigger,
-  drawerDeckCardActivityTrigger,
-  cardActivityTrigger,
-  topPlayerCardActivityTrigger,
-  placeOpponentCardsTrigger,
-} from '../dashboard-animations.animation';
+
 import { AnimationEvent  } from "@angular/animations";
+import { revealCardsTrigger, drawerDeckCardActivityTrigger, cardActivityTrigger, topPlayerCardActivityTrigger, placeOpponentCardsTrigger } from 'src/app/core/animations/card.animation';
+import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from 'src/app/core/enums/animation.enum';
 
 @Component({
   selector: 'app-two-player',

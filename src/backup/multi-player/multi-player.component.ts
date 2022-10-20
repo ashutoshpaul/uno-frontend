@@ -1,42 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { AnimationEvent } from '@angular/animations';
-import { MatDialogRef } from '@angular/material/dialog';
-import { fromEvent, Observable, of } from 'rxjs';
+import { Component, OnInit } from "@angular/core";
+import { MatDialogRef } from "@angular/material/dialog";
 import { NgDialogAnimationService } from "ng-dialog-animation";
-import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from '../core/enums/animation.enum';
-import { 
-  revealCardsTrigger, 
-  drawerDeckCardActivityTrigger, 
-  cardActivityTrigger, 
-  topPlayerCardActivityTrigger, 
-  placeOpponentCardsTrigger,
-  leftPlayerCardActivityTrigger,
-  rightPlayerCardActivityTrigger,
-  shuffleCardsTrigger,
-  buttonAppearTrigger,
-} from '../dashboard-animations.animation';
-import { ChooseColorDialogComponent } from '../dialogs/actions/choose-color-dialog/choose-color-dialog.component';
-import { OptionsDialogComponent } from '../dialogs/actions/options-dialog/options-dialog.component';
-import {
-  alertDialogIncomingOptionsConstant,
-  alertDialogOutgoingOptionsConstant,
-  chooseColorDialogIncomingOptionsConstant, 
-  chooseColorDialogOutgoingOptionsConstant,
-  offlineOpponentDialogIncomingOptionsConstant,
-  offlineOpponentDialogOutgoingOptionsConstant,
-  optionsDialogIncomingOptionsConstant,
-  optionsDialogOutgoingOptionsConstant,
-  skipAlertDialogIncomingOptionsConstant,
-  skipAlertDialogOutgoingOptionsConstant,
-} from '../core/constants/animations.constants';
-import { COLOR_CODE_ENUM, VALID_COLOR_CODE } from '../core/enums/color-code.enum';
-import { ChosenColorDialogComponent } from '../dialogs/reactions/chosen-color-dialog/chosen-color-dialog.component';
-import { ReverseDialogComponent } from '../dialogs/reactions/reverse-dialog/reverse-dialog.component';
-import { DURATION } from '../core/constants/durations.constants';
-import { SkipDialogComponent } from '../dialogs/reactions/skip-dialog/skip-dialog.component';
-import { OfflineDialogComponent } from '../dialogs/reactions/offline-dialog/offline-dialog.component';
-import { JoinPlayersDialogComponent } from '../dialogs/reactions/join-players-dialog/join-players-dialog.component';
-import { OfflinePlayerDialogComponent } from '../dialogs/actions/offline-player-dialog/offline-player-dialog.component';
+import { Observable, of, fromEvent } from "rxjs";
+import { buttonAppearTrigger } from "src/app/core/animations/button.animation";
+import { revealCardsTrigger, drawerDeckCardActivityTrigger, cardActivityTrigger, topPlayerCardActivityTrigger, placeOpponentCardsTrigger, leftPlayerCardActivityTrigger, rightPlayerCardActivityTrigger, shuffleCardsTrigger } from "src/app/core/animations/card.animation";
+import { chooseColorDialogIncomingOptionsConstant, chooseColorDialogOutgoingOptionsConstant, alertDialogIncomingOptionsConstant, alertDialogOutgoingOptionsConstant, skipAlertDialogIncomingOptionsConstant, skipAlertDialogOutgoingOptionsConstant, optionsDialogIncomingOptionsConstant, optionsDialogOutgoingOptionsConstant, offlineOpponentDialogIncomingOptionsConstant, offlineOpponentDialogOutgoingOptionsConstant } from "src/app/core/constants/animations.constants";
+import { DURATION } from "src/app/core/constants/durations.constants";
+import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from "src/app/core/enums/animation.enum";
+import { VALID_COLOR_CODE, COLOR_CODE_ENUM } from "src/app/core/enums/color-code.enum";
+import { ChooseColorDialogComponent } from "src/app/dialogs/actions/choose-color-dialog/choose-color-dialog.component";
+import { OfflinePlayerDialogComponent } from "src/app/dialogs/actions/offline-player-dialog/offline-player-dialog.component";
+import { OptionsDialogComponent } from "src/app/dialogs/actions/options-dialog/options-dialog.component";
+import { ChosenColorDialogComponent } from "src/app/dialogs/reactions/chosen-color-dialog/chosen-color-dialog.component";
+import { JoinPlayersDialogComponent } from "src/app/dialogs/reactions/join-players-dialog/join-players-dialog.component";
+import { OfflineDialogComponent } from "src/app/dialogs/reactions/offline-dialog/offline-dialog.component";
+import { ReverseDialogComponent } from "src/app/dialogs/reactions/reverse-dialog/reverse-dialog.component";
+import { SkipDialogComponent } from "src/app/dialogs/reactions/skip-dialog/skip-dialog.component";
+import { AnimationEvent } from "@angular/animations";
 
 export enum GAME_DIRECTIONS {
   clockwise = 'clockwise',

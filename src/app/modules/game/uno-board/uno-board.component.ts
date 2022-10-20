@@ -18,19 +18,6 @@ import {
 import { DURATION } from 'src/app/core/constants/durations.constants';
 import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from 'src/app/core/enums/animation.enum';
 import { VALID_COLOR_CODE, COLOR_CODE_ENUM } from 'src/app/core/enums/color-code.enum';
-import { 
-  revealCardsTrigger, 
-  drawerDeckCardActivityTrigger, 
-  cardActivityTrigger, 
-  topPlayerCardActivityTrigger, 
-  placeOpponentCardsTrigger, 
-  leftPlayerCardActivityTrigger, 
-  rightPlayerCardActivityTrigger, 
-  shuffleCardsTrigger, 
-  buttonAppearTrigger,
-  messageNotificationTrigger,
-  gameNotificationTrigger,
-} from 'src/app/dashboard-animations.animation';
 import { ChooseColorDialogComponent } from 'src/app/dialogs/actions/choose-color-dialog/choose-color-dialog.component';
 import { OfflinePlayerDialogComponent } from 'src/app/dialogs/actions/offline-player-dialog/offline-player-dialog.component';
 import { OptionsDialogComponent } from 'src/app/dialogs/actions/options-dialog/options-dialog.component';
@@ -44,18 +31,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { IOptionsResponse } from 'src/app/core/interfaces/response.interface';
 import { NOTIFICATION_EVENT } from 'src/app/core/enums/notification.enum';
 import { IGameNotification } from 'src/app/core/interfaces/notification.interface';
-
-export enum GAME_DIRECTIONS {
-  clockwise = 'clockwise',
-  antiClockwise = 'anti-clockwise'
-};
-
-export enum PLAYER_POSITION {
-  left = 'left',
-  top = 'top',
-  right = 'right',
-  bottom = 'bottom',
-};
+import { buttonAppearTrigger } from 'src/app/core/animations/button.animation';
+import { revealCardsTrigger, drawerDeckCardActivityTrigger, cardActivityTrigger, topPlayerCardActivityTrigger, placeOpponentCardsTrigger, leftPlayerCardActivityTrigger, rightPlayerCardActivityTrigger, shuffleCardsTrigger } from 'src/app/core/animations/card.animation';
+import { messageNotificationTrigger, gameNotificationTrigger } from 'src/app/core/animations/notification.animation';
+import { GAME_DIRECTIONS } from 'src/app/core/enums/game.enum';
+import { PLAYER_POSITION } from 'src/app/core/enums/position.enum';
 
 @Component({
   selector: 'app-uno-board',

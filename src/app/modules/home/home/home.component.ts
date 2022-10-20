@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { enterButtonTrigger } from 'src/app/core/animations/button.animation';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
-import { enterButtonTrigger } from '../../../dashboard-animations.animation';
 
 @Component({
   selector: 'app-home',

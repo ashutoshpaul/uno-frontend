@@ -3,7 +3,7 @@ import { Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AnimationEvent } from '@angular/animations';
 import { COLOR_CODE_ENUM, VALID_COLOR_CODE } from 'src/app/core/enums/color-code.enum';
-import { chosenColorAlertTrigger } from 'src/app/dashboard-animations.animation';
+import { chosenColorAlertTrigger } from 'src/app/core/animations/button.animation';
 
 export interface DialogData {
   chosenColor: VALID_COLOR_CODE;

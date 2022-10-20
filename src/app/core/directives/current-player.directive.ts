@@ -1,5 +1,5 @@
 import { Directive, HostBinding, Input, OnChanges } from '@angular/core';
-import { PLAYER_POSITION } from 'src/app/modules/game/uno-board/uno-board.component';
+import { PLAYER_POSITION } from '../enums/position.enum';
 
 @Directive({
   selector: '[appCurrentPlayer]'

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VALID_COLOR_CODE } from 'src/app/core/enums/color-code.enum';
-import { GAME_DIRECTIONS } from 'src/app/multi-player/multi-player.component';
+import { GAME_DIRECTIONS } from 'src/app/core/enums/game.enum';
 
 interface DialogData {
   color: VALID_COLOR_CODE;
