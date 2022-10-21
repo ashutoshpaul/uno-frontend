@@ -280,6 +280,7 @@
         position: absolute;
         left: calc(12rem);
         right: calc(12rem);
+        // background-color: red;
     }
 
     .front-opponent-cards-tray-container {
@@ -481,6 +482,39 @@
 
     .uno-card > .uno-card-container > .uno-card-back {
         transform: unset;
+    }
+}
+
+.uno {
+    position: absolute;
+    bottom: -5rem;
+    left: calc(6rem);
+    right: calc(6rem);
+
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    // background-color: chocolate;
+
+    mat-icon {
+        color: rgb(255, 255, 255);
+        transform: rotateZ(180deg) scale(3.5, 3);
+    }
+
+    div {
+        position: absolute;
+        top: 0.5rem;
+
+        color: #f00000;
+        font-family: 'Fredoka One', 'Poppins', monospace;
+        font-size: 1.2rem;
+        font-weight: 500;
+        letter-spacing: 1.5px;
+
+        transform: rotateZ(180deg);
     }
 }
 

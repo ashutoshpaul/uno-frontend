@@ -45,6 +45,7 @@ import {
 import { messageNotificationTrigger, gameNotificationTrigger } from 'src/app/core/animations/notification.animation';
 import { GAME_DIRECTIONS } from 'src/app/core/enums/game.enum';
 import { PLAYER_POSITION } from 'src/app/core/enums/position.enum';
+import { unoTrigger } from 'src/app/core/animations/uno.animation';
 
 @Component({
   selector: 'app-uno-board',
@@ -63,6 +64,7 @@ import { PLAYER_POSITION } from 'src/app/core/enums/position.enum';
     messageNotificationTrigger,
     gameNotificationTrigger,
     unoButtonSlideTrigger,
+    unoTrigger,
   ],
 })
 export class UnoBoardComponent implements OnInit {
@@ -87,6 +89,8 @@ export class UnoBoardComponent implements OnInit {
   isMessageNotificationTriggered$: Observable<boolean>;
 
   notification$: Observable<IGameNotification>;
+
+  isUnoTriggered$: Observable<boolean>;
 
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
@@ -569,7 +573,7 @@ export class UnoBoardComponent implements OnInit {
 
   openSnackbar(): void {
     this.notification$ = of(<IGameNotification>{
-      event: NOTIFICATION_EVENT.roomJoined
+      event: NOTIFICATION_EVENT.drawFourCards
     });
   }
 
@@ -605,6 +609,14 @@ export class UnoBoardComponent implements OnInit {
 
   resetGameNotification(): void {
     this.notification$ = of(null);
+  }
+
+  unoTrigger(): void {
+    this.isUnoTriggered$ = of(true);
+  }
+
+  resetUnoTrigger(): void {
+    this.isUnoTriggered$ = of(false);
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
