@@ -4,3 +4,5 @@ export enum PLAYER_POSITION {
   right = 'right',
   bottom = 'bottom',
 };
+
+export type UnoPositionType = Exclude<PLAYER_POSITION, PLAYER_POSITION.bottom>;

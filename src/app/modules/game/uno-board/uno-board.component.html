@@ -75,12 +75,12 @@
         style="width: 150px; height: 30px">
         Message Notification
       </button>
+      <button
+        (click)="unoTrigger()"
+        style="width: 150px; height: 30px">
+        UNO Trigger
+      </button>
     </ng-container>
-    <button
-      (click)="unoTrigger()"
-      style="width: 150px; height: 30px">
-      UNO Trigger
-    </button>
       <div class="border">
         <div appCurrentPlayer [playerPosition]="currentPlayerPosition"></div>
       </div>
@@ -152,11 +152,13 @@
         <div class="opponent-name-container opponent-name" [ngClass]="{'active': true}">
           <div>left-player</div>
         </div>
-        <ng-container *ngIf="isUnoTriggered$ | async">
-          <div class="uno" [@uno]="'trigger'" (@uno.done)="resetUnoTrigger()">
-            <mat-icon>chat_bubble</mat-icon>
-            <div>UNO</div>
-          </div>
+        <ng-container *ngIf="(unoTrigger$ | async) as unoData">
+          <ng-container *ngIf="unoData?.isTriggered && unoData?.position == playerPosition.left">
+            <div class="uno" [@uno]="'trigger'" (@uno.done)="resetUnoTrigger()">
+              <mat-icon>chat_bubble</mat-icon>
+              <div>UNO</div>
+            </div>
+          </ng-container>
         </ng-container>
         <ng-container *ngIf="cards$ | async as freshCards">
           <div class="left-opponent-cards-tray-container"
@@ -188,11 +190,13 @@
         <div class="opponent-name-container opponent-name">
           <div>front-player</div>
         </div>
-        <ng-container *ngIf="isUnoTriggered$ | async">
-          <div class="uno" [@uno]="'trigger'" (@uno.done)="resetUnoTrigger()">
-            <mat-icon>chat_bubble</mat-icon>
-            <div>UNO</div>
-          </div>
+        <ng-container *ngIf="(unoTrigger$ | async) as unoData">
+          <ng-container *ngIf="unoData?.isTriggered && unoData?.position == playerPosition.top">
+            <div class="uno" [@uno]="'trigger'" (@uno.done)="resetUnoTrigger()">
+              <mat-icon>chat_bubble</mat-icon>
+              <div>UNO</div>
+            </div>
+          </ng-container>
         </ng-container>
         <ng-container *ngIf="cards$ | async as freshCards">
           <div class="front-opponent-cards-tray-container"
@@ -224,11 +228,13 @@
         <div class="opponent-name-container opponent-name">
           <div>right-player</div>
         </div>
-        <ng-container *ngIf="isUnoTriggered$ | async">
-          <div class="uno" [@uno]="'trigger'" (@uno.done)="resetUnoTrigger()">
-            <mat-icon>chat_bubble</mat-icon>
-            <div>UNO</div>
-          </div>
+        <ng-container *ngIf="(unoTrigger$ | async) as unoData">
+          <ng-container *ngIf="unoData?.isTriggered && unoData?.position == playerPosition.right">
+            <div class="uno" [@uno]="'trigger'" (@uno.done)="resetUnoTrigger()">
+              <mat-icon>chat_bubble</mat-icon>
+              <div>UNO</div>
+            </div>
+          </ng-container>
         </ng-container>
         <div class="right-opponent-cards-tray-container"
           [@placeOpponentCards]="{value: leftOpponentCards.length}">

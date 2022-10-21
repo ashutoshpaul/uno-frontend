@@ -44,7 +44,7 @@ import {
 } from 'src/app/core/animations/card.animation';
 import { messageNotificationTrigger, gameNotificationTrigger } from 'src/app/core/animations/notification.animation';
 import { GAME_DIRECTIONS } from 'src/app/core/enums/game.enum';
-import { PLAYER_POSITION } from 'src/app/core/enums/position.enum';
+import { PLAYER_POSITION, UnoPositionType } from 'src/app/core/enums/position.enum';
 import { unoTrigger } from 'src/app/core/animations/uno.animation';
 
 @Component({
@@ -90,7 +90,7 @@ export class UnoBoardComponent implements OnInit {
 
   notification$: Observable<IGameNotification>;
 
-  isUnoTriggered$: Observable<boolean>;
+  unoTrigger$: Observable<{ isTriggered: boolean, position: UnoPositionType }>;
 
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
@@ -243,6 +243,8 @@ export class UnoBoardComponent implements OnInit {
   isCardsTrayEnabled: boolean;
   isShuffleCards: boolean = false;
   isPickCard: boolean = false;
+
+  public readonly playerPosition: typeof PLAYER_POSITION = PLAYER_POSITION;
 
   set clockwise(isClockwise: boolean) { 
     this.gameDirection = isClockwise ? GAME_DIRECTIONS.clockwise : GAME_DIRECTIONS.antiClockwise; 
@@ -612,11 +614,11 @@ export class UnoBoardComponent implements OnInit {
   }
 
   unoTrigger(): void {
-    this.isUnoTriggered$ = of(true);
+    this.unoTrigger$ = of({ isTriggered: true, position: PLAYER_POSITION.left });
   }
 
   resetUnoTrigger(): void {
-    this.isUnoTriggered$ = of(false);
+    this.unoTrigger$ = of({ isTriggered: false, position: PLAYER_POSITION.left });
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
