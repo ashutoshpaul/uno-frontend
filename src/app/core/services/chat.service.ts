@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { IMessage } from '../interfaces/message.interface';
-import { SessionStorageService } from './session-storage.service';
+import { SessionStorageService, SESSION_KEY } from './session-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +23,13 @@ export class ChatService {
   }
 
   removeChatStatus(): void {
-    this._sessionStorage.remove('isChatOpen');
+    this._sessionStorage.remove(SESSION_KEY.isChatOpen);
   }
 
   toggleChat(): void {
-    let isChatOpen: boolean = this._sessionStorage.getItem('isChatOpen') === 'true' ?? false;
+    let isChatOpen: boolean = this._sessionStorage.getItem(SESSION_KEY.isChatOpen) === 'true' ?? false;
     isChatOpen = !isChatOpen;
-    this._sessionStorage.setItem('isChatOpen', isChatOpen);
+    this._sessionStorage.setItem(SESSION_KEY.isChatOpen, isChatOpen);
     return this.chat$.next(isChatOpen);
   }
 
@@ -60,6 +60,6 @@ export class ChatService {
   }
 
   get isChatOpen(): boolean {
-    return this._sessionStorage.getItem('isChatOpen') === 'true' ?? false;
+    return this._sessionStorage.getItem(SESSION_KEY.isChatOpen) === 'true' ?? false;
   }
 }

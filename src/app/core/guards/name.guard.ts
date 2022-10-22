@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, ActivatedRoute, Router } from '@angular/router';
-import { SessionStorageService } from '../services/session-storage.service';
+import { SessionStorageService, SESSION_KEY } from '../services/session-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class NameGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if(this._sessionStorage.getItem('playerName')) {
+    if(this._sessionStorage.getItem(SESSION_KEY.playerName)) {
       return true;
     }
     this._router.navigate([''], { relativeTo: this._activatedRoute });

@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
 
+export enum SESSION_KEY {
+  isChatOpen = 'isChatOpen',
+  isExit = 'isExit',
+  playerName = 'playerName',
+}
+
 @Injectable({
   providedIn: 'root'
 })

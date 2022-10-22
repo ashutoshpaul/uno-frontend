@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { enterButtonTrigger } from 'src/app/core/animations/button.animation';
-import { SessionStorageService } from 'src/app/core/services/session-storage.service';
+import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
       Validators.pattern('[a-zA-Z0-9]+'), // only letters and digits allowed
     ]);
 
-    const savedName: string = this._sessionStorage.getItem('playerName');
+    const savedName: string = this._sessionStorage.getItem(SESSION_KEY.playerName);
 
     if (savedName) {
       this.playerNameControl.setValue(savedName);
@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
 
   goToLobby(): void {
     if(!this.isInvalid) {
-      this._sessionStorage.setItem('playerName', this.playerNameControl.value);
+      this._sessionStorage.setItem(SESSION_KEY.playerName, this.playerNameControl.value);
       this._router.navigate(['lobby'], { relativeTo: this._activatedRoute });
     }
   }

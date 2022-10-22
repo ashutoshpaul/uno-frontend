@@ -6,7 +6,7 @@ import { OptionsDialogComponent } from 'src/app/dialogs/actions/options-dialog/o
 import { optionsDialogIncomingOptionsConstant, optionsDialogOutgoingOptionsConstant } from '../constants/animations.constants';
 import { DURATION } from '../constants/durations.constants';
 import { IOptionsResponse } from '../interfaces/response.interface';
-import { SessionStorageService } from '../services/session-storage.service';
+import { SessionStorageService, SESSION_KEY } from '../services/session-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +21,8 @@ export class ExitGuard implements CanDeactivate<OptionsDialogComponent> {
   ) {}
 
   canDeactivate() : Observable<boolean> {
-    const isExit: boolean = this._sessionStorage.getItem('isExit') == 'true' ?? false;
-    this._sessionStorage.remove('isExit'); // clear session
+    const isExit: boolean = this._sessionStorage.getItem(SESSION_KEY.isExit) == 'true' ?? false;
+    this._sessionStorage.remove(SESSION_KEY.isExit); // clear session
 
     if(isExit) {
       return of(true);

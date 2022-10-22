@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgDialogAnimationService } from 'ng-dialog-animation';
 import { roomDialogIncomingOptionsConstant, roomDialogOutgoingOptionsConstant } from 'src/app/core/constants/animations.constants';
-import { SessionStorageService } from 'src/app/core/services/session-storage.service';
+import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
 import { CreateRoomDialogComponent } from 'src/app/dialogs/actions/create-room-dialog/create-room-dialog.component';
 import { JoinRoomDialogComponent } from 'src/app/dialogs/actions/join-room-dialog/join-room-dialog.component';
 import { IRoom, ROOM_STATUS } from './room/room.component';
@@ -30,7 +30,7 @@ export class LobbyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.playerName = this._sessionStorage.getItem('playerName');
+    this.playerName = this._sessionStorage.getItem(SESSION_KEY.playerName);
   }
 
   editPlayerName(): void {

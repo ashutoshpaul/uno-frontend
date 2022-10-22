@@ -6,7 +6,7 @@ import * as screenfull from 'screenfull';
 import { DURATION } from 'src/app/core/constants/durations.constants';
 import { IOptionsResponse } from 'src/app/core/interfaces/response.interface';
 import { ChatService } from 'src/app/core/services/chat.service';
-import { SessionStorageService } from 'src/app/core/services/session-storage.service';
+import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
 
 @Component({
   selector: 'app-options-dialog',
@@ -53,7 +53,7 @@ export class OptionsDialogComponent implements OnInit {
   }
 
   close(isExitGame: boolean = false): void {
-    if(isExitGame) this._sessionStorage.setItem('isExit', true);
+    if(isExitGame) this._sessionStorage.setItem(SESSION_KEY.isExit, true);
     this._dialogRef.close(<IOptionsResponse>{ isExit: isExitGame });
   }
 
