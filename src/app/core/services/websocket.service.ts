@@ -20,10 +20,10 @@ export class WebsocketService {
   socket: Socket;
 
   constructor(
-    private readonly _roomService: RoomService,
     private readonly _sessionStorage: SessionStorageService,
     private readonly _snackbarService: SnackbarService,
     private readonly _playerService: PlayerService,
+    private readonly _roomService: RoomService,
   ) { 
     this._instantiateSocketConnection();
   }
@@ -161,29 +161,29 @@ export class WebsocketService {
       });
 
       // Response Events
-    this.socket.on(RESPONSE_EVENTS.failed, () => {
-      console.log(RESPONSE_EVENTS.failed);
-    });
+      this.socket.on(RESPONSE_EVENTS.failed, () => {
+        console.log(RESPONSE_EVENTS.failed);
+      });
 
-    this.socket.on(RESPONSE_EVENTS.roomCreated, (identity: IMinifiedIdentity | null) => {
-      if(identity) {
-        console.log(RESPONSE_EVENTS.roomCreated);
-        this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomCreated });
-        this._roomService.onRoomCreated(identity);
-      }
-    });
+      this.socket.on(RESPONSE_EVENTS.roomCreated, (identity: IMinifiedIdentity | null) => {
+        if(identity) {
+          console.log(RESPONSE_EVENTS.roomCreated);
+          this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomCreated });
+          this._roomService.onRoomCreated(identity);
+        }
+      });
 
-    this.socket.on(RESPONSE_EVENTS.roomDeleted, () => {
-      console.log(RESPONSE_EVENTS.roomDeleted);
-    });
+      this.socket.on(RESPONSE_EVENTS.roomDeleted, () => {
+        console.log(RESPONSE_EVENTS.roomDeleted);
+      });
 
-    this.socket.on(RESPONSE_EVENTS.roomJoined, () => {
-      console.log(RESPONSE_EVENTS.roomJoined);
-    });
+      this.socket.on(RESPONSE_EVENTS.roomJoined, () => {
+        console.log(RESPONSE_EVENTS.roomJoined);
+      });
 
-    this.socket.on(RESPONSE_EVENTS.roomLeft, () => {
-      console.log(RESPONSE_EVENTS.roomLeft);
-    });
+      this.socket.on(RESPONSE_EVENTS.roomLeft, () => {
+        console.log(RESPONSE_EVENTS.roomLeft);
+      });
     } else {
       console.error('socket not created!');
     }

@@ -1,18 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-
-export enum ROOM_STATUS {
-  roomCreated = 'roomCreated',
-  roomJoined = 'roomJoined',
-  roomDeleted = 'roomDeleted',
-  roomLeft = 'roomLeft',
-}
-
-export interface IRoom {
-  status: ROOM_STATUS;
-  name: string;
-}
+import { ROOM_STATUS } from 'src/app/core/enums/room-status.enum';
+import { ILobbyRoom } from 'src/app/core/interfaces/room.interface';
 
 @Component({
   selector: 'app-room',
@@ -21,10 +11,10 @@ export interface IRoom {
 })
 export class RoomComponent implements OnChanges, OnInit {
 
-  @Input() room: IRoom;
+  @Input() room: ILobbyRoom;
   @Input() isGameStarted: boolean = false;
 
-  room$: Observable<IRoom>;
+  room$: Observable<ILobbyRoom>;
 
   players: string[] = ['Samuel', 'Jack', 'Bob'];
   roomStatus: ROOM_STATUS;
@@ -69,7 +59,7 @@ export class RoomComponent implements OnChanges, OnInit {
   }
 
   get isRoomDeleted(): boolean {
-    return this.room?.status == ROOM_STATUS.roomDeleted;
+    return this.room?.status == ROOM_STATUS.deleted;
   }
 
   get isRoomAvailable(): boolean {

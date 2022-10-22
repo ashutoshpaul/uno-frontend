@@ -1,3 +1,3 @@
 export interface IOptionsResponse {
-    isExit: boolean;
+  isExit: boolean;
 }

@@ -1,6 +1,7 @@
 export interface IMinifiedRoom {
   id: string;
   name: string;
+  createdBy?: IMinifiedPlayer;
 }
 
 export interface IMinifiedPlayer {

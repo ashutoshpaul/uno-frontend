@@ -10,7 +10,7 @@
                 <div class="join-room" (click)="joinRoom()">Join Room</div>
             </div>
             <div class="footer">
-                <app-room [room]="room" [isGameStarted]="isGameStarted"></app-room>
+                <app-room [room]="room$ | async" [isGameStarted]="isGameStarted"></app-room>
             </div>
         </div>
     </section>
