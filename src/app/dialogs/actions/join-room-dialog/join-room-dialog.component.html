@@ -2,15 +2,28 @@
     <div class="header">Join Room</div>
     <div class="body">
         <input 
-            type="text" 
-            autofocus
+            type="text"
             maxlength="20"
             placeholder="Enter room name"
             [formControl]="roomControl"
-            (keydown.enter)="joinRoom()">
+            (keydown.enter)="joinRoom()"
+            [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let room of filteredRooms$ | async" [value]="room"
+                (click)="select(room)">
+                {{ room.name }}
+            </mat-option>
+        </mat-autocomplete>
+        <div class="error">
+            <div 
+                *ngIf="isDirty && isInvalid" 
+                class="error-container">
+                {{ errorMessage }}
+            </div>
+        </div>
     </div>
     <div class="footer">
-        <div 
+        <div
             class="create" 
             (click)="joinRoom()"
             [ngClass]="{

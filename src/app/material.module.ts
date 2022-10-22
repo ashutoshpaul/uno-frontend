@@ -6,6 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const modules = [
   MatDialogModule,
@@ -15,6 +16,7 @@ const modules = [
   MatSidenavModule,
   MatBadgeModule,
   MatSnackBarModule,
+  MatAutocompleteModule,
 ];
 
 @NgModule({

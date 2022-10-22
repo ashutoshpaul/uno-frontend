@@ -7,6 +7,7 @@ export interface IMinifiedRoom {
 export interface IMinifiedPlayer {
   id: string;
   name: string;
+  isVacancy: boolean;
 }
 
 export interface IMinifiedIdentity {

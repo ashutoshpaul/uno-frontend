@@ -71,6 +71,7 @@ export class LobbyComponent implements OnInit {
       },
       panelClass: 'choose-color-dialog',
       data: { rooms: this.rooms },
+      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe((data: JoinRoomDialogData) => {
