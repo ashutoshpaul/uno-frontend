@@ -8,6 +8,7 @@ export enum SESSION_KEY {
   roomId = 'roomId',
 
   identity = 'identity', // IMinifiedIdentity
+  socketId = 'socketId',
 }
 
 @Injectable({

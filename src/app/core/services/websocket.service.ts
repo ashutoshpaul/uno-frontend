@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 import { GAME_EVENTS } from '../enums/websocket-enums/game-events.enum';
 import { PLAYER_EVENTS } from '../enums/websocket-enums/player-events.enum';
@@ -9,30 +9,38 @@ import { IRoomNotification } from '../interfaces/notification.interface';
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
 import { IMinifiedIdentity } from '../interfaces/minified.interface';
 import { RoomService } from './room.service';
+import { SessionStorageService, SESSION_KEY } from './session-storage.service';
+import { PlayerService } from './player.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebsocketService {
 
-  socket;
+  socket: Socket;
 
   constructor(
-    private readonly _snackbarService: SnackbarService,
     private readonly _roomService: RoomService,
+    private readonly _sessionStorage: SessionStorageService,
+    private readonly _snackbarService: SnackbarService,
+    private readonly _playerService: PlayerService,
   ) { 
-    this.setupSocketConnection();
-  }
-
-  setupSocketConnection() {
-    this.socket = io(environment.websocket);
-    console.log('CONNECTED', this.socket);
-
-    this._registerListeners();
+    this._instantiateSocketConnection();
   }
 
   createRoom(playerName: string, roomName: string) {
     this.socket.emit(PLAYER_EVENTS.createRoom, playerName, roomName);
+  }
+
+  private _instantiateSocketConnection() {
+    this.socket = io(environment.websocket);
+
+    this.socket.on(RESPONSE_EVENTS.connectionEstablished, (socketId: string) => {
+      console.log('CONNECTED', this.socket.id, socketId);
+      this._sessionStorage.setItem(SESSION_KEY.socketId, socketId);
+      this._registerListeners();
+      this._playerService.connection();
+    });
   }
 
   private _registerListeners(): void {
@@ -160,7 +168,7 @@ export class WebsocketService {
     this.socket.on(RESPONSE_EVENTS.roomCreated, (identity: IMinifiedIdentity | null) => {
       if(identity) {
         console.log(RESPONSE_EVENTS.roomCreated);
-        this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.drawFourCards });
+        this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomCreated });
         this._roomService.onRoomCreated(identity);
       }
     });
