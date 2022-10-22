@@ -1,10 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IMinifiedRoom } from 'src/app/core/interfaces/room-minified.interface';
 import { CreateRoomDialogComponent } from '../create-room-dialog/create-room-dialog.component';
 
-interface DialogData {
-  rooms: string[];
+export interface JoinRoomDialogData {
+  rooms?: IMinifiedRoom[];
+  selectedRoom?: IMinifiedRoom;
 }
 
 @Component({
@@ -18,7 +20,7 @@ export class JoinRoomDialogComponent implements OnInit {
 
   constructor(
     private readonly _dialogRef: MatDialogRef<CreateRoomDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private readonly _data: DialogData,
+    @Inject(MAT_DIALOG_DATA) private readonly _data: JoinRoomDialogData,
     private readonly _formBuilder: FormBuilder,
   ) { }
 
@@ -29,11 +31,12 @@ export class JoinRoomDialogComponent implements OnInit {
   joinRoom(): void {
     if(!this.isInvalid) {
       console.log('create room');
+      this.close();
     }
   }
 
-  close(): void {
-    this._dialogRef.close();
+  close(selectedRoom?: IMinifiedRoom): void {
+    this._dialogRef.close(<JoinRoomDialogData>{ selectedRoom: selectedRoom });
   }
 
   get isInvalid(): boolean {

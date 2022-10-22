@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgDialogAnimationService } from 'ng-dialog-animation';
 import { roomDialogIncomingOptionsConstant, roomDialogOutgoingOptionsConstant } from 'src/app/core/constants/animations.constants';
 import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
-import { CreateRoomDialogComponent } from 'src/app/dialogs/actions/create-room-dialog/create-room-dialog.component';
-import { JoinRoomDialogComponent } from 'src/app/dialogs/actions/join-room-dialog/join-room-dialog.component';
+import { CreateRoomDialogComponent, CreateRoomDialogData } from 'src/app/dialogs/actions/create-room-dialog/create-room-dialog.component';
+import { JoinRoomDialogComponent, JoinRoomDialogData } from 'src/app/dialogs/actions/join-room-dialog/join-room-dialog.component';
 import { IRoom, ROOM_STATUS } from './room/room.component';
 
 @Component({
@@ -46,9 +46,11 @@ export class LobbyComponent implements OnInit {
       panelClass: 'choose-color-dialog',
     });
 
-    // dialogRef.afterClosed().subscribe((options: IOptions) => {
-    //   if(options) {}
-    // });
+    dialogRef.afterClosed().subscribe((data: CreateRoomDialogData) => {
+      if (data?.isCreateRoom) {
+        // create room
+      }
+    });
   }
 
   joinRoom(): void {
@@ -61,9 +63,11 @@ export class LobbyComponent implements OnInit {
       data: { rooms: ['ABC', 'DEF', 'GHI', 'JKL'] },
     });
 
-    // dialogRef.afterClosed().subscribe((options: IOptions) => {
-    //   if(options) {}
-    // });
+    dialogRef.afterClosed().subscribe((data: JoinRoomDialogData) => {
+      if(data.selectedRoom) {
+        // join room
+      }
+    });
   }
 
 }

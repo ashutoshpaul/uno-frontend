@@ -1,7 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DialogData } from '../../reactions/chosen-color-dialog/chosen-color-dialog.component';
+import { MatDialogRef } from '@angular/material/dialog';
+
+export interface CreateRoomDialogData {
+  isCreateRoom: boolean;
+}
 
 @Component({
   selector: 'app-create-room-dialog',
@@ -14,7 +17,6 @@ export class CreateRoomDialogComponent implements OnInit {
 
   constructor(
     private readonly _dialogRef: MatDialogRef<CreateRoomDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private readonly _data: DialogData,
     private readonly _formBuilder: FormBuilder,
   ) { }
 
@@ -29,12 +31,12 @@ export class CreateRoomDialogComponent implements OnInit {
 
   createRoom(): void {
     if(!this.isInvalid) {
-      console.log('create room');
+      this.close(true);
     }
   }
 
-  close(): void {
-    this._dialogRef.close();
+  close(isCreateRoom: boolean = false): void {
+    this._dialogRef.close(<CreateRoomDialogData>{ isCreateRoom: isCreateRoom });
   }
 
   get isInvalid(): boolean {
