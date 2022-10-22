@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgDialogAnimationService } from 'ng-dialog-animation';
 import { Observable } from 'rxjs';
 import { roomDialogIncomingOptionsConstant, roomDialogOutgoingOptionsConstant } from 'src/app/core/constants/animations.constants';
+import { IMinifiedRoom } from 'src/app/core/interfaces/minified.interface';
 import { ILobbyRoom } from 'src/app/core/interfaces/room.interface';
 import { RoomService } from 'src/app/core/services/room.service';
 import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
@@ -21,6 +22,7 @@ export class LobbyComponent implements OnInit {
 
   playerName: string;
   isGameStarted: boolean = false;
+  rooms: IMinifiedRoom[];
 
   constructor(
     private readonly _router: Router,
@@ -34,6 +36,11 @@ export class LobbyComponent implements OnInit {
   ngOnInit(): void {
     this.playerName = this._sessionStorage.getItem(SESSION_KEY.playerName);
     this.room$ = this._roomService.room$;
+
+    this._roomService.getRooms().subscribe((rooms: IMinifiedRoom[]) => {
+      this.rooms = rooms;
+      console.log(this.rooms);
+    });
   }
 
   editPlayerName(): void {
@@ -63,7 +70,7 @@ export class LobbyComponent implements OnInit {
         outgoingOptions: roomDialogOutgoingOptionsConstant,
       },
       panelClass: 'choose-color-dialog',
-      data: { rooms: ['ABC', 'DEF', 'GHI', 'JKL'] },
+      data: { rooms: this.rooms },
     });
 
     dialogRef.afterClosed().subscribe((data: JoinRoomDialogData) => {
