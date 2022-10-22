@@ -6,7 +6,6 @@
             maxlength="20"
             placeholder="Enter room name"
             [formControl]="roomControl"
-            (keydown.enter)="joinRoom()"
             [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <mat-option *ngFor="let room of filteredRooms$ | async" [value]="room"

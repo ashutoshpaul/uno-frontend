@@ -22,6 +22,8 @@ export class JoinRoomDialogComponent implements OnInit {
   roomControl: FormControl;
 
   rooms: IMinifiedRoom[] = [];
+  selectedRoom: IMinifiedRoom;
+
   filteredRooms$: Observable<IMinifiedRoom[]>;
 
   constructor(
@@ -47,14 +49,17 @@ export class JoinRoomDialogComponent implements OnInit {
   }
 
   joinRoom(): void {
+    if (!this.selectedRoom) {
+      this.selectedRoom = this.rooms.find(room => room.name == this.roomControl.value);
+    }
     if(!this.isInvalid) {
-      console.log('create room');
-      this.close();
+      this.close(this.selectedRoom);
     }
   }
 
   select(room: IMinifiedRoom): void {
     this.roomControl.setValue(room.name);
+    this.selectedRoom = room;
   }
 
   close(selectedRoom?: IMinifiedRoom): void {

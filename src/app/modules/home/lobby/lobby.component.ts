@@ -75,8 +75,8 @@ export class LobbyComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((data: JoinRoomDialogData) => {
-      if(data.selectedRoom) {
-        // join room
+      if(data && data.selectedRoom) {
+        console.log(data.selectedRoom);
       }
     });
   }
