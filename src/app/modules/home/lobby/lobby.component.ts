@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgDialogAnimationService } from 'ng-dialog-animation';
 import { roomDialogIncomingOptionsConstant, roomDialogOutgoingOptionsConstant } from 'src/app/core/constants/animations.constants';
 import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
+import { WebsocketService } from 'src/app/core/services/websocket.service';
 import { CreateRoomDialogComponent, CreateRoomDialogData } from 'src/app/dialogs/actions/create-room-dialog/create-room-dialog.component';
 import { JoinRoomDialogComponent, JoinRoomDialogData } from 'src/app/dialogs/actions/join-room-dialog/join-room-dialog.component';
 import { IRoom, ROOM_STATUS } from './room/room.component';
@@ -27,6 +28,7 @@ export class LobbyComponent implements OnInit {
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _dialog: NgDialogAnimationService,
     private readonly _sessionStorage: SessionStorageService,
+    private readonly _websocketService: WebsocketService,
   ) { }
 
   ngOnInit(): void {
@@ -48,7 +50,7 @@ export class LobbyComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((data: CreateRoomDialogData) => {
       if (data?.isCreateRoom) {
-        // create room
+        this._websocketService.createRoom(this.playerName, data.roomName);
       }
     });
   }

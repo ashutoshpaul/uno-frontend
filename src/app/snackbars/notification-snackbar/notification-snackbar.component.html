@@ -1,22 +1,4 @@
 <main [ngSwitch]="data.event">
-    <article *ngSwitchCase="events.drawFourCards">
-        <mat-icon class="card">library_add</mat-icon>
-        <mat-icon class="card">library_add</mat-icon>
-        <mat-icon class="card">library_add</mat-icon>
-        <mat-icon class="card">library_add</mat-icon>
-        <div> +4 Cards</div>
-    </article>
-    <article *ngSwitchCase="events.drawTwoCards">
-        <mat-icon class="card">library_add</mat-icon>
-        <mat-icon class="card">library_add</mat-icon>
-        <div> +2 Cards </div>
-    </article>
-    <article *ngSwitchCase="events.playerRemoved">
-        <mat-icon class="negative">person_remove</mat-icon>
-        <div>
-            {{ data.additional?.playerName }} removed {{ data.additional?.removedPlayerName }}
-        </div>
-    </article>
     <article *ngSwitchCase="events.roomCreated">
         <mat-icon class="positive">location_on</mat-icon>
         <div>Room created</div>

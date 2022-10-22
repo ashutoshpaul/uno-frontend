@@ -3,6 +3,12 @@ import { io } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 import { GAME_EVENTS } from '../enums/websocket-enums/game-events.enum';
 import { PLAYER_EVENTS } from '../enums/websocket-enums/player-events.enum';
+import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
+import { SnackbarService } from './snackbar.service';
+import { IRoomNotification } from '../interfaces/notification.interface'; 
+import { NOTIFICATION_EVENT } from '../enums/notification.enum';
+import { IMinifiedIdentity } from '../interfaces/minified.interface';
+import { RoomService } from './room.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +17,12 @@ export class WebsocketService {
 
   socket;
 
-  constructor() { }
+  constructor(
+    private readonly _snackbarService: SnackbarService,
+    private readonly _roomService: RoomService,
+  ) { 
+    this.setupSocketConnection();
+  }
 
   setupSocketConnection() {
     this.socket = io(environment.websocket);
@@ -20,25 +31,15 @@ export class WebsocketService {
     this._registerListeners();
   }
 
-  // increment(): void {
-  //   this.socket.emit('increment');
-  //   console.log('-- increment emitted --');
-  // }
-
-  // decrement(): void {
-  //   this.socket.emit('decrement');
-  //   console.log('-- decrement emitted --');
-  // }
+  createRoom(playerName: string, roomName: string) {
+    this.socket.emit(PLAYER_EVENTS.createRoom, playerName, roomName);
+  }
 
   private _registerListeners(): void {
     if (this.socket) {
       // Player Events
       this.socket.on(PLAYER_EVENTS.allJoinedGame, () => {
         console.log(PLAYER_EVENTS.allJoinedGame);
-      });
-  
-      this.socket.on(PLAYER_EVENTS.createRoom, () => {
-        console.log(PLAYER_EVENTS.createRoom);
       });
   
       this.socket.on(PLAYER_EVENTS.deleteRoom, () => {
@@ -150,6 +151,31 @@ export class WebsocketService {
       this.socket.on(GAME_EVENTS.skipped, () => {
         console.log(GAME_EVENTS.skipped);
       });
+
+      // Response Events
+    this.socket.on(RESPONSE_EVENTS.failed, () => {
+      console.log(RESPONSE_EVENTS.failed);
+    });
+
+    this.socket.on(RESPONSE_EVENTS.roomCreated, (identity: IMinifiedIdentity | null) => {
+      if(identity) {
+        console.log(RESPONSE_EVENTS.roomCreated);
+        this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.drawFourCards });
+        this._roomService.onRoomCreated(identity);
+      }
+    });
+
+    this.socket.on(RESPONSE_EVENTS.roomDeleted, () => {
+      console.log(RESPONSE_EVENTS.roomDeleted);
+    });
+
+    this.socket.on(RESPONSE_EVENTS.roomJoined, () => {
+      console.log(RESPONSE_EVENTS.roomJoined);
+    });
+
+    this.socket.on(RESPONSE_EVENTS.roomLeft, () => {
+      console.log(RESPONSE_EVENTS.roomLeft);
+    });
     } else {
       console.error('socket not created!');
     }

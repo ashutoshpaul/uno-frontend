@@ -6,6 +6,8 @@ export enum SESSION_KEY {
   playerName = 'playerName',
   playerId = 'playerId',
   roomId = 'roomId',
+
+  identity = 'identity', // IMinifiedIdentity
 }
 
 @Injectable({

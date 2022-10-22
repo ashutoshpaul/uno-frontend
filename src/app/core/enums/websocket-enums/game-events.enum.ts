@@ -5,14 +5,14 @@
 export const enum GAME_EVENTS {
   drawTwoCards = 'drawTwoCards',
   drawFourCards = 'drawFourCards',
-  
+
   changeColor = 'changeColor', // choosing a color
   colorChanged = 'colorChanged',  // color chosen
-  
+
   changeDirection = 'changeDirection',
   skipped = 'skipped',
-  
-  // automatic events
+
+  // auto-triggered events
   shuffle = 'shuffle',
   discardFirstCard = 'discardFirstCard',
   distributeCards = 'distributeCards',

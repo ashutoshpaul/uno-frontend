@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 export interface CreateRoomDialogData {
   isCreateRoom: boolean;
+  roomName: string;
 }
 
 @Component({
@@ -36,7 +37,10 @@ export class CreateRoomDialogComponent implements OnInit {
   }
 
   close(isCreateRoom: boolean = false): void {
-    this._dialogRef.close(<CreateRoomDialogData>{ isCreateRoom: isCreateRoom });
+    this._dialogRef.close(<CreateRoomDialogData>{ 
+      isCreateRoom: isCreateRoom,
+      roomName: this.roomNameControl.value.toString(),
+    });
   }
 
   get isInvalid(): boolean {

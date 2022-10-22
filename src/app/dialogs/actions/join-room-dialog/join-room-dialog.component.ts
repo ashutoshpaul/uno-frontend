@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IMinifiedRoom } from 'src/app/core/interfaces/room-minified.interface';
+import { IMinifiedRoom } from 'src/app/core/interfaces/minified.interface';
 import { CreateRoomDialogComponent } from '../create-room-dialog/create-room-dialog.component';
 
 export interface JoinRoomDialogData {
