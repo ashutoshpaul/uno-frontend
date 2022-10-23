@@ -16,7 +16,7 @@ export class RoomComponent implements OnChanges, OnInit {
 
   room$: Observable<ILobbyRoom>;
 
-  players: string[] = ['Samuel', 'Jack', 'Bob'];
+  players: string[] = [];
   roomStatus: ROOM_STATUS;
 
   readonly roomStatuses: typeof ROOM_STATUS = ROOM_STATUS;

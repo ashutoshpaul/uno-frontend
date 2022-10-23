@@ -1,5 +1,6 @@
 export interface IMinifiedRoom {
   id: string;
+  isAvailable: boolean;
   name: string;
   createdBy?: IMinifiedPlayer;
 }
@@ -7,7 +8,6 @@ export interface IMinifiedRoom {
 export interface IMinifiedPlayer {
   id: string;
   name: string;
-  isVacancy: boolean;
 }
 
 export interface IMinifiedIdentity {

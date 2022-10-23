@@ -24,6 +24,7 @@ export class RoomService {
       res.map(e => <IMinifiedRoom>{
         id: e.id,
         name: e.name,
+        isAvailable: e.isAvailable,
         ...(e.createdBy && {createdBy: e.createdBy}),
       }),
     ));

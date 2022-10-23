@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { IMinifiedRoom } from 'src/app/core/interfaces/minified.interface';
-import { selectFromAvailableRoom } from 'src/app/core/validators/select-from-available-room.validator';
+import { selectFromAvailableRoom, unavailableRoom } from 'src/app/core/validators/select-room.validator';
 import { CreateRoomDialogComponent } from '../create-room-dialog/create-room-dialog.component';
 
 export interface JoinRoomDialogData {
@@ -34,9 +34,14 @@ export class JoinRoomDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.rooms = this._data.rooms;
+
+    const availableRoomNames: string[] = this.rooms.filter(room => room.isAvailable).map(room => room.name);
+    const unavailableRoomNames: string[] = this.rooms.filter(room => !room.isAvailable).map(room => room.name);
+
     this.roomControl = this._formBuilder.control('', [
       Validators.required,
-      selectFromAvailableRoom(this.rooms.map(room => room.name)),
+      selectFromAvailableRoom(availableRoomNames),
+      unavailableRoom(unavailableRoomNames),
     ]);
 
     this.filteredRooms$ = this.roomControl.valueChanges.pipe(
@@ -76,7 +81,8 @@ export class JoinRoomDialogComponent implements OnInit {
 
   get errorMessage(): string {
     if (this.roomControl.hasError("required")) { return "Enter value"; }
-    if (this.roomControl.hasError("isNotAnAvailableRoom")) { return "Select a room"; }
+    if (this.roomControl.hasError("isRoomUnavailable")) { return "Room unavailable"; }
+    if (this.roomControl.hasError("isNotValidRoom")) { return "Select a room"; }
     return null;
   }
 

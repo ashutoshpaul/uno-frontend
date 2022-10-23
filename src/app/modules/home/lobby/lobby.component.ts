@@ -39,7 +39,6 @@ export class LobbyComponent implements OnInit {
 
     this._roomService.getRooms().subscribe((rooms: IMinifiedRoom[]) => {
       this.rooms = rooms;
-      console.log(this.rooms);
     });
   }
 
