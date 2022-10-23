@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ICreateRoomPayload, IJoinRoomPayload, IUpdateSocketIdPayload } from '../interfaces/http.interface';
+import { ICreateRoomPayload, IJoinRoomPayload, ILobbyRoomResponse, IUpdateSocketIdPayload } from '../interfaces/http.interface';
 import { IRoom } from '../interfaces/room.interface';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
 
@@ -30,6 +30,10 @@ export class HttpService {
 
   getRooms(): Observable<IRoom[]> {
     return this._http.get<IRoom[]>(`${this.BASE_URL}/rooms`);
+  }
+
+  getRoom(id: string): Observable<ILobbyRoomResponse> {
+    return this._http.get<ILobbyRoomResponse>(`${this.BASE_URL}/rooms/${id}`);
   }
 
   createRoom(payload: ICreateRoomPayload) {

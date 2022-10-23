@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { playerRoomTrigger } from 'src/app/core/animations/room.animation';
+import { IMinifiedPlayer } from 'src/app/core/interfaces/minified.interface';
 
 @Component({
   selector: 'app-players-list',
@@ -10,17 +11,17 @@ import { playerRoomTrigger } from 'src/app/core/animations/room.animation';
 })
 export class PlayersListComponent implements OnChanges, OnInit {
 
-  readonly MAX_PLAYERS: number = 4;
+  readonly MAX_OPPONENTS: number = 3;
 
-  @Input() players: string[];
   @Input() isGameStarted: boolean;
+  @Input() players$: Observable<IMinifiedPlayer[]>;
 
-  players$: Observable<string[]>;
+  players: IMinifiedPlayer[];
 
   constructor() { }
 
   ngOnChanges(): void {
-    this.players$ = of(this.players);
+    this.players$?.subscribe((players: IMinifiedPlayer[]) => this.players = players);
   }
 
   ngOnInit(): void {
@@ -43,10 +44,10 @@ export class PlayersListComponent implements OnChanges, OnInit {
   }
 
   get message(): string {
-    if(this.isGameStarted) return 'Game has been started';
-    if (this.players.length == 0) return 'Waiting for players to join room...';
-    if (this.players.length < this.MAX_PLAYERS) return 'Waiting for more players to join';
-    if (this.players.length > this.MAX_PLAYERS) return 'Maximum four players can play at a time';
+    if (this.isGameStarted) return 'Game has been started';
+    if (this.players?.length == 0) return 'Waiting for players to join room...';
+    if (this.players?.length < this.MAX_OPPONENTS) return 'Waiting for more players to join';
+    if (this.players?.length > this.MAX_OPPONENTS) return 'Maximum four players can play at a time';
     return ""; 
   }
 

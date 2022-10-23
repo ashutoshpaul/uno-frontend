@@ -161,16 +161,16 @@ export class WebsocketService {
         console.log(RESPONSE_EVENTS.failed);
       });
 
-      // this.socket.on(RESPONSE_EVENTS.roomJoined, () => {
-      //   console.log(RESPONSE_EVENTS.roomJoined);
-      // });
-
       this.socket.on(RESPONSE_EVENTS.roomDeleted, () => {
         console.log(RESPONSE_EVENTS.roomDeleted);
       });
 
       this.socket.on(RESPONSE_EVENTS.roomLeft, () => {
         console.log(RESPONSE_EVENTS.roomLeft);
+      });
+
+      this.socket.on(RESPONSE_EVENTS.roomJoined, () => {
+        console.log('*****', PLAYER_EVENTS.joinRoom);
       });
     } else {
       console.error('socket not created!');

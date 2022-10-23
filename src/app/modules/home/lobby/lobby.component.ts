@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgDialogAnimationService } from 'ng-dialog-animation';
-import { Observable } from 'rxjs';
 import { roomDialogIncomingOptionsConstant, roomDialogOutgoingOptionsConstant } from 'src/app/core/constants/animations.constants';
 import { IMinifiedRoom } from 'src/app/core/interfaces/minified.interface';
-import { ILobbyRoom } from 'src/app/core/interfaces/room.interface';
 import { RoomService } from 'src/app/core/services/room.service';
 import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
 import { WebsocketService } from 'src/app/core/services/websocket.service';
@@ -18,10 +16,7 @@ import { JoinRoomDialogComponent, JoinRoomDialogData } from 'src/app/dialogs/act
 })
 export class LobbyComponent implements OnInit {
 
-  room$: Observable<ILobbyRoom>;
-
   playerName: string;
-  isGameStarted: boolean = false;
   rooms: IMinifiedRoom[];
 
   constructor(
@@ -34,12 +29,8 @@ export class LobbyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this._websocketService;
     this.playerName = this._sessionStorage.getItem(SESSION_KEY.playerName);
-    this.room$ = this._roomService.room$;
-
-    this._roomService.getRooms().subscribe((rooms: IMinifiedRoom[]) => {
-      this.rooms = rooms;
-    });
   }
 
   editPlayerName(): void {

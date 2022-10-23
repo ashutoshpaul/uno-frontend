@@ -10,7 +10,10 @@ export interface IRoom {
   isAvailable: boolean;
 }
 
+/**
+ * Used only for room-create/room-join trigger
+ */
 export interface ILobbyRoom {
-  status: ROOM_STATUS;
   name: string;
+  status: ROOM_STATUS;
 }

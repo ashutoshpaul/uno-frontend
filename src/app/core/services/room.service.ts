@@ -4,7 +4,8 @@ import { map } from 'rxjs/operators';
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
 import { ROOM_STATUS } from '../enums/room-status.enum';
 import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
-import { IMinifiedIdentity, IMinifiedRoom } from '../interfaces/minified.interface';
+import { ILobbyRoomResponse } from '../interfaces/http.interface';
+import { IMinifiedIdentity, IMinifiedPlayer, IMinifiedRoom } from '../interfaces/minified.interface';
 import { IRoomNotification } from '../interfaces/notification.interface';
 import { ILobbyRoom } from '../interfaces/room.interface';
 import { HttpService } from './http.service';
@@ -16,7 +17,7 @@ import { SnackbarService } from './snackbar.service';
 })
 export class RoomService {
 
-  readonly room$ = new Subject<ILobbyRoom>();
+  readonly room$ = new Subject<ILobbyRoomResponse|ILobbyRoom>();
 
   constructor(
     private readonly _httpService: HttpService,
@@ -57,6 +58,17 @@ export class RoomService {
     ));
   }
 
+  getRoom(roomId: string): Observable<ILobbyRoomResponse> {
+    return this._httpService.getRoom(roomId).pipe(map(res => <ILobbyRoomResponse>{
+      createdBy: res.createdBy,
+      id: res.id,
+      isGameStarted: res.isGameStarted,
+      players: res.players,
+      name: res.name,
+      status: this._roomStatus(res.createdBy),
+    }));
+  }
+
   onRoomCreated(identity: IMinifiedIdentity): void {
     this._sessionStorage.setItem(SESSION_KEY.identity, JSON.stringify(identity));
     this.triggerRoomEvent(identity.room.name, ROOM_STATUS.created);
@@ -69,5 +81,14 @@ export class RoomService {
 
   triggerRoomEvent(roomName: string, roomStatus: ROOM_STATUS): void {
     this.room$.next({ name: roomName, status: roomStatus });
+  }
+
+  private _roomStatus(createdBy: IMinifiedPlayer): ROOM_STATUS {
+    const playerId: string = this._sessionStorage.getItem(SESSION_KEY.playerId);
+    return (this._isCreatedByMe(playerId, createdBy)) ? ROOM_STATUS.created : ROOM_STATUS.joined;
+  }
+
+  private _isCreatedByMe(playerId: string, createdBy: IMinifiedPlayer): boolean {
+    return playerId == createdBy?.id;
   }
 }

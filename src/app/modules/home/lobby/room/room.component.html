@@ -9,7 +9,10 @@
             </div>
         </section>
         <section class="body">
-            <app-players-list [players]="players" [isGameStarted]="isGameStarted"></app-players-list>
+            <app-players-list 
+                [players$]="otherPlayers$"
+                [isGameStarted]="room.isGameStarted">
+            </app-players-list>
         </section>
         <section class="footer">
             <div class="delete-room" (click)="deleteRoom()">Delete Room</div>
