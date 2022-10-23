@@ -57,7 +57,7 @@ export class LobbyComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((data: CreateRoomDialogData) => {
       if (data?.isCreateRoom) {
-        this._websocketService.createRoom(this.playerName, data.roomName);
+        this._roomService.createRoom(this.playerName, data.roomName);
       }
     });
   }
@@ -74,7 +74,7 @@ export class LobbyComponent implements OnInit {
         data: { rooms: this.rooms },
         autoFocus: false,
       });
-  
+
       dialogRef.afterClosed().subscribe((data: JoinRoomDialogData) => {
         if(data && data.selectedRoom) {
           this._websocketService.joinRoom(this.playerName, data.selectedRoom);

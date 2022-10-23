@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NOTIFICATION_EVENT } from '../enums/notification.enum';
 import { ROOM_STATUS } from '../enums/room-status.enum';
+import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
 import { IMinifiedIdentity, IMinifiedRoom } from '../interfaces/minified.interface';
+import { IRoomNotification } from '../interfaces/notification.interface';
 import { ILobbyRoom } from '../interfaces/room.interface';
 import { HttpService } from './http.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
+import { SnackbarService } from './snackbar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +21,19 @@ export class RoomService {
   constructor(
     private readonly _httpService: HttpService,
     private readonly _sessionStorage: SessionStorageService,
+    private readonly _snackbarService: SnackbarService,
   ) { }
+
+  createRoom(playerName: string, roomName: string): void {
+    this._httpService.createRoom({playerName, roomName}).subscribe(
+      (identity: IMinifiedIdentity | null) => {
+      console.log(RESPONSE_EVENTS.roomCreated);
+      if(identity) {
+        this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomCreated });
+        this.onRoomCreated(identity);
+      }
+    });
+  }
 
   getRooms(): Observable<IMinifiedRoom[]> {
     return this._httpService.getRooms().pipe(map(res => 

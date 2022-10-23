@@ -7,7 +7,7 @@ import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
 import { SnackbarService } from './snackbar.service';
 import { IRoomNotification } from '../interfaces/notification.interface'; 
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
-import { IMinifiedIdentity, IMinifiedPlayer, IMinifiedRoom } from '../interfaces/minified.interface';
+import { IMinifiedIdentity, IMinifiedRoom } from '../interfaces/minified.interface';
 import { RoomService } from './room.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
 import { PlayerService } from './player.service';
@@ -167,14 +167,6 @@ export class WebsocketService {
       // Response Events
       this.socket.on(RESPONSE_EVENTS.failed, () => {
         console.log(RESPONSE_EVENTS.failed);
-      });
-
-      this.socket.on(RESPONSE_EVENTS.roomCreated, (identity: IMinifiedIdentity | null) => {
-        console.log(RESPONSE_EVENTS.roomCreated);
-        if(identity) {
-          this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomCreated });
-          this._roomService.onRoomCreated(identity);
-        }
       });
 
       this.socket.on(RESPONSE_EVENTS.roomJoined, (identity: IMinifiedIdentity | null) => {
