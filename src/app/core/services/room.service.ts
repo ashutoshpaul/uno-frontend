@@ -35,6 +35,17 @@ export class RoomService {
     });
   }
 
+  joinRoom(playerName: string, room: IMinifiedRoom): void {
+    this._httpService.joinRoom({playerName, room}).subscribe(
+      (identity: IMinifiedIdentity | null) => {
+      console.log(RESPONSE_EVENTS.roomJoined);
+      if(identity) {
+        this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomJoined });
+          this.onRoomJoined(identity);
+      }
+    });
+  }
+
   getRooms(): Observable<IMinifiedRoom[]> {
     return this._httpService.getRooms().pipe(map(res => 
       res.map(e => <IMinifiedRoom>{

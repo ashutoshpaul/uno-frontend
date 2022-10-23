@@ -28,14 +28,6 @@ export class WebsocketService {
     this._instantiateSocketConnection();
   }
 
-  createRoom(playerName: string, roomName: string) {
-    this.socket.emit(PLAYER_EVENTS.createRoom, playerName, roomName);
-  }
-
-  joinRoom(playerName: string, room: IMinifiedRoom) {
-    this.socket.emit(PLAYER_EVENTS.joinRoom, playerName, room);
-  }
-
   private _instantiateSocketConnection() {
     this.socket = io(environment.websocket);
 
@@ -169,13 +161,9 @@ export class WebsocketService {
         console.log(RESPONSE_EVENTS.failed);
       });
 
-      this.socket.on(RESPONSE_EVENTS.roomJoined, (identity: IMinifiedIdentity | null) => {
-        console.log(RESPONSE_EVENTS.roomJoined);
-        if(identity) {
-          this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomJoined });
-          this._roomService.onRoomJoined(identity);
-        }
-      });
+      // this.socket.on(RESPONSE_EVENTS.roomJoined, () => {
+      //   console.log(RESPONSE_EVENTS.roomJoined);
+      // });
 
       this.socket.on(RESPONSE_EVENTS.roomDeleted, () => {
         console.log(RESPONSE_EVENTS.roomDeleted);

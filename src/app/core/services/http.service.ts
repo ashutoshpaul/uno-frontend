@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ICreateRoomPayload, IUpdateSocketIdPayload } from '../interfaces/http.interface';
+import { ICreateRoomPayload, IJoinRoomPayload, IUpdateSocketIdPayload } from '../interfaces/http.interface';
 import { IRoom } from '../interfaces/room.interface';
+import { SessionStorageService, SESSION_KEY } from './session-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class HttpService {
 
   constructor(
     private readonly _http: HttpClient,
+    private readonly _sessionStorageService: SessionStorageService,
   ) { }
 
   updatePlayerSocketId(payload: IUpdateSocketIdPayload) {
@@ -21,6 +23,7 @@ export class HttpService {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS",
+        "socket-id": this._socketId,
       }
     });
   }
@@ -34,7 +37,22 @@ export class HttpService {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS",
+        "socket-id": this._socketId,
       }
     });
+  }
+
+  joinRoom(payload: IJoinRoomPayload) {
+    return this._http.post(`${this.BASE_URL}/join-room`, payload, { 
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS",
+        "socket-id": this._socketId,
+      }
+    });
+  }
+
+  private get _socketId(): string {
+    return this._sessionStorageService.getItem(SESSION_KEY.socketId);
   }
 }
