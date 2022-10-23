@@ -63,20 +63,23 @@ export class LobbyComponent implements OnInit {
   }
 
   joinRoom(): void {
-    const dialogRef = this._dialog.open(JoinRoomDialogComponent, {
-      animation: {
-        incomingOptions: roomDialogIncomingOptionsConstant,
-        outgoingOptions: roomDialogOutgoingOptionsConstant,
-      },
-      panelClass: 'choose-color-dialog',
-      data: { rooms: this.rooms },
-      autoFocus: false,
-    });
-
-    dialogRef.afterClosed().subscribe((data: JoinRoomDialogData) => {
-      if(data && data.selectedRoom) {
-        this._websocketService.joinRoom(this.playerName, data.selectedRoom);
-      }
+    this._roomService.getRooms().subscribe((rooms: IMinifiedRoom[]) => {
+      this.rooms = rooms;
+      const dialogRef = this._dialog.open(JoinRoomDialogComponent, {
+        animation: {
+          incomingOptions: roomDialogIncomingOptionsConstant,
+          outgoingOptions: roomDialogOutgoingOptionsConstant,
+        },
+        panelClass: 'choose-color-dialog',
+        data: { rooms: this.rooms },
+        autoFocus: false,
+      });
+  
+      dialogRef.afterClosed().subscribe((data: JoinRoomDialogData) => {
+        if(data && data.selectedRoom) {
+          this._websocketService.joinRoom(this.playerName, data.selectedRoom);
+        }
+      });
     });
   }
 
