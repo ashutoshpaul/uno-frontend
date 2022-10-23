@@ -76,7 +76,7 @@ export class LobbyComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((data: JoinRoomDialogData) => {
       if(data && data.selectedRoom) {
-        console.log(data.selectedRoom);
+        this._websocketService.joinRoom(this.playerName, data.selectedRoom);
       }
     });
   }

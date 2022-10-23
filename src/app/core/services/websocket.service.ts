@@ -7,7 +7,7 @@ import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
 import { SnackbarService } from './snackbar.service';
 import { IRoomNotification } from '../interfaces/notification.interface'; 
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
-import { IMinifiedIdentity } from '../interfaces/minified.interface';
+import { IMinifiedIdentity, IMinifiedPlayer, IMinifiedRoom } from '../interfaces/minified.interface';
 import { RoomService } from './room.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
 import { PlayerService } from './player.service';
@@ -30,6 +30,10 @@ export class WebsocketService {
 
   createRoom(playerName: string, roomName: string) {
     this.socket.emit(PLAYER_EVENTS.createRoom, playerName, roomName);
+  }
+
+  joinRoom(playerName: string, room: IMinifiedRoom) {
+    this.socket.emit(PLAYER_EVENTS.joinRoom, playerName, room);
   }
 
   private _instantiateSocketConnection() {
@@ -166,19 +170,23 @@ export class WebsocketService {
       });
 
       this.socket.on(RESPONSE_EVENTS.roomCreated, (identity: IMinifiedIdentity | null) => {
+        console.log(RESPONSE_EVENTS.roomCreated);
         if(identity) {
-          console.log(RESPONSE_EVENTS.roomCreated);
           this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomCreated });
           this._roomService.onRoomCreated(identity);
         }
       });
 
-      this.socket.on(RESPONSE_EVENTS.roomDeleted, () => {
-        console.log(RESPONSE_EVENTS.roomDeleted);
+      this.socket.on(RESPONSE_EVENTS.roomJoined, (identity: IMinifiedIdentity | null) => {
+        console.log(RESPONSE_EVENTS.roomJoined);
+        if(identity) {
+          this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomJoined });
+          this._roomService.onRoomJoined(identity);
+        }
       });
 
-      this.socket.on(RESPONSE_EVENTS.roomJoined, () => {
-        console.log(RESPONSE_EVENTS.roomJoined);
+      this.socket.on(RESPONSE_EVENTS.roomDeleted, () => {
+        console.log(RESPONSE_EVENTS.roomDeleted);
       });
 
       this.socket.on(RESPONSE_EVENTS.roomLeft, () => {

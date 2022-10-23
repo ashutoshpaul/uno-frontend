@@ -34,6 +34,11 @@ export class RoomService {
     this.triggerRoomEvent(identity.room.name, ROOM_STATUS.created);
   }
 
+  onRoomJoined(identity: IMinifiedIdentity): void {
+    this._sessionStorage.setItem(SESSION_KEY.identity, JSON.stringify(identity));
+    this.triggerRoomEvent(identity.room.name, ROOM_STATUS.joined);
+  }
+
   triggerRoomEvent(roomName: string, roomStatus: ROOM_STATUS): void {
     this.room$.next({ name: roomName, status: roomStatus });
   }
