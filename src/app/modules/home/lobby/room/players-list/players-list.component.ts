@@ -14,15 +14,11 @@ export class PlayersListComponent implements OnChanges, OnInit {
   readonly MAX_OPPONENTS: number = 3;
 
   @Input() isGameStarted: boolean;
-  @Input() players$: Observable<IMinifiedPlayer[]>;
-
-  players: IMinifiedPlayer[];
+  @Input() players: IMinifiedPlayer[];
 
   constructor() { }
 
-  ngOnChanges(): void {
-    this.players$?.subscribe((players: IMinifiedPlayer[]) => this.players = players);
-  }
+  ngOnChanges(): void {}
 
   ngOnInit(): void {
     // this.players = [];
@@ -45,7 +41,7 @@ export class PlayersListComponent implements OnChanges, OnInit {
 
   get message(): string {
     if (this.isGameStarted) return 'Game has been started';
-    if (this.players?.length == 0) return 'Waiting for players to join room...';
+    if (!this.players || this.players?.length == 0) return 'Waiting for players to join room...';
     if (this.players?.length < this.MAX_OPPONENTS) return 'Waiting for more players to join';
     if (this.players?.length > this.MAX_OPPONENTS) return 'Maximum four players can play at a time';
     return ""; 

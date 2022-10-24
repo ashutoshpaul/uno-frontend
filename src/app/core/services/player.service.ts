@@ -26,8 +26,8 @@ export class PlayerService {
       this._httpService.updatePlayerSocketId(payload).subscribe(_ => {
         const isRoomCreatedByMe: boolean = identity.room.createdBy?.id == identity.player.id;
         this._roomService.triggerRoomEvent(
-          identity.room.name, 
-          (isRoomCreatedByMe) ?ROOM_STATUS.created : ROOM_STATUS.joined,
+          (isRoomCreatedByMe) ? ROOM_STATUS.created : ROOM_STATUS.joined,
+          identity,
         );
       });
     }

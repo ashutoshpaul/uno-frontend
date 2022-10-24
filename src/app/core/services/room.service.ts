@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
 import { ROOM_STATUS } from '../enums/room-status.enum';
 import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
-import { ILobbyRoomResponse } from '../interfaces/http.interface';
+import { IJoinRoomResponse, ILobbyRoomResponse } from '../interfaces/http.interface';
 import { IMinifiedIdentity, IMinifiedPlayer, IMinifiedRoom } from '../interfaces/minified.interface';
 import { IRoomNotification } from '../interfaces/notification.interface';
 import { ILobbyRoom } from '../interfaces/room.interface';
@@ -17,7 +17,8 @@ import { SnackbarService } from './snackbar.service';
 })
 export class RoomService {
 
-  readonly room$ = new Subject<ILobbyRoomResponse|ILobbyRoom>();
+  readonly roomSubject$ = new Subject<ILobbyRoomResponse|ILobbyRoom>();
+  readonly room$: Observable<any> = this.roomSubject$.asObservable();
 
   constructor(
     private readonly _httpService: HttpService,
@@ -38,11 +39,11 @@ export class RoomService {
 
   joinRoom(playerName: string, room: IMinifiedRoom): void {
     this._httpService.joinRoom({playerName, room}).subscribe(
-      (identity: IMinifiedIdentity | null) => {
+      (data: IJoinRoomResponse) => {
       console.log(RESPONSE_EVENTS.roomJoined);
-      if(identity) {
+      if(data) {
         this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomJoined });
-          this.onRoomJoined(identity);
+          this.onRoomJoined(data.identity, data.room);
       }
     });
   }
@@ -58,29 +59,47 @@ export class RoomService {
     ));
   }
 
-  getRoom(roomId: string): Observable<ILobbyRoomResponse> {
-    return this._httpService.getRoom(roomId).pipe(map(res => <ILobbyRoomResponse>{
+  getRoom(roomId: string): void {
+    this._httpService.getRoom(roomId).pipe(map(res => <ILobbyRoomResponse>{
       createdBy: res.createdBy,
       id: res.id,
       isGameStarted: res.isGameStarted,
       players: res.players,
       name: res.name,
       status: this._roomStatus(res.createdBy),
-    }));
+    })).subscribe((data: ILobbyRoomResponse) => {
+      this.roomSubject$.next(data);
+    });
   }
 
   onRoomCreated(identity: IMinifiedIdentity): void {
     this._sessionStorage.setItem(SESSION_KEY.identity, JSON.stringify(identity));
-    this.triggerRoomEvent(identity.room.name, ROOM_STATUS.created);
+    this.triggerRoomEvent(ROOM_STATUS.created, identity);
   }
 
-  onRoomJoined(identity: IMinifiedIdentity): void {
+  onRoomJoined(identity: IMinifiedIdentity, room: ILobbyRoomResponse): void {
     this._sessionStorage.setItem(SESSION_KEY.identity, JSON.stringify(identity));
-    this.triggerRoomEvent(identity.room.name, ROOM_STATUS.joined);
+    this.triggerRoomEvent(ROOM_STATUS.joined, identity, room);
   }
 
-  triggerRoomEvent(roomName: string, roomStatus: ROOM_STATUS): void {
-    this.room$.next({ name: roomName, status: roomStatus });
+  triggerRoomEvent(roomStatus: ROOM_STATUS, identity: IMinifiedIdentity, room?: ILobbyRoomResponse): void {
+    console.log("triggerRoomEvent", room);
+    if (roomStatus == ROOM_STATUS.created) { 
+      this.roomSubject$.next({
+        name: identity.room.name,
+        status: roomStatus,
+      });
+    } else if (roomStatus == ROOM_STATUS.joined) {
+      if(room) this.roomSubject$.next(room);
+    }
+  }
+
+  isILobbyRoomResponse(obj: ILobbyRoom | ILobbyRoomResponse): obj is ILobbyRoomResponse {
+    return (obj as ILobbyRoomResponse).createdBy !== undefined &&
+      (obj as ILobbyRoomResponse).id !== undefined &&
+      (obj as ILobbyRoomResponse).isGameStarted !== undefined &&
+      (obj as ILobbyRoomResponse).name !== undefined &&
+      (obj as ILobbyRoomResponse).players !== undefined;
   }
 
   private _roomStatus(createdBy: IMinifiedPlayer): ROOM_STATUS {

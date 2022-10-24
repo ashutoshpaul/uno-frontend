@@ -1,4 +1,4 @@
-<main>
+<main *ngIf="(room$ | async) as room else empty">
     <article *ngIf="!isRoomDeleted && isRoomAvailable else error">
         <section class="header">
             <div class="name">
@@ -10,7 +10,7 @@
         </section>
         <section class="body">
             <app-players-list 
-                [players$]="otherPlayers$"
+                [players]="otherPlayers"
                 [isGameStarted]="room.isGameStarted">
             </app-players-list>
         </section>
@@ -24,3 +24,8 @@
         <div class="error"> {{ errorMessage }} </div>
     </ng-template>
 </main>
+<ng-template #empty>
+    <main>
+        <div class="error"> {{ errorMessage }} </div>
+    </main>
+</ng-template>

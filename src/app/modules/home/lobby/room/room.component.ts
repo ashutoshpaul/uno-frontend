@@ -17,8 +17,8 @@ export class RoomComponent implements OnInit {
 
   room: ILobbyRoomResponse;
 
-  room$: Observable<ILobbyRoomResponse|ILobbyRoom>;
-  otherPlayers$: Observable<IMinifiedPlayer[]>;
+  room$: Observable<ILobbyRoomResponse>;
+  otherPlayers: IMinifiedPlayer[];
 
   readonly roomStatuses: typeof ROOM_STATUS = ROOM_STATUS;
 
@@ -30,15 +30,23 @@ export class RoomComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const identity: IMinifiedIdentity = JSON.parse(this._sessionStorage.getItem(SESSION_KEY.identity));
+    let identity: IMinifiedIdentity = JSON.parse(this._sessionStorage.getItem(SESSION_KEY.identity));
     if(identity?.room?.id) {
-      this._roomService.getRoom(identity.room.id).subscribe((room: ILobbyRoomResponse) => {
-        this.room$ = of(room);
-        this._updateRoom(identity, room);
-      });
+      this._roomService.getRoom(identity.room.id);
     }
-    this.room$ = this._roomService.room$;
-    this.room$.subscribe((room: ILobbyRoomResponse) => this._updateRoom(identity, room));
+    this._roomService.room$.subscribe((data: ILobbyRoom|ILobbyRoomResponse) => {
+      identity = JSON.parse(this._sessionStorage.getItem(SESSION_KEY.identity));
+      if (identity) {
+        const status: ROOM_STATUS = this._roomService.isILobbyRoomResponse(data)
+        ? ROOM_STATUS.joined
+        : (data as ILobbyRoom).status;
+        if (status == ROOM_STATUS.created) {
+          this._updateRoom(ROOM_STATUS.created, identity);
+        } else if (status == ROOM_STATUS.joined) {
+          this._updateRoom(ROOM_STATUS.joined, identity, data as ILobbyRoomResponse);
+        }
+      }
+    });
   }
 
   invokeAction(): void {
@@ -78,11 +86,22 @@ export class RoomComponent implements OnInit {
     return "Create or join a room to play.";
   }
 
-  private _updateRoom(identity: IMinifiedIdentity, room: ILobbyRoomResponse): void {
-    this.room = room;
-    this.otherPlayers$ = of(
-      this.room.players?.filter(e => e.id != identity.player.id) ?? []
-    );
+  private _updateRoom(status: ROOM_STATUS, identity: IMinifiedIdentity, room?: ILobbyRoomResponse): void {
+    if (status == ROOM_STATUS.created) {
+      this.room = {
+        createdBy: identity.player,
+        id: identity.room.id,
+        isGameStarted: false,
+        name: identity.room.name,
+        players: [],
+        status: ROOM_STATUS.created,
+      };
+    } else if (status == ROOM_STATUS.joined) {
+      this.room = room;
+      this.room.status = ROOM_STATUS.joined,
+      this.otherPlayers = this.room.players?.filter(e => e.id != identity.player.id) ?? [];
+    }
+    this.room$ = of(this.room);
   }
 
   private _navigateToGame(): void {
