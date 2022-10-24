@@ -33,4 +33,12 @@ export class PlayerService {
     }
   }
 
+  get identity(): IMinifiedIdentity {
+    try {
+      return JSON.parse(this._sessionStorage.getItem(SESSION_KEY.identity));
+    } catch (err) {
+      throw new Error('json.parse failed to parse identity');
+    }
+  }
+
 }

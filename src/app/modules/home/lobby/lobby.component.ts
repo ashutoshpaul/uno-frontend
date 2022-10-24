@@ -29,7 +29,7 @@ export class LobbyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._websocketService;
+    this._websocketService; // ESTABLISH CONNECTION. DO NOT REMOVE!
     this.playerName = this._sessionStorage.getItem(SESSION_KEY.playerName);
   }
 

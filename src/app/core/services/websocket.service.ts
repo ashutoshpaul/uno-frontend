@@ -5,12 +5,11 @@ import { GAME_EVENTS } from '../enums/websocket-enums/game-events.enum';
 import { PLAYER_EVENTS } from '../enums/websocket-enums/player-events.enum';
 import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
 import { SnackbarService } from './snackbar.service';
-import { IRoomNotification } from '../interfaces/notification.interface'; 
-import { NOTIFICATION_EVENT } from '../enums/notification.enum';
-import { IMinifiedIdentity, IMinifiedRoom } from '../interfaces/minified.interface';
 import { RoomService } from './room.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
 import { PlayerService } from './player.service';
+import { ROOM_STATUS } from '../enums/room-status.enum';
+import { ILobbyRoomResponse } from '../interfaces/http.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -169,8 +168,15 @@ export class WebsocketService {
         console.log(RESPONSE_EVENTS.roomLeft);
       });
 
-      this.socket.on(RESPONSE_EVENTS.roomJoined, () => {
-        console.log('*****', PLAYER_EVENTS.joinRoom);
+      this.socket.on(RESPONSE_EVENTS.roomJoined, (room: ILobbyRoomResponse) => {
+        console.log('*****', PLAYER_EVENTS.joinRoom, room);
+        if (this._playerService.identity) {
+          this._roomService.triggerRoomEvent(
+            ROOM_STATUS.joined,
+            this._playerService.identity,
+            room,
+          );
+        } else { throw new Error('identity missing'); }
       });
     } else {
       console.error('socket not created!');
