@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { IMinifiedRoom } from 'src/app/core/interfaces/minified.interface';
-import { selectFromAvailableRoom, unavailableRoom } from 'src/app/core/validators/select-room.validator';
+import { selectFromAvailableRoom, unavailableRoom } from 'src/app/core/validators/room.validator';
 import { CreateRoomDialogComponent } from '../create-room-dialog/create-room-dialog.component';
 
 export interface JoinRoomDialogData {

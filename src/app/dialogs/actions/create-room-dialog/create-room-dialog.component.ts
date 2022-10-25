@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { roomAlreadyExists } from 'src/app/core/validators/room.validator';
 
 export interface CreateRoomDialogData {
   isCreateRoom: boolean;
@@ -18,6 +19,7 @@ export class CreateRoomDialogComponent implements OnInit {
 
   constructor(
     private readonly _dialogRef: MatDialogRef<CreateRoomDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) private readonly _data: { rooms: string[]},
     private readonly _formBuilder: FormBuilder,
   ) { }
 
@@ -27,6 +29,7 @@ export class CreateRoomDialogComponent implements OnInit {
       Validators.minLength(5),
       Validators.maxLength(15),
       Validators.pattern('[a-zA-Z0-9]+'), // only letters and digits allowed
+      roomAlreadyExists(this._data.rooms),
     ]);
   }
 
@@ -56,6 +59,7 @@ export class CreateRoomDialogComponent implements OnInit {
     if (this.roomNameControl.hasError("minlength")) { return "Should be more than 4 letters"; }
     if (this.roomNameControl.hasError("maxlength")) { return "Should be less than 16 letter"; }
     if (this.roomNameControl.hasError("pattern")) { return "Only letter and digits allowed"; }
+    if (this.roomNameControl.hasError("isRoomAlreadyExisting")) { return "Room already existing"; }
     return null;
   }
 

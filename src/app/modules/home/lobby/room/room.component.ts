@@ -19,7 +19,7 @@ export class RoomComponent implements OnInit {
   room$: Observable<ILobbyRoomResponse>;
   otherPlayers: IMinifiedPlayer[];
 
-  readonly roomStatuses: typeof ROOM_STATUS = ROOM_STATUS;
+  readonly roomStatusType: typeof ROOM_STATUS = ROOM_STATUS;
 
   constructor(
     private readonly _router: Router,
@@ -75,8 +75,7 @@ export class RoomComponent implements OnInit {
    * Someone deleted the room.
    */
   roomDeleted(): void {
-    this.room = null;
-    this.room$ = of(this.room);
+    this._reset();
   }
 
   get action() {
@@ -106,6 +105,12 @@ export class RoomComponent implements OnInit {
       }
       this.room$ = of(this.room);
     } else { throw new Error('Identity missing!'); }
+  }
+
+  private _reset(): void {
+    this.room = null;
+    this.otherPlayers = null;
+    this.room$ = of(this.room);
   }
 
   private _navigateToGame(): void {

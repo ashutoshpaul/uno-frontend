@@ -8,7 +8,7 @@
             [formControl]="roomControl"
             [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let room of filteredRooms$ | async" [value]="room"
+            <mat-option *ngFor="let room of filteredRooms$ | async" [value]="room.name"
                 (click)="select(room)" [disabled]="!room.isAvailable">
                 {{ room.name }}
             </mat-option>

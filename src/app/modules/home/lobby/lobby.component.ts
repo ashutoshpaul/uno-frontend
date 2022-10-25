@@ -38,18 +38,21 @@ export class LobbyComponent implements OnInit {
   }
 
   createRoom(): void {
-    const dialogRef = this._dialog.open(CreateRoomDialogComponent, {
-      animation: {
-        incomingOptions: roomDialogIncomingOptionsConstant,
-        outgoingOptions: roomDialogOutgoingOptionsConstant,
-      },
-      panelClass: 'choose-color-dialog',
-    });
-
-    dialogRef.afterClosed().subscribe((data: CreateRoomDialogData) => {
-      if (data?.isCreateRoom) {
-        this._roomService.createRoom(this.playerName, data.roomName);
-      }
+    this._roomService.getRooms().subscribe((rooms: IMinifiedRoom[]) => {
+      const dialogRef = this._dialog.open(CreateRoomDialogComponent, {
+        animation: {
+          incomingOptions: roomDialogIncomingOptionsConstant,
+          outgoingOptions: roomDialogOutgoingOptionsConstant,
+        },
+        panelClass: 'choose-color-dialog',
+        data: { rooms: rooms.map(e => e.name) },
+      });
+  
+      dialogRef.afterClosed().subscribe((data: CreateRoomDialogData) => {
+        if (data?.isCreateRoom) {
+          this._roomService.createRoom(this.playerName, data.roomName);
+        }
+      });
     });
   }
 
