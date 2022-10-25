@@ -15,9 +15,23 @@
             </app-players-list>
         </section>
         <section class="footer">
-            <div class="delete-room" (click)="deleteRoom()">Delete Room</div>
-            <div class="leave-room" (click)="leaveRoom()">Leave Room</div>
-            <div class="start-game" (click)="invokeAction()"> {{ action }} </div>
+            <div
+                class="delete-room"
+                *ngIf="isRoomCreatedByMe"
+                (click)="deleteRoom()">
+                Delete Room
+            </div>
+            <div
+                class="leave-room"
+                *ngIf="!isRoomCreatedByMe"
+                (click)="leaveRoom()">
+                Leave Room
+            </div>
+            <div
+                class="start-game"
+                (click)="invokeAction()">
+                {{ action }}
+            </div>
         </section>
     </article>
     <ng-template #error>

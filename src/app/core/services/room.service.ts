@@ -9,6 +9,7 @@ import { IMinifiedIdentity, IMinifiedPlayer, IMinifiedRoom } from '../interfaces
 import { IRoomNotification } from '../interfaces/notification.interface';
 import { ILobbyRoom } from '../interfaces/room.interface';
 import { HttpService } from './http.service';
+import { IdentityService } from './identity.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
 import { SnackbarService } from './snackbar.service';
 
@@ -17,13 +18,14 @@ import { SnackbarService } from './snackbar.service';
 })
 export class RoomService {
 
-  readonly roomSubject$ = new Subject<ILobbyRoomResponse|ILobbyRoom>();
+  readonly roomSubject$ = new Subject<ILobbyRoomResponse>();
   readonly room$: Observable<any> = this.roomSubject$.asObservable();
 
   constructor(
     private readonly _httpService: HttpService,
     private readonly _sessionStorage: SessionStorageService,
     private readonly _snackbarService: SnackbarService,
+    private readonly _identityService: IdentityService, 
   ) { }
 
   createRoom(playerName: string, roomName: string): void {
@@ -66,48 +68,46 @@ export class RoomService {
       isGameStarted: res.isGameStarted,
       players: res.players,
       name: res.name,
-      status: this._roomStatus(res.createdBy),
+      status: this.roomStatus(res.createdBy),
     })).subscribe((data: ILobbyRoomResponse) => {
-      this.roomSubject$.next(data);
+      this.triggerRoomEvent(data);
     });
   }
 
   onRoomCreated(identity: IMinifiedIdentity): void {
     this._sessionStorage.setItem(SESSION_KEY.identity, JSON.stringify(identity));
-    this.triggerRoomEvent(ROOM_STATUS.created, identity);
+    this.triggerRoomEvent();
   }
 
   onRoomJoined(identity: IMinifiedIdentity, room: ILobbyRoomResponse): void {
     this._sessionStorage.setItem(SESSION_KEY.identity, JSON.stringify(identity));
-    this.triggerRoomEvent(ROOM_STATUS.joined, identity, room);
+    this.triggerRoomEvent(room);
   }
 
-  triggerRoomEvent(roomStatus: ROOM_STATUS, identity: IMinifiedIdentity, room?: ILobbyRoomResponse): void {
-    console.log("triggerRoomEvent", room);
-    if (roomStatus == ROOM_STATUS.created) { 
-      this.roomSubject$.next({
-        name: identity.room.name,
-        status: roomStatus,
-      });
-    } else if (roomStatus == ROOM_STATUS.joined) {
-      if(room) this.roomSubject$.next(room);
+  triggerRoomEvent(room?: ILobbyRoomResponse): void {
+    if (room) {  // someone joined your room (room created by you)
+      this.roomSubject$.next(room);
+    } else {  // you created room
+      this.roomSubject$.next(null);
     }
   }
 
-  isILobbyRoomResponse(obj: ILobbyRoom | ILobbyRoomResponse): obj is ILobbyRoomResponse {
-    return (obj as ILobbyRoomResponse).createdBy !== undefined &&
-      (obj as ILobbyRoomResponse).id !== undefined &&
-      (obj as ILobbyRoomResponse).isGameStarted !== undefined &&
-      (obj as ILobbyRoomResponse).name !== undefined &&
-      (obj as ILobbyRoomResponse).players !== undefined;
+  // isILobbyRoomResponse(obj: ILobbyRoom | ILobbyRoomResponse): obj is ILobbyRoomResponse {
+  //   return (obj as ILobbyRoomResponse).createdBy !== undefined &&
+  //     (obj as ILobbyRoomResponse).id !== undefined &&
+  //     (obj as ILobbyRoomResponse).isGameStarted !== undefined &&
+  //     (obj as ILobbyRoomResponse).name !== undefined &&
+  //     (obj as ILobbyRoomResponse).players !== undefined;
+  // }
+
+  roomStatus(createdBy: IMinifiedPlayer): ROOM_STATUS {
+    return this.isRoomCreatedByMe(createdBy) 
+    ? ROOM_STATUS.created : ROOM_STATUS.joined;
   }
 
-  private _roomStatus(createdBy: IMinifiedPlayer): ROOM_STATUS {
-    const playerId: string = this._sessionStorage.getItem(SESSION_KEY.playerId);
-    return (this._isCreatedByMe(playerId, createdBy)) ? ROOM_STATUS.created : ROOM_STATUS.joined;
-  }
-
-  private _isCreatedByMe(playerId: string, createdBy: IMinifiedPlayer): boolean {
-    return playerId == createdBy?.id;
+  isRoomCreatedByMe(createdBy: IMinifiedPlayer): boolean {
+    if (this._identityService.identity) {
+      return this._identityService.identity.player.id == createdBy?.id;
+    } else { throw new Error('Identity is missing!'); }
   }
 }

@@ -39,6 +39,8 @@ export class PlayersListComponent implements OnChanges, OnInit {
     // }, 3000);
   }
 
+  trackById = (index: number, item: IMinifiedPlayer) => item.id;
+
   get message(): string {
     if (this.isGameStarted) return 'Game has been started';
     if (!this.players || this.players?.length == 0) return 'Waiting for players to join room...';
