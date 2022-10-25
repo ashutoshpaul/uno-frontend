@@ -7,7 +7,6 @@ import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
 import { IJoinRoomResponse, ILobbyRoomResponse } from '../interfaces/http.interface';
 import { IMinifiedIdentity, IMinifiedPlayer, IMinifiedRoom } from '../interfaces/minified.interface';
 import { IRoomNotification } from '../interfaces/notification.interface';
-import { ILobbyRoom } from '../interfaces/room.interface';
 import { HttpService } from './http.service';
 import { IdentityService } from './identity.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
@@ -20,6 +19,9 @@ export class RoomService {
 
   readonly roomSubject$ = new Subject<ILobbyRoomResponse>();
   readonly room$: Observable<any> = this.roomSubject$.asObservable();
+
+  readonly roomDeletedSubject$ = new Subject<null>();
+  readonly roomDeleted$: Observable<any> = this.roomDeletedSubject$.asObservable();
 
   constructor(
     private readonly _httpService: HttpService,
@@ -34,7 +36,8 @@ export class RoomService {
       console.log(RESPONSE_EVENTS.roomCreated);
       if(identity) {
         this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomCreated });
-        this.onRoomCreated(identity);
+        this._sessionStorage.setItem(SESSION_KEY.identity, JSON.stringify(identity));
+        this.triggerRoomEvent();
       }
     });
   }
@@ -45,7 +48,8 @@ export class RoomService {
       console.log(RESPONSE_EVENTS.roomJoined);
       if(data) {
         this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomJoined });
-          this.onRoomJoined(data.identity, data.room);
+        this._sessionStorage.setItem(SESSION_KEY.identity, JSON.stringify(data.identity));
+        this.triggerRoomEvent(data.room);
       }
     });
   }
@@ -74,14 +78,12 @@ export class RoomService {
     });
   }
 
-  onRoomCreated(identity: IMinifiedIdentity): void {
-    this._sessionStorage.setItem(SESSION_KEY.identity, JSON.stringify(identity));
-    this.triggerRoomEvent();
-  }
-
-  onRoomJoined(identity: IMinifiedIdentity, room: ILobbyRoomResponse): void {
-    this._sessionStorage.setItem(SESSION_KEY.identity, JSON.stringify(identity));
-    this.triggerRoomEvent(room);
+  deleteRoom(roomId: string): void {
+    this._httpService.deleteRoom(roomId).subscribe(_ => {
+      console.log('room deleted');
+      this.triggerRoomDeletedEvent();
+      this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomDeleted });
+    });
   }
 
   triggerRoomEvent(room?: ILobbyRoomResponse): void {
@@ -92,13 +94,10 @@ export class RoomService {
     }
   }
 
-  // isILobbyRoomResponse(obj: ILobbyRoom | ILobbyRoomResponse): obj is ILobbyRoomResponse {
-  //   return (obj as ILobbyRoomResponse).createdBy !== undefined &&
-  //     (obj as ILobbyRoomResponse).id !== undefined &&
-  //     (obj as ILobbyRoomResponse).isGameStarted !== undefined &&
-  //     (obj as ILobbyRoomResponse).name !== undefined &&
-  //     (obj as ILobbyRoomResponse).players !== undefined;
-  // }
+  triggerRoomDeletedEvent(): void {
+    this._sessionStorage.remove(SESSION_KEY.identity);
+    this.roomDeletedSubject$.next(null);
+  }
 
   roomStatus(createdBy: IMinifiedPlayer): ROOM_STATUS {
     return this.isRoomCreatedByMe(createdBy) 
@@ -108,6 +107,6 @@ export class RoomService {
   isRoomCreatedByMe(createdBy: IMinifiedPlayer): boolean {
     if (this._identityService.identity) {
       return this._identityService.identity.player.id == createdBy?.id;
-    } else { throw new Error('Identity is missing!'); }
+    } else { return null; }
   }
 }

@@ -8,6 +8,9 @@ import { RoomService } from './room.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
 import { ILobbyRoomResponse } from '../interfaces/http.interface';
 import { PlayerService } from './player.service';
+import { IRoomNotification } from '../interfaces/notification.interface';
+import { NOTIFICATION_EVENT } from '../enums/notification.enum';
+import { SnackbarService } from './snackbar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +21,7 @@ export class WebsocketService {
 
   constructor(
     private readonly _sessionStorage: SessionStorageService,
+    private readonly _snackbarService: SnackbarService,
     private readonly _playerService: PlayerService,
     private readonly _roomService: RoomService,
   ) { 
@@ -159,6 +163,8 @@ export class WebsocketService {
 
       this.socket.on(RESPONSE_EVENTS.roomDeleted, () => {
         console.log(RESPONSE_EVENTS.roomDeleted);
+        this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomDoesNotExists });
+        this._roomService.triggerRoomDeletedEvent();
       });
 
       this.socket.on(RESPONSE_EVENTS.roomLeft, () => {

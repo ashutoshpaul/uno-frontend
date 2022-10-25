@@ -7,6 +7,10 @@
         <mat-icon class="negative">location_off</mat-icon>
         <div>Room deleted</div>
     </article>
+    <article *ngSwitchCase="events.roomDoesNotExists">
+        <mat-icon class="negative">location_off</mat-icon>
+        <div>Room no longer exists</div>
+    </article>
     <article *ngSwitchCase="events.roomJoined">
         <mat-icon class="positive">pin_drop</mat-icon>
         <div>Room joined</div>

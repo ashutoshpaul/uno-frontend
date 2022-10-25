@@ -56,6 +56,16 @@ export class HttpService {
     });
   }
 
+  deleteRoom(roomId: string) {
+    return this._http.delete(`${this.BASE_URL}/rooms/${roomId}`, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS",
+        "socket-id": this._socketId,
+      }
+    });
+  }
+
   private get _socketId(): string {
     return this._sessionStorageService.getItem(SESSION_KEY.socketId);
   }

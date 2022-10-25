@@ -32,6 +32,7 @@ export class RoomComponent implements OnInit {
     if(this._identityService.identity?.room?.id) {
       this._roomService.getRoom(this._identityService.identity.room.id);
     }
+    this._roomService.roomDeleted$.subscribe(_ => this.roomDeleted());
     this._roomService.room$.subscribe((data: ILobbyRoomResponse) => {
       if (data) {
         // someone joined room (the room might be created by me)
@@ -61,27 +62,29 @@ export class RoomComponent implements OnInit {
 
   leaveRoom(): void {}
 
-  deleteRoom(): void {}
+  /**
+   * As a host you deleted your room.
+   */
+  deleteRoom(): void {
+    if (this._identityService.identity.player.id == this.room.createdBy.id) {
+      this._roomService.deleteRoom(this.room.id);
+    } else { console.error('you are not host!'); } 
+  }
+
+  /**
+   * Someone deleted the room.
+   */
+  roomDeleted(): void {
+    this.room = null;
+    this.room$ = of(this.room);
+  }
 
   get action() {
     return (this.room.isGameStarted) ? 'Join Game' : 'Start Game';
   }
 
-  get isRoomDeleted(): boolean {
-    return this.room?.status == ROOM_STATUS.deleted;
-  }
-
-  get isRoomAvailable(): boolean {
-    return !!this.room;
-  }
-
   get isRoomCreatedByMe(): boolean {
     return this._roomService.isRoomCreatedByMe(this.room?.createdBy);
-  }
-
-  get errorMessage(): string {
-    if(this.isRoomDeleted) return "Oops! Room doesn't exist.";
-    return "Create or join a room to play.";
   }
 
   private _updateRoom(room?: ILobbyRoomResponse): void {
