@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { playerRoomTrigger } from 'src/app/core/animations/room.animation';
 import { IMinifiedPlayer } from 'src/app/core/interfaces/minified.interface';
 
@@ -15,6 +14,7 @@ export class PlayersListComponent implements OnChanges, OnInit {
 
   @Input() isGameStarted: boolean;
   @Input() players: IMinifiedPlayer[];
+  @Input() createdBy: IMinifiedPlayer;
 
   constructor() { }
 
@@ -39,6 +39,10 @@ export class PlayersListComponent implements OnChanges, OnInit {
     // }, 3000);
   }
 
+  isHost(player: IMinifiedPlayer): boolean {
+    return player.id == this.createdBy.id;
+  }
+
   trackById = (index: number, item: IMinifiedPlayer) => item.id;
 
   get message(): string {
@@ -48,5 +52,4 @@ export class PlayersListComponent implements OnChanges, OnInit {
     if (this.players?.length > this.MAX_OPPONENTS) return 'Maximum four players can play at a time';
     return ""; 
   }
-
 }

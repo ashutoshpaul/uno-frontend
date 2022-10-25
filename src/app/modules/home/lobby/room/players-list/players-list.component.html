@@ -1,8 +1,11 @@
 <main #main *ngIf="players?.length > 0; else empty">
     <section class="players" [@playerRoom]="{value: players.length}">
         <div *ngFor="let player of players; let i = index; trackBy: trackById">
-            <div class="left"> {{ i + 1 }}. {{ player.name }} </div>
-            <div class="right">
+            <div class="left">
+                {{ i + 1 }}. {{ player.name }}
+                <span class="host" *ngIf="isHost(player)">(Host)</span>
+            </div>
+            <div class="right" *ngIf="!isHost(player)">
                 <mat-icon>delete</mat-icon>
             </div>
         </div>

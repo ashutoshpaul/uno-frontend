@@ -62,6 +62,13 @@ main {
                     justify-content: flex-start;
                     align-items: center;
                     background-color: transparent;
+                    column-gap: 0.4rem;
+
+                    .host {
+                        color: #006daf;
+                        font-size: 0.9rem;
+                        font-weight: 600;
+                    }
                 }
 
                 .right {
