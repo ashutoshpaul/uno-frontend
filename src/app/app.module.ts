@@ -17,7 +17,8 @@ import { JoinRoomDialogComponent } from './dialogs/actions/join-room-dialog/join
 import { ReactiveFormsModule } from '@angular/forms';
 import { PlayersLeftDialogComponent } from './dialogs/reactions/players-left-dialog/players-left-dialog.component';
 import { NotificationSnackbarComponent } from './snackbars/notification-snackbar/notification-snackbar.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HeadersInterceptor } from './core/interceptors/headers.interceptor';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,9 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     MaterialModule,
     AppRoutingModule,
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

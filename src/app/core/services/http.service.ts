@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ICreateRoomPayload, IJoinRoomPayload, ILobbyRoomResponse, IUpdateSocketIdPayload } from '../interfaces/http.interface';
 import { IRoom } from '../interfaces/room.interface';
-import { SessionStorageService, SESSION_KEY } from './session-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,17 +14,10 @@ export class HttpService {
 
   constructor(
     private readonly _http: HttpClient,
-    private readonly _sessionStorageService: SessionStorageService,
   ) { }
 
   updatePlayerSocketId(payload: IUpdateSocketIdPayload) {
-    return this._http.post(`${this.BASE_URL}/identity`, payload, { 
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS",
-        "socket-id": this._socketId,
-      }
-    });
+    return this._http.post(`${this.BASE_URL}/identity`, payload);
   }
 
   getRooms(): Observable<IRoom[]> {
@@ -37,36 +29,15 @@ export class HttpService {
   }
 
   createRoom(payload: ICreateRoomPayload) {
-    return this._http.post(`${this.BASE_URL}/rooms`, payload, { 
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS",
-        "socket-id": this._socketId,
-      }
-    });
+    return this._http.post(`${this.BASE_URL}/rooms`, payload);
   }
 
   joinRoom(payload: IJoinRoomPayload) {
-    return this._http.post(`${this.BASE_URL}/join-room`, payload, { 
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS",
-        "socket-id": this._socketId,
-      }
-    });
+    return this._http.post(`${this.BASE_URL}/join-room`, payload);
   }
 
   deleteRoom(roomId: string) {
-    return this._http.delete(`${this.BASE_URL}/rooms/${roomId}`, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS",
-        "socket-id": this._socketId,
-      }
-    });
+    return this._http.delete(`${this.BASE_URL}/rooms/${roomId}`);
   }
 
-  private get _socketId(): string {
-    return this._sessionStorageService.getItem(SESSION_KEY.socketId);
-  }
 }
