@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as screenfull from 'screenfull';
 import { DURATION } from 'src/app/core/constants/durations.constants';
-import { IOptionsResponse } from 'src/app/core/interfaces/response.interface';
+import { IOptionsResponse } from 'src/app/core/interfaces/dialog-response.interface';
 import { ChatService } from 'src/app/core/services/chat.service';
 import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
 

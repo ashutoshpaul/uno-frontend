@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { OptionsDialogComponent } from 'src/app/dialogs/actions/options-dialog/options-dialog.component';
 import { optionsDialogIncomingOptionsConstant, optionsDialogOutgoingOptionsConstant } from '../constants/animations.constants';
 import { DURATION } from '../constants/durations.constants';
-import { IOptionsResponse } from '../interfaces/response.interface';
+import { IOptionsResponse } from '../interfaces/dialog-response.interface';
 import { SessionStorageService, SESSION_KEY } from '../services/session-storage.service';
 
 @Injectable({

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { ROOM_STATUS } from 'src/app/core/enums/room-status.enum';
-import { ILobbyRoomResponse } from 'src/app/core/interfaces/http.interface';
+import { ILobbyRoomResponse } from 'src/app/core/interfaces/response.interface';
 import { IMinifiedIdentity, IMinifiedPlayer } from 'src/app/core/interfaces/minified.interface';
 import { IdentityService } from 'src/app/core/services/identity.service';
 import { RoomService } from 'src/app/core/services/room.service';
@@ -60,15 +60,22 @@ export class RoomComponent implements OnInit {
     this._navigateToGame();
   }
 
-  leaveRoom(): void {}
+  /**
+   * As a participant, you left someone's room
+   */
+  leaveRoom(): void {
+    if (this._identityService.identity.player.id != this.room.createdBy.id) {
+      this._roomService.leaveRoom(this.room.id);
+    } else { console.error('you are host!'); }
+  }
 
   /**
-   * As a host you deleted your room.
+   * As a host, you deleted your room.
    */
   deleteRoom(): void {
     if (this._identityService.identity.player.id == this.room.createdBy.id) {
       this._roomService.deleteRoom(this.room.id);
-    } else { console.error('you are not host!'); } 
+    } else { console.error('you are not host!'); }
   }
 
   /**

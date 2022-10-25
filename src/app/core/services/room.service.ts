@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
 import { ROOM_STATUS } from '../enums/room-status.enum';
 import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
-import { IJoinRoomResponse, ILobbyRoomResponse } from '../interfaces/http.interface';
+import { IJoinRoomResponse, ILobbyRoomResponse } from '../interfaces/response.interface';
 import { IMinifiedIdentity, IMinifiedPlayer, IMinifiedRoom } from '../interfaces/minified.interface';
 import { IRoomNotification } from '../interfaces/notification.interface';
 import { HttpService } from './http.service';
@@ -83,6 +83,14 @@ export class RoomService {
       console.log('room deleted');
       this.triggerRoomDeletedEvent();
       this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomDeleted });
+    });
+  }
+
+  leaveRoom(roomId: string): void {
+    this._httpService.leaveRoom(roomId).subscribe(_ => {
+      console.log('room left');
+      this.triggerRoomDeletedEvent();
+      this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomLeft });
     });
   }
 

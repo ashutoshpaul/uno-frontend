@@ -15,6 +15,14 @@
         <mat-icon class="positive">pin_drop</mat-icon>
         <div>Room joined</div>
     </article>
+    <article *ngSwitchCase="events.roomLeft">
+        <mat-icon class="positive">logout</mat-icon>
+        <div>Room left</div>
+    </article>
+    <article *ngSwitchCase="events.opponentLeftRoom">
+        <mat-icon class="negative">logout</mat-icon>
+        <div> XYZ has left</div>
+    </article>
     <article *ngSwitchCase="events.failed">
         <mat-icon class="negative">error</mat-icon>
         <div>Something went wrong</div>

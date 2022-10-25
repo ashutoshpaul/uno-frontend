@@ -6,7 +6,7 @@ import { PLAYER_EVENTS } from '../enums/websocket-enums/player-events.enum';
 import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
 import { RoomService } from './room.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
-import { ILobbyRoomResponse } from '../interfaces/http.interface';
+import { ILobbyRoomResponse, IPlayerLeftRoomResponse } from '../interfaces/response.interface';
 import { PlayerService } from './player.service';
 import { IRoomNotification } from '../interfaces/notification.interface';
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
@@ -167,8 +167,11 @@ export class WebsocketService {
         this._roomService.triggerRoomDeletedEvent();
       });
 
-      this.socket.on(RESPONSE_EVENTS.roomLeft, () => {
+      this.socket.on(RESPONSE_EVENTS.roomLeft, (data: IPlayerLeftRoomResponse) => {
         console.log(RESPONSE_EVENTS.roomLeft);
+        // TODO pass player name to snackbar
+        this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.opponentLeftRoom });
+        this._roomService.triggerRoomEvent(data.room);
       });
 
       this.socket.on(RESPONSE_EVENTS.roomJoined, (room: ILobbyRoomResponse) => {

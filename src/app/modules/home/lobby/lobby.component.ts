@@ -47,7 +47,7 @@ export class LobbyComponent implements OnInit {
         panelClass: 'choose-color-dialog',
         data: { rooms: rooms.map(e => e.name) },
       });
-  
+
       dialogRef.afterClosed().subscribe((data: CreateRoomDialogData) => {
         if (data?.isCreateRoom) {
           this._roomService.createRoom(this.playerName, data.roomName);

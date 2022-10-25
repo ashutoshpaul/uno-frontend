@@ -28,7 +28,7 @@ import { ReverseDialogComponent } from 'src/app/dialogs/reactions/reverse-dialog
 import { SkipDialogComponent } from 'src/app/dialogs/reactions/skip-dialog/skip-dialog.component';
 import { PlayersLeftDialogComponent } from 'src/app/dialogs/reactions/players-left-dialog/players-left-dialog.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IOptionsResponse } from 'src/app/core/interfaces/response.interface';
+import { IOptionsResponse } from 'src/app/core/interfaces/dialog-response.interface';
 import { NOTIFICATION_EVENT } from 'src/app/core/enums/notification.enum';
 import { IGameNotification } from 'src/app/core/interfaces/notification.interface';
 import { buttonAppearTrigger, unoButtonSlideTrigger } from 'src/app/core/animations/button.animation';

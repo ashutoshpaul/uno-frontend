@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IUpdateSocketIdPayload } from '../interfaces/http.interface';
+import { IUpdateSocketIdPayload } from '../interfaces/response.interface';
 import { IMinifiedIdentity } from '../interfaces/minified.interface';
 import { HttpService } from './http.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
