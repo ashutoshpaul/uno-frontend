@@ -19,9 +19,17 @@
         <mat-icon class="positive">logout</mat-icon>
         <div>Room left</div>
     </article>
-    <article *ngSwitchCase="events.opponentLeftRoom">
+    <article *ngSwitchCase="events.playerRemoved">
         <mat-icon class="negative">logout</mat-icon>
-        <div> XYZ has left</div>
+        <div>{{ data.additional?.playerWhoRemoved }} removed {{ data.additional?.playerRemoved }}</div>
+    </article>
+    <article *ngSwitchCase="events.playerRemovedByMe">
+        <mat-icon class="negative">logout</mat-icon>
+        <div>You removed {{ data.additional?.playerRemoved }}</div>
+    </article>
+    <article *ngSwitchCase="events.playerRemovedMe">
+        <mat-icon class="negative">logout</mat-icon>
+        <div>{{ data.additional?.playerWhoRemoved }} removed you</div>
     </article>
     <article *ngSwitchCase="events.failed">
         <mat-icon class="negative">error</mat-icon>

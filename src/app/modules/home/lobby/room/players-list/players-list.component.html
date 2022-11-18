@@ -5,7 +5,7 @@
                 {{ i + 1 }}. {{ player.name }}
                 <span class="host" *ngIf="isHost(player)">(Host)</span>
             </div>
-            <div class="right" *ngIf="!isHost(player)">
+            <div class="right" *ngIf="!isHost(player)" (click)="removePlayer(player)">
                 <mat-icon>delete</mat-icon>
             </div>
         </div>

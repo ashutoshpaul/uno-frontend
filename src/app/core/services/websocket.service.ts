@@ -6,11 +6,12 @@ import { PLAYER_EVENTS } from '../enums/websocket-enums/player-events.enum';
 import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
 import { RoomService } from './room.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
-import { ILobbyRoomResponse, IPlayerLeftRoomResponse } from '../interfaces/response.interface';
+import { ILobbyRoomResponse, IPlayerLeftRoomResponse, IPlayerRemovedResponse } from '../interfaces/response.interface';
 import { PlayerService } from './player.service';
 import { IRoomNotification } from '../interfaces/notification.interface';
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
 import { SnackbarService } from './snackbar.service';
+import { IdentityService } from './identity.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class WebsocketService {
     private readonly _snackbarService: SnackbarService,
     private readonly _playerService: PlayerService,
     private readonly _roomService: RoomService,
+    private readonly _identityService: IdentityService,
   ) { 
     this._instantiateSocketConnection();
   }
@@ -169,14 +171,38 @@ export class WebsocketService {
 
       this.socket.on(RESPONSE_EVENTS.roomLeft, (data: IPlayerLeftRoomResponse) => {
         console.log(RESPONSE_EVENTS.roomLeft);
-        // TODO pass player name to snackbar
-        this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.opponentLeftRoom });
         this._roomService.triggerRoomEvent(data.room);
       });
 
       this.socket.on(RESPONSE_EVENTS.roomJoined, (room: ILobbyRoomResponse) => {
         console.log('*', PLAYER_EVENTS.joinRoom, room);
         this._roomService.triggerRoomEvent(room);
+      });
+
+      this.socket.on(RESPONSE_EVENTS.playerRemoved, (data: IPlayerRemovedResponse) => {
+        console.log(RESPONSE_EVENTS.playerRemoved);
+        // am I removed
+        if(data.playerRemoved.id == this._identityService.identity.player.id) {
+          this._sessionStorage.remove(SESSION_KEY.identity);
+          this._snackbarService.openSnackbar(<IRoomNotification>{
+            event: NOTIFICATION_EVENT.playerRemovedMe,
+            additional: {
+              playerRemoved: data.playerRemoved.name,
+              playerWhoRemoved: data.actionPlayer,
+            },
+          });
+          this._roomService.triggerRoomDeletedEvent();
+        } else {
+          // a player was removed
+          this._snackbarService.openSnackbar(<IRoomNotification>{
+            event: NOTIFICATION_EVENT.playerRemoved,
+            additional: {
+              playerRemoved: data.playerRemoved.name,
+              playerWhoRemoved: data.actionPlayer,
+            },
+          });
+          this._roomService.triggerRoomEvent(data.room);
+        }
       });
     } else {
       console.error('socket not created!');

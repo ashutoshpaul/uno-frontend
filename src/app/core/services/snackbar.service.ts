@@ -23,6 +23,7 @@ export class SnackbarService {
       verticalPosition: 'bottom',
       data: <IRoomNotification>{
         event: snackbarEvent.event,
+        ...(snackbarEvent.additional && { additional: snackbarEvent.additional }),
       },
     });
   }

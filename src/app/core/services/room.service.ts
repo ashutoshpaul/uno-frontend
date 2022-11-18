@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
 import { ROOM_STATUS } from '../enums/room-status.enum';
 import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
-import { IJoinRoomResponse, ILobbyRoomResponse } from '../interfaces/response.interface';
+import { IJoinRoomResponse, ILobbyRoomResponse, IPlayerRemovePayload } from '../interfaces/response.interface';
 import { IMinifiedIdentity, IMinifiedPlayer, IMinifiedRoom } from '../interfaces/minified.interface';
 import { IRoomNotification } from '../interfaces/notification.interface';
 import { HttpService } from './http.service';
@@ -99,6 +99,30 @@ export class RoomService {
       this.roomSubject$.next(room);
     } else {  // you created room
       this.roomSubject$.next(null);
+    }
+  }
+
+  removePlayer(player: IMinifiedPlayer): void {
+    const identity: IMinifiedIdentity | null = JSON.parse(this._sessionStorage.getItem(SESSION_KEY.identity));
+    if (identity?.player) {
+      const roomId: string = identity.room.id;
+      const payload: IPlayerRemovePayload = {
+        actionPlayer: identity.player,
+        playerToBeRemoved: player,
+      };
+      this._httpService.removePlayer(roomId, payload).subscribe({
+        next: (res: ILobbyRoomResponse) => {
+          this.triggerRoomEvent(res);
+          this._snackbarService.openSnackbar(<IRoomNotification>{
+            event: NOTIFICATION_EVENT.playerRemovedByMe,
+            additional: {
+              playerRemoved: player.name,
+              playerWhoRemoved: this._identityService.identity.player.name,  // me
+            },
+          });
+        },
+        error: () => this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.failed }),
+      });
     }
   }
 

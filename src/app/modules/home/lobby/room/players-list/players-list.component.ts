@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { playerRoomTrigger } from 'src/app/core/animations/room.animation';
 import { IMinifiedPlayer } from 'src/app/core/interfaces/minified.interface';
+import { RoomService } from 'src/app/core/services/room.service';
 
 @Component({
   selector: 'app-players-list',
@@ -16,7 +17,9 @@ export class PlayersListComponent implements OnChanges, OnInit {
   @Input() players: IMinifiedPlayer[];
   @Input() createdBy: IMinifiedPlayer;
 
-  constructor() { }
+  constructor(
+    private readonly _roomService: RoomService,
+  ) { }
 
   ngOnChanges(): void {}
 
@@ -41,6 +44,10 @@ export class PlayersListComponent implements OnChanges, OnInit {
 
   isHost(player: IMinifiedPlayer): boolean {
     return player.id == this.createdBy.id;
+  }
+
+  removePlayer(player: IMinifiedPlayer): void {
+    this._roomService.removePlayer(player);
   }
 
   trackById = (index: number, item: IMinifiedPlayer) => item.id;

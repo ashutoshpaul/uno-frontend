@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ICreateRoomPayload, IJoinRoomPayload, ILobbyRoomResponse, IUpdateSocketIdPayload } from '../interfaces/response.interface';
+import { ICreateRoomPayload, IJoinRoomPayload, ILobbyRoomResponse, IPlayerRemovePayload, IUpdateSocketIdPayload } from '../interfaces/response.interface';
 import { IRoom } from '../interfaces/room.interface';
 
 @Injectable({
@@ -42,6 +42,10 @@ export class HttpService {
 
   leaveRoom(roomId: string) {
     return this._http.get(`${this.BASE_URL}/room/leave/${roomId}`);
+  }
+
+  removePlayer(roomId: string, payload: IPlayerRemovePayload): Observable<ILobbyRoomResponse> {
+    return this._http.post<ILobbyRoomResponse>(`${this.BASE_URL}/room/remove/${roomId}`, payload);
   }
 
 }
