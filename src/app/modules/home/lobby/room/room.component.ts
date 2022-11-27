@@ -81,6 +81,10 @@ export class RoomComponent implements OnInit {
     return this._roomService.isRoomCreatedByMe(this.room?.createdBy);
   }
 
+  get isJoinAndStartGameDisabled(): boolean {
+    return !(this.room.players?.length > 1);
+  }
+
   private _updateRoom(room?: ILobbyRoomResponse): void {
     const identity: IMinifiedIdentity = this._identityService.identity;
     if (this._identityService.identity) {
