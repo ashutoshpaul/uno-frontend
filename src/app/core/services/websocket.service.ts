@@ -204,6 +204,11 @@ export class WebsocketService {
           this._roomService.triggerRoomEvent(data.room);
         }
       });
+
+      this.socket.on(RESPONSE_EVENTS.gameStarted, (room: ILobbyRoomResponse) => {
+        console.log(RESPONSE_EVENTS.gameStarted);
+        this._roomService.triggerRoomEvent(room);
+      });
     } else {
       console.error('socket not created!');
     }

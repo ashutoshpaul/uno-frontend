@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { IMinifiedIdentity } from '../interfaces/minified.interface';
 import { ICreateRoomPayload, IJoinRoomPayload, ILobbyRoomResponse, IPlayerRemovePayload, IUpdateSocketIdPayload } from '../interfaces/response.interface';
 import { IRoom } from '../interfaces/room.interface';
 
@@ -46,6 +47,10 @@ export class HttpService {
 
   removePlayer(roomId: string, payload: IPlayerRemovePayload): Observable<ILobbyRoomResponse> {
     return this._http.post<ILobbyRoomResponse>(`${this.BASE_URL}/room/remove/${roomId}`, payload);
+  }
+
+  startGame(payload: IMinifiedIdentity): Observable<ILobbyRoomResponse> {
+    return this._http.post<ILobbyRoomResponse>(`${this.BASE_URL}/game/start`, payload);
   }
 
 }

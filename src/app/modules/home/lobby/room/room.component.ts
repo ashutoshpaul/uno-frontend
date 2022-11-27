@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { ROOM_STATUS } from 'src/app/core/enums/room-status.enum';
 import { ILobbyRoomResponse } from 'src/app/core/interfaces/response.interface';
 import { IMinifiedIdentity, IMinifiedPlayer } from 'src/app/core/interfaces/minified.interface';
 import { IdentityService } from 'src/app/core/services/identity.service';
 import { RoomService } from 'src/app/core/services/room.service';
+import { GameService } from 'src/app/core/services/game.service';
 
 @Component({
   selector: 'app-room',
@@ -22,10 +22,9 @@ export class RoomComponent implements OnInit {
   readonly roomStatusType: typeof ROOM_STATUS = ROOM_STATUS;
 
   constructor(
-    private readonly _router: Router,
-    private readonly _activatedRoute: ActivatedRoute,
     private readonly _identityService: IdentityService,
     private readonly _roomService: RoomService,
+    private readonly _gameService: GameService,
   ) { }
 
   ngOnInit(): void {
@@ -45,19 +44,8 @@ export class RoomComponent implements OnInit {
   }
 
   invokeAction(): void {
-    if(this.room.isGameStarted) {
-      this.joinGame();
-    } else {
-      this.startGame();
-    }
-  }
-
-  joinGame(): void {
-    this._navigateToGame();
-  }
-
-  startGame(): void {
-    this._navigateToGame();
+    if(this.room.isGameStarted) this._gameService.joinGame();
+    else this._gameService.startGame();
   }
 
   /**
@@ -118,9 +106,5 @@ export class RoomComponent implements OnInit {
     this.room = null;
     this.otherPlayers = null;
     this.room$ = of(this.room);
-  }
-
-  private _navigateToGame(): void {
-    this._router.navigate(['./../', 'play'], { relativeTo: this._activatedRoute });
   }
 }
