@@ -29,7 +29,7 @@ export interface IJoinRoomResponse {
 export interface ILobbyRoomResponse {
   createdBy: IMinifiedPlayer;
   isGameStarted: boolean;
-  status: ROOM_STATUS; // OPTIONAL is back-end
+  status: ROOM_STATUS; // OPTIONAL in back-end
   players: IMinifiedPlayer[],
   name: string;
   id: string;
@@ -44,4 +44,9 @@ export interface IPlayerRemovedResponse {
   actionPlayer: string;
   playerRemoved: IMinifiedPlayer;
   room: ILobbyRoomResponse;
+}
+
+export interface IJoinedPlayersResponse {
+  joinedPlayersCount: number;
+  totalPlayersCount: number;
 }

@@ -4,11 +4,10 @@ export enum SESSION_KEY {
   isChatOpen = 'isChatOpen',
   isExit = 'isExit',
   playerName = 'playerName',
-  playerId = 'playerId',
-  roomId = 'roomId',
 
   identity = 'identity', // IMinifiedIdentity
   socketId = 'socketId',
+  hasAllPlayersJoined = 'hasAllPlayersJoined',
 }
 
 @Injectable({

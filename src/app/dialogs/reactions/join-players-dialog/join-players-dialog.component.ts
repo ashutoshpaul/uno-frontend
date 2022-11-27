@@ -2,6 +2,9 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable, of, interval, timer } from 'rxjs';
 import { take, concatMapTo } from 'rxjs/operators';
+import { IJoinedPlayersResponse } from 'src/app/core/interfaces/response.interface';
+import { GameService } from 'src/app/core/services/game.service';
+import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
 import { SubSink } from 'subsink';
 
 interface DialogData {
@@ -32,15 +35,32 @@ export class JoinPlayersDialogComponent implements OnInit, OnDestroy {
   constructor(
     private readonly _dialogRef: MatDialogRef<JoinPlayersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private readonly _data: DialogData,
+    private readonly _gameService: GameService,
+    private readonly _sessionStorage: SessionStorageService,
   ) { }
 
   ngOnInit(): void {
     this._dialogRef.disableClose = true;
     this.joinedPlayers = this._data.joinedPlayers;
     this.totalPlayers = this._data.totalPlayers;
+
+    if (this._data.joinedPlayers == this._data.totalPlayers) {
+      this._sessionStorage.setItem(SESSION_KEY.hasAllPlayersJoined, true);
+      this._startGameAlert();
+    }
+
+    this._gameService.playerJoined$.subscribe((data: IJoinedPlayersResponse) => {
+      this.joinedPlayers = data.joinedPlayersCount;
+      this.totalPlayers = data.totalPlayersCount;
+
+      if (data.joinedPlayersCount == data.totalPlayersCount) {
+        this._sessionStorage.setItem(SESSION_KEY.hasAllPlayersJoined, true);
+        this._startGameAlert();
+      }
+    });
   }
 
-  startGameAlert(): void {
+  private _startGameAlert(): void {
     this.isStartGame = true;
     this.isStartGame$ = of(this.isStartGame);
 
@@ -52,12 +72,10 @@ export class JoinPlayersDialogComponent implements OnInit, OnDestroy {
     this._subSink.add(
       timing$.subscribe(_ => {
         this.secondsCounter$ = of(--this.secondsCounter);
+
+        if (this.secondsCounter == 0) this._dialogRef.close();
       })
     );
-
-    setTimeout(() => {
-      this._dialogRef.close();
-    }, 3000);
   }
 
   ngOnDestroy(): void {

@@ -6,12 +6,13 @@ import { PLAYER_EVENTS } from '../enums/websocket-enums/player-events.enum';
 import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
 import { RoomService } from './room.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
-import { ILobbyRoomResponse, IPlayerLeftRoomResponse, IPlayerRemovedResponse } from '../interfaces/response.interface';
+import { IJoinedPlayersResponse, ILobbyRoomResponse, IPlayerLeftRoomResponse, IPlayerRemovedResponse } from '../interfaces/response.interface';
 import { PlayerService } from './player.service';
 import { IRoomNotification } from '../interfaces/notification.interface';
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
 import { SnackbarService } from './snackbar.service';
 import { IdentityService } from './identity.service';
+import { GameService } from './game.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,7 @@ export class WebsocketService {
     private readonly _playerService: PlayerService,
     private readonly _roomService: RoomService,
     private readonly _identityService: IdentityService,
+    private readonly _gameService: GameService,
   ) { 
     this._instantiateSocketConnection();
   }
@@ -210,9 +212,11 @@ export class WebsocketService {
         this._roomService.triggerRoomEvent(room);
       });
 
-      this.socket.on(RESPONSE_EVENTS.gameJoined, (room: ILobbyRoomResponse) => {
+      this.socket.on(RESPONSE_EVENTS.gameJoined, (data: IJoinedPlayersResponse) => {
         console.log(RESPONSE_EVENTS.gameJoined);
+        this._gameService.triggerPlayerJoinedEvent(data);
       });
+
     } else {
       console.error('socket not created!');
     } 

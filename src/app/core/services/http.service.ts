@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IMinifiedIdentity } from '../interfaces/minified.interface';
-import { ICreateRoomPayload, IJoinRoomPayload, ILobbyRoomResponse, IPlayerRemovePayload, IUpdateSocketIdPayload } from '../interfaces/response.interface';
+import { ICreateRoomPayload, IJoinedPlayersResponse, IJoinRoomPayload, ILobbyRoomResponse, IPlayerRemovePayload, IUpdateSocketIdPayload } from '../interfaces/response.interface';
 import { IRoom } from '../interfaces/room.interface';
 
 @Injectable({
@@ -55,6 +55,10 @@ export class HttpService {
 
   joinGame(payload: IMinifiedIdentity): Observable<ILobbyRoomResponse> {
     return this._http.post<ILobbyRoomResponse>(`${this.BASE_URL}/game/join`, payload);
+  }
+
+  joinedPlayersCount(roomId: string): Observable<IJoinedPlayersResponse> {
+    return this._http.get<IJoinedPlayersResponse>(`${this.BASE_URL}/game/joined-players-count/${roomId}`);
   }
 
 }

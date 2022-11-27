@@ -46,6 +46,9 @@ import { messageNotificationTrigger, gameNotificationTrigger } from 'src/app/cor
 import { GAME_DIRECTIONS } from 'src/app/core/enums/game.enum';
 import { PLAYER_POSITION, UnoPositionType } from 'src/app/core/enums/position.enum';
 import { unoTrigger } from 'src/app/core/animations/uno.animation';
+import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
+import { GameService } from 'src/app/core/services/game.service';
+import { WebsocketService } from 'src/app/core/services/websocket.service';
 
 @Component({
   selector: 'app-uno-board',
@@ -95,19 +98,19 @@ export class UnoBoardComponent implements OnInit {
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
   readonly cards: { state: CARD_ANIMATION_ENUM, isLegal: boolean, color: "black" | "blue" | "green" | "red" | "yellow" }[] = [
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
@@ -118,13 +121,13 @@ export class UnoBoardComponent implements OnInit {
   ];
 
   readonly opponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -154,15 +157,15 @@ export class UnoBoardComponent implements OnInit {
   ];
 
   readonly leftOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -199,16 +202,16 @@ export class UnoBoardComponent implements OnInit {
   ];
 
   readonly rightOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -256,13 +259,23 @@ export class UnoBoardComponent implements OnInit {
     private readonly _router: Router,
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _dialog: NgDialogAnimationService,
+    private readonly _gameService: GameService,
+    private readonly _websocketService: WebsocketService,
+    private readonly _sessionStorage: SessionStorageService,
   ) {}
 
   ngOnInit(): void {
+    this._websocketService; // ESTABLISH CONNECTION. DO NOT REMOVE!
     this.registerInternetEvents();
     this.toggleCardsTray(false);
     this.cards$ = of(this.cards);
 
+    // display JoinPlayersDialogComponent if all players have not joined game yet.
+    const hasAllPlayersJoined: boolean = this._sessionStorage.getItem(SESSION_KEY.hasAllPlayersJoined) == 'true';
+    if (!hasAllPlayersJoined) {
+      this._gameService.openJoinedPlayersPopup();
+    }
+    
     this.colorCode = COLOR_CODE_ENUM.green;
 
     // setTimeout(() => {
