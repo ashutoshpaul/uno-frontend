@@ -6,8 +6,16 @@
                 <mat-icon (click)="editPlayerName()">edit</mat-icon>
             </div>
             <div class="body">
-                <div class="create-room" (click)="createRoom()">Create Room</div>
-                <div class="join-room" (click)="joinRoom()">Join Room</div>
+                <div class="create-room"
+                    [class.disable]="isCreateAndJoinRoomDisabled"
+                    (click)="createRoom()">
+                    Create Room
+                </div>
+                <div class="join-room"
+                    [class.disable]="isCreateAndJoinRoomDisabled"
+                    (click)="joinRoom()">
+                    Join Room
+                </div>
             </div>
             <div class="footer">
                 <app-room></app-room>

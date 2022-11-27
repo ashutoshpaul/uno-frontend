@@ -44,6 +44,7 @@ export class RoomComponent implements OnInit {
   }
 
   invokeAction(): void {
+    if(this.isJoinAndStartGameDisabled) return;
     if(this.room.isGameStarted) this._gameService.joinGame();
     else this._gameService.startGame();
   }

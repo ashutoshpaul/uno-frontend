@@ -31,7 +31,7 @@
             <div
                 class="start-game"
                 [class.disable]="isJoinAndStartGameDisabled"
-                (click)="!isJoinAndStartGameDisabled ? invokeAction() : null">
+                (click)="invokeAction()">
                 {{ action }}
             </div>
         </section>
