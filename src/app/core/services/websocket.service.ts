@@ -211,6 +211,6 @@ export class WebsocketService {
       });
     } else {
       console.error('socket not created!');
-    }
+    } 
   }
 }
