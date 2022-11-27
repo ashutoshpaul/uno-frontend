@@ -26,9 +26,17 @@ export class GameService {
       next: () => {
         this._router.navigate(['./../', 'play'], { relativeTo: this._activatedRoute });
       },
-      error: () => this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.drawFourCards }),
+      error: () => this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.failed }),
     });
   }
   
-  joinGame(): void {}
+  joinGame(): void {
+    const identity: IMinifiedIdentity = this._identityService.identity;
+    this._httpService.joinGame(identity).subscribe({
+      next: () => {
+        this._router.navigate(['./../', 'play'], { relativeTo: this._activatedRoute });
+      },
+      error: () => this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.failed }),
+    });
+  }
 }

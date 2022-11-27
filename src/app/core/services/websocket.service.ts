@@ -209,6 +209,10 @@ export class WebsocketService {
         console.log(RESPONSE_EVENTS.gameStarted);
         this._roomService.triggerRoomEvent(room);
       });
+
+      this.socket.on(RESPONSE_EVENTS.gameJoined, (room: ILobbyRoomResponse) => {
+        console.log(RESPONSE_EVENTS.gameJoined);
+      });
     } else {
       console.error('socket not created!');
     } 

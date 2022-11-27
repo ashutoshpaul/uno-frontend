@@ -53,4 +53,8 @@ export class HttpService {
     return this._http.post<ILobbyRoomResponse>(`${this.BASE_URL}/game/start`, payload);
   }
 
+  joinGame(payload: IMinifiedIdentity): Observable<ILobbyRoomResponse> {
+    return this._http.post<ILobbyRoomResponse>(`${this.BASE_URL}/game/join`, payload);
+  }
+
 }
