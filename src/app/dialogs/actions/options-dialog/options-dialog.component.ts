@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as screenfull from 'screenfull';
 import { DURATION } from 'src/app/core/constants/durations.constants';
@@ -18,12 +17,10 @@ export class OptionsDialogComponent implements OnInit {
   isFullScreen: boolean = false;
   networkType: string;
 
-  unseenChatCount$: Observable<number>;
+  unseenChatCount$: Observable<string>;
 
   constructor(
     private readonly _dialogRef: MatDialogRef<OptionsDialogComponent>,
-    private readonly _router: Router,
-    private readonly _activatedRoute: ActivatedRoute,
     private readonly _chatService: ChatService,
     private readonly _sessionStorage: SessionStorageService,
   ) { }

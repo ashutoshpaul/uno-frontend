@@ -5,7 +5,7 @@
         mode="side" 
         position="end"
         [opened]="isChatOpen$ | async">
-        <app-chat [message$]="message$"></app-chat>
+        <app-chat [messages$]="messages$"></app-chat>
     </mat-drawer>
 
     <ng-container>

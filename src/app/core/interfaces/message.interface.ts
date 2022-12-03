@@ -1,5 +1,7 @@
+import { IMinifiedPlayer } from "./minified.interface";
+
 export interface IMessage {
-  name: string;
+  author: IMinifiedPlayer;
   content: string;
   time: string;
   isSentByMe?: boolean;

@@ -6,8 +6,8 @@
                     [ngClass]="{ 'my-message': chatMessage.isSentByMe }">
                     <article class="message">
                         <div class="header">
-                            <div class="name">{{ chatMessage.name }}</div>
-                            <div class="time">{{ chatMessage.time }}</div>
+                            <div class="name">{{ chatMessage.author.name }}</div>
+                            <div class="time">{{ chatMessage.time | date:'shortTime' }}</div>
                         </div>
                         <div class="body">{{ chatMessage.content }}</div>
                     </article>

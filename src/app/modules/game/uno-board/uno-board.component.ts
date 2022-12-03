@@ -49,6 +49,7 @@ import { unoTrigger } from 'src/app/core/animations/uno.animation';
 import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
 import { GameService } from 'src/app/core/services/game.service';
 import { WebsocketService } from 'src/app/core/services/websocket.service';
+import { ChatService } from 'src/app/core/services/chat.service';
 
 @Component({
   selector: 'app-uno-board',
@@ -260,6 +261,7 @@ export class UnoBoardComponent implements OnInit {
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _dialog: NgDialogAnimationService,
     private readonly _gameService: GameService,
+    private readonly _chatService: ChatService,
     private readonly _websocketService: WebsocketService,
     private readonly _sessionStorage: SessionStorageService,
   ) {}
@@ -275,6 +277,11 @@ export class UnoBoardComponent implements OnInit {
     if (!hasAllPlayersJoined) {
       this._gameService.openJoinedPlayersPopup();
     }
+
+    // listen to incoming messages
+    this._chatService.isMessageNotificationTriggered$.subscribe((isTriggered: boolean) => {
+      this.isMessageNotificationTriggered$ = of(isTriggered);
+    });
     
     this.colorCode = COLOR_CODE_ENUM.green;
 
@@ -619,7 +626,7 @@ export class UnoBoardComponent implements OnInit {
   }
 
   resetMessageNotification(): void {
-    this.isMessageNotificationTriggered$ = of(false);
+    this._chatService.toggleMessageNotificationTrigger(false);
   }
 
   resetGameNotification(): void {

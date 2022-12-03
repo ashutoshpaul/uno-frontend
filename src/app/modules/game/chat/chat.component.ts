@@ -1,44 +1,32 @@
-import { AfterViewChecked, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { AfterViewChecked, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
 import { IMessage } from 'src/app/core/interfaces/message.interface';
+import { ChatService } from 'src/app/core/services/chat.service';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements AfterViewChecked {
   
-  @Input() message$: Observable<IMessage>;
+  @Input() messages$: Observable<IMessage[]>;
 
   @ViewChild('messages') elRef: ElementRef;
   
-  messages: IMessage[] = [];
-  messages$: Observable<IMessage[]>;
-  
   chat: string;
 
-  constructor() { }
-
-  ngOnInit(): void {
-    this.message$.pipe(tap((message: IMessage) => {
-      message.isSentByMe = message.name == 'Samuel' ? true : false ;
-      return message;
-    })).subscribe((message: IMessage) => {
-      this.messages.push(message);
-      this.messages$ = of(this.messages);
-    });
-  }
+  constructor(
+    private readonly _chatService: ChatService,
+  ) { }
 
   ngAfterViewChecked(): void {
-    // console.log('scrolled');
     this._scrollToBottom();
   }
 
   sendChat(): void {
     if (this.isChatValid) {
-      console.log(this.trimmedChat);
+      this._chatService.postMessage(this.trimmedChat);
       this._clearChat();
     }
   }
@@ -51,11 +39,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     return this.chat?.trim() || '';
   }
 
-  private _clearChat() {
+  private _clearChat(): void {
     this.chat = '';
   }
 
-  private _scrollToBottom() {
+  private _scrollToBottom(): void {
     this.elRef.nativeElement.scrollTop = this.elRef.nativeElement.scrollHeight;
   }
 

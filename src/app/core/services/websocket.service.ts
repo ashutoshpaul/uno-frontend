@@ -14,6 +14,8 @@ import { SnackbarService } from './snackbar.service';
 import { IdentityService } from './identity.service';
 import { GameService } from './game.service';
 import { Router } from '@angular/router';
+import { IMessage } from '../interfaces/message.interface';
+import { ChatService } from './chat.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +32,7 @@ export class WebsocketService {
     private readonly _roomService: RoomService,
     private readonly _identityService: IdentityService,
     private readonly _gameService: GameService,
+    private readonly _chatService: ChatService,
   ) { 
     this._instantiateSocketConnection();
   }
@@ -248,6 +251,11 @@ export class WebsocketService {
       this.socket.on(RESPONSE_EVENTS.gameJoined, (data: IJoinedPlayersResponse) => {
         console.log(RESPONSE_EVENTS.gameJoined);
         this._gameService.triggerPlayerJoinedEvent(data);
+      });
+
+      this.socket.on(RESPONSE_EVENTS.message, (message: IMessage) => {
+        console.log(RESPONSE_EVENTS.message);
+        this._chatService.emitMessage(message);
       });
 
     } else {

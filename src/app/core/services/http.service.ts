@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { IMessage } from '../interfaces/message.interface';
 import { IMinifiedIdentity } from '../interfaces/minified.interface';
 import { ICreateRoomPayload, IJoinedPlayersResponse, IJoinRoomPayload, ILobbyRoomResponse, IPlayerRemovePayload, IUpdateSocketIdPayload } from '../interfaces/response.interface';
 import { IRoom } from '../interfaces/room.interface';
@@ -59,6 +60,14 @@ export class HttpService {
 
   joinedPlayersCount(roomId: string): Observable<IJoinedPlayersResponse> {
     return this._http.get<IJoinedPlayersResponse>(`${this.BASE_URL}/game/joined-players-count/${roomId}`);
+  }
+
+  getMessages(roomId: string): Observable<IMessage[]> {
+    return this._http.get<IMessage[]>(`${this.BASE_URL}/messages/${roomId}`);
+  }
+
+  postMessage(roomId: string, message: IMessage): Observable<IMessage> {
+    return this._http.post<IMessage>(`${this.BASE_URL}/messages/${roomId}`, message);
   }
 
 }
