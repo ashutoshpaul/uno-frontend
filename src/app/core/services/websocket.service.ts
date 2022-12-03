@@ -173,6 +173,7 @@ export class WebsocketService {
         // If player is inside game (uno-board) then display snackbar after 700ms delay.
         // Or else the snackbar will overlap join-players-dialog (when all players haven't joined yet).
         if (this._router.url.includes('play')) {
+          this._sessionStorage.remove(SESSION_KEY.hasAllPlayersJoined);
           setTimeout(() => {
             this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomDoesNotExists });
           }, 700);
@@ -197,23 +198,44 @@ export class WebsocketService {
         // am I removed
         if(data.playerRemoved.id == this._identityService.identity.player.id) {
           this._sessionStorage.remove(SESSION_KEY.identity);
-          this._snackbarService.openSnackbar(<IRoomNotification>{
-            event: NOTIFICATION_EVENT.playerRemovedMe,
-            additional: {
-              playerRemoved: data.playerRemoved.name,
-              playerWhoRemoved: data.actionPlayer,
-            },
-          });
+          this._sessionStorage.remove(SESSION_KEY.hasAllPlayersJoined);
+          
+          // If player is inside game (uno-board) then display snackbar after 700ms delay.
+          // Or else the snackbar will overlap join-players-dialog (when all players haven't joined yet).
+          if (this._router.url.includes('play')) {
+            setTimeout(() => {
+              this._snackbarService.openSnackbar(<IRoomNotification>{
+                event: NOTIFICATION_EVENT.playerRemovedMe,
+                additional: {
+                  playerRemoved: data.playerRemoved.name,
+                  playerWhoRemoved: data.actionPlayer,
+                },
+              });
+            }, 700);
+          } else {
+            this._snackbarService.openSnackbar(<IRoomNotification>{
+              event: NOTIFICATION_EVENT.playerRemovedMe,
+              additional: {
+                playerRemoved: data.playerRemoved.name,
+                playerWhoRemoved: data.actionPlayer,
+              },
+            });
+          }
           this._roomService.triggerRoomDeletedEvent();
         } else {
           // a player was removed
-          this._snackbarService.openSnackbar(<IRoomNotification>{
-            event: NOTIFICATION_EVENT.playerRemoved,
-            additional: {
-              playerRemoved: data.playerRemoved.name,
-              playerWhoRemoved: data.actionPlayer,
-            },
-          });
+
+          // If player is inside game (uno-board) then DON'T display snackbar.
+          // Or else the snackbar will overlap join-players-dialog (when all players haven't joined yet).
+          if (!this._router.url.includes('play')) {
+            this._snackbarService.openSnackbar(<IRoomNotification>{
+              event: NOTIFICATION_EVENT.playerRemoved,
+              additional: {
+                playerRemoved: data.playerRemoved.name,
+                playerWhoRemoved: data.actionPlayer,
+              },
+            });
+          }
           this._roomService.triggerRoomEvent(data.room);
         }
       });
