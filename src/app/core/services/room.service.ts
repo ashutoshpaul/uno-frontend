@@ -11,19 +11,22 @@ import { HttpService } from './http.service';
 import { IdentityService } from './identity.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
 import { SnackbarService } from './snackbar.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomService {
 
-  readonly roomSubject$ = new Subject<ILobbyRoomResponse>();
-  readonly room$: Observable<any> = this.roomSubject$.asObservable();
+  private readonly _roomSubject$ = new Subject<ILobbyRoomResponse>();
+  readonly room$: Observable<any> = this._roomSubject$.asObservable();
 
-  readonly roomDeletedSubject$ = new Subject<null>();
-  readonly roomDeleted$: Observable<any> = this.roomDeletedSubject$.asObservable();
+  private readonly _roomDeletedSubject$ = new Subject<null>();
+  readonly roomDeleted$: Observable<any> = this._roomDeletedSubject$.asObservable();
 
   constructor(
+    private readonly _router: Router,
+    private readonly _activatedRoute: ActivatedRoute,
     private readonly _httpService: HttpService,
     private readonly _sessionStorage: SessionStorageService,
     private readonly _snackbarService: SnackbarService,
@@ -96,9 +99,9 @@ export class RoomService {
 
   triggerRoomEvent(room?: ILobbyRoomResponse): void {
     if (room) {  // someone joined your room (room created by you)
-      this.roomSubject$.next(room);
+      this._roomSubject$.next(room);
     } else {  // you created room
-      this.roomSubject$.next(null);
+      this._roomSubject$.next(null);
     }
   }
 
@@ -128,7 +131,13 @@ export class RoomService {
 
   triggerRoomDeletedEvent(): void {
     this._sessionStorage.remove(SESSION_KEY.identity);
-    this.roomDeletedSubject$.next(null);
+    this._roomDeletedSubject$.next(null);
+
+    // if player is inside game (uno-board) then redirect back to lobby
+    if (this._router.url.includes('play')) {
+      this._sessionStorage.setItem(SESSION_KEY.isExit, true);
+      this._router.navigate(['./../', 'lobby'], { relativeTo: this._activatedRoute });
+    }
   }
 
   roomStatus(createdBy: IMinifiedPlayer): ROOM_STATUS {

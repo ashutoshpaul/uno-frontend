@@ -13,6 +13,7 @@ import { NOTIFICATION_EVENT } from '../enums/notification.enum';
 import { SnackbarService } from './snackbar.service';
 import { IdentityService } from './identity.service';
 import { GameService } from './game.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class WebsocketService {
   socket: Socket;
 
   constructor(
+    private readonly _router: Router,
     private readonly _sessionStorage: SessionStorageService,
     private readonly _snackbarService: SnackbarService,
     private readonly _playerService: PlayerService,
@@ -167,7 +169,16 @@ export class WebsocketService {
 
       this.socket.on(RESPONSE_EVENTS.roomDeleted, () => {
         console.log(RESPONSE_EVENTS.roomDeleted);
-        this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomDoesNotExists });
+
+        // If player is inside game (uno-board) then display snackbar after 700ms delay.
+        // Or else the snackbar will overlap join-players-dialog (when all players haven't joined yet).
+        if (this._router.url.includes('play')) {
+          setTimeout(() => {
+            this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomDoesNotExists });
+          }, 700);
+        } else {
+          this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomDoesNotExists });
+        }
         this._roomService.triggerRoomDeletedEvent();
       });
 
