@@ -26,10 +26,6 @@ import { IPlayer } from "./player.interface";
  */
 export interface IMappedGame {
   mappedPlayers: IMappedPlayers;
-  drawerDeckCards: ICard[];
-  discardPileCards: ICard[];
-  chats: IMessage[];
   isGameStarted: boolean;
-
   lastDrawnCard: ICard | null;
 }

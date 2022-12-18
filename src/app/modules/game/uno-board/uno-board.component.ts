@@ -282,10 +282,7 @@ export class UnoBoardComponent implements OnInit {
     }
 
     // listen to incoming messages
-    this._chatService.isMessageNotificationTriggered$.subscribe((isTriggered: boolean) => {
-      this.isMessageNotificationTriggered$ = of(isTriggered);
-    });
-    // this.isMessageNotificationTriggered$ = this._chatService.isMessageNotificationTriggered$; TODO try out
+    this.isMessageNotificationTriggered$ = this._chatService.isMessageNotificationTriggered$;
     
     // listen to shuffle-cards event trigger
     this._playerService.isShuffleCardsEventTriggered$.subscribe((isTriggered: boolean) => {

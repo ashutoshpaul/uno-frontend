@@ -7,7 +7,7 @@ import { ChatService } from 'src/app/core/services/chat.service';
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatComponent implements AfterViewChecked {
   
