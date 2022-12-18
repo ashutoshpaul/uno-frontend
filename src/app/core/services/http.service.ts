@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { IMappedGame } from '../interfaces/game.interface';
 import { IMessage } from '../interfaces/message.interface';
 import { IMinifiedIdentity } from '../interfaces/minified.interface';
 import { ICreateRoomPayload, IJoinedPlayersResponse, IJoinRoomPayload, ILobbyRoomResponse, IPlayerRemovePayload, IUpdateSocketIdPayload } from '../interfaces/response.interface';
@@ -68,6 +69,14 @@ export class HttpService {
 
   postMessage(roomId: string, message: IMessage): Observable<IMessage> {
     return this._http.post<IMessage>(`${this.BASE_URL}/messages/${roomId}`, message);
+  }
+
+  distributeCards(payload: IMinifiedIdentity): Observable<any> {
+    return this._http.post<any>(`${this.BASE_URL}/game/distribute`, payload);
+  }
+
+  getGameState(roomId: string, playerId: string): Observable<IMappedGame> {
+    return this._http.get<IMappedGame>(`${this.BASE_URL}/game/${roomId}/${playerId}/state`);
   }
 
 }

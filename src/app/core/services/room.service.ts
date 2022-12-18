@@ -131,6 +131,7 @@ export class RoomService {
 
   triggerRoomDeletedEvent(): void {
     this._sessionStorage.remove(SESSION_KEY.identity);
+    this._sessionStorage.remove(SESSION_KEY.isCardsDistributed);
     this._roomDeletedSubject$.next(null);
 
     // if player is inside game (uno-board) then redirect back to lobby

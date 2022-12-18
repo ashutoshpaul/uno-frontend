@@ -8,6 +8,12 @@ export enum SESSION_KEY {
   identity = 'identity', // IMinifiedIdentity
   socketId = 'socketId',
   hasAllPlayersJoined = 'hasAllPlayersJoined',
+
+  /**
+   * * If true then cards will not be distributed and get-game-state API will not be called.
+   * * If false then get-game-state API will be called on screen refresh.
+   */
+  isCardsDistributed = 'isCardsDistributed',
 }
 
 @Injectable({

@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IMessage } from 'src/app/core/interfaces/message.interface';
 import { ChatService } from 'src/app/core/services/chat.service';
@@ -6,7 +6,8 @@ import { ChatService } from 'src/app/core/services/chat.service';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: ['./chat.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatComponent implements AfterViewChecked {
   

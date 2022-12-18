@@ -1,5 +1,5 @@
 <div class="dashboard" id="dashboard">
-    <ng-container *ngIf="false">
+    <ng-container *ngIf="!false">
       <button
         (click)="discardDrawerDeckCard()" 
         style="width: 150px; height: 30px">
@@ -105,22 +105,19 @@
               <div card class="uno-card-container"></div>
             </div>
             <!-- shuffle-three-cards -->
-            <div class="shuffle-three-cards" [@shuffleCards]="isShuffleCards">
+            <div class="shuffle-three-cards" [@shuffleCards]="isShuffleCards" (@shuffleCards.done)="resetShuffleCardsEvent()">
               <div class="uno-card drawer-deck-uno-card">
-                <div 
-                  card class="uno-card-container" 
+                <div card class="uno-card-container" 
                   style="transform: rotateY(180deg)">
                 </div>
               </div>
               <div class="uno-card drawer-deck-uno-card">
-                <div
-                  card class="uno-card-container" 
+                <div card class="uno-card-container" 
                   style="transform: rotateY(180deg)">
                 </div>
               </div>
               <div class="uno-card drawer-deck-uno-card">
-                <div
-                  card class="uno-card-container" 
+                <div card class="uno-card-container" 
                   style="transform: rotateY(180deg)">
                 </div>
               </div>

@@ -6,7 +6,13 @@ import { PLAYER_EVENTS } from '../enums/websocket-enums/player-events.enum';
 import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
 import { RoomService } from './room.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
-import { IJoinedPlayersResponse, ILobbyRoomResponse, IPlayerLeftRoomResponse, IPlayerRemovedResponse } from '../interfaces/response.interface';
+import { 
+  IDistributeCardsWebsocketResponse, 
+  IJoinedPlayersResponse, 
+  ILobbyRoomResponse, 
+  IPlayerLeftRoomResponse, 
+  IPlayerRemovedResponse 
+} from '../interfaces/response.interface';
 import { PlayerService } from './player.service';
 import { IRoomNotification } from '../interfaces/notification.interface';
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
@@ -38,14 +44,16 @@ export class WebsocketService {
   }
 
   private _instantiateSocketConnection() {
-    this.socket = io(environment.websocket);
-
-    this.socket.on(RESPONSE_EVENTS.connectionEstablished, (socketId: string) => {
-      console.log('CONNECTED', this.socket.id, socketId);
-      this._sessionStorage.setItem(SESSION_KEY.socketId, socketId);
-      this._registerListeners();
-      this._playerService.connection();
-    });
+    if (!this.socket) {
+      this.socket = io(environment.websocket);
+  
+      this.socket.on(RESPONSE_EVENTS.connectionEstablished, (socketId: string) => {
+        console.log('CONNECTED', this.socket.id, socketId);
+        this._sessionStorage.setItem(SESSION_KEY.socketId, socketId);
+        this._registerListeners();
+        this._playerService.connection();
+      });
+    }
   }
 
   private _registerListeners(): void {
@@ -83,8 +91,9 @@ export class WebsocketService {
         console.log(PLAYER_EVENTS.leaveRoom);
       });
 
-      this.socket.on(PLAYER_EVENTS.message, () => {
+      this.socket.on(PLAYER_EVENTS.message, (message: IMessage) => {
         console.log(PLAYER_EVENTS.message);
+        this._chatService.emitMessage(message);
       });
   
       this.socket.on(PLAYER_EVENTS.play, () => {
@@ -141,8 +150,12 @@ export class WebsocketService {
         console.log(GAME_EVENTS.discardFirstCard);
       });
 
-      this.socket.on(GAME_EVENTS.distributeCards, () => {
-        console.log(GAME_EVENTS.distributeCards);
+      this.socket.on(GAME_EVENTS.distributeCards, (res: IDistributeCardsWebsocketResponse) => {
+        console.log(GAME_EVENTS.distributeCards, res);
+        if (!this._sessionStorage.getItem(SESSION_KEY.isCardsDistributed)) {
+          // TODO invoke action here
+          this._sessionStorage.setItem(SESSION_KEY.isCardsDistributed, true);
+        }
       });
 
       this.socket.on(GAME_EVENTS.drawFourCards, () => {
@@ -159,6 +172,7 @@ export class WebsocketService {
 
       this.socket.on(GAME_EVENTS.shuffle, () => {
         console.log(GAME_EVENTS.shuffle);
+        this._playerService.toggleShuffleCardsEventTrigger();
       });
 
       this.socket.on(GAME_EVENTS.skipped, () => {
@@ -177,6 +191,7 @@ export class WebsocketService {
         // Or else the snackbar will overlap join-players-dialog (when all players haven't joined yet).
         if (this._router.url.includes('play')) {
           this._sessionStorage.remove(SESSION_KEY.hasAllPlayersJoined);
+          this._sessionStorage.remove(SESSION_KEY.isCardsDistributed);
           setTimeout(() => {
             this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomDoesNotExists });
           }, 700);
@@ -202,6 +217,7 @@ export class WebsocketService {
         if(data.playerRemoved.id == this._identityService.identity.player.id) {
           this._sessionStorage.remove(SESSION_KEY.identity);
           this._sessionStorage.remove(SESSION_KEY.hasAllPlayersJoined);
+          this._sessionStorage.remove(SESSION_KEY.isCardsDistributed);
           
           // If player is inside game (uno-board) then display snackbar after 700ms delay.
           // Or else the snackbar will overlap join-players-dialog (when all players haven't joined yet).
@@ -251,11 +267,6 @@ export class WebsocketService {
       this.socket.on(RESPONSE_EVENTS.gameJoined, (data: IJoinedPlayersResponse) => {
         console.log(RESPONSE_EVENTS.gameJoined);
         this._gameService.triggerPlayerJoinedEvent(data);
-      });
-
-      this.socket.on(RESPONSE_EVENTS.message, (message: IMessage) => {
-        console.log(RESPONSE_EVENTS.message);
-        this._chatService.emitMessage(message);
       });
 
     } else {

@@ -50,6 +50,8 @@ import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/sessio
 import { GameService } from 'src/app/core/services/game.service';
 import { WebsocketService } from 'src/app/core/services/websocket.service';
 import { ChatService } from 'src/app/core/services/chat.service';
+import { PlayerService } from 'src/app/core/services/player.service';
+import { IMappedGame } from 'src/app/core/interfaces/game.interface';
 
 @Component({
   selector: 'app-uno-board',
@@ -91,6 +93,7 @@ export class UnoBoardComponent implements OnInit {
   unoButtonState$: Observable<'stationary' | 'slide'>;
 
   isMessageNotificationTriggered$: Observable<boolean>;
+  isShuffleCards: boolean = false;
 
   notification$: Observable<IGameNotification>;
 
@@ -245,7 +248,6 @@ export class UnoBoardComponent implements OnInit {
   ];
 
   isCardsTrayEnabled: boolean;
-  isShuffleCards: boolean = false;
   isPickCard: boolean = false;
 
   public readonly playerPosition: typeof PLAYER_POSITION = PLAYER_POSITION;
@@ -264,10 +266,11 @@ export class UnoBoardComponent implements OnInit {
     private readonly _chatService: ChatService,
     private readonly _websocketService: WebsocketService,
     private readonly _sessionStorage: SessionStorageService,
+    private readonly _playerService: PlayerService,
   ) {}
 
   ngOnInit(): void {
-    this._websocketService; // ESTABLISH CONNECTION. DO NOT REMOVE!
+    this._websocketService; // ESTABLISHES CONNECTION. DO NOT REMOVE!
     this.registerInternetEvents();
     this.toggleCardsTray(false);
     this.cards$ = of(this.cards);
@@ -282,6 +285,20 @@ export class UnoBoardComponent implements OnInit {
     this._chatService.isMessageNotificationTriggered$.subscribe((isTriggered: boolean) => {
       this.isMessageNotificationTriggered$ = of(isTriggered);
     });
+    // this.isMessageNotificationTriggered$ = this._chatService.isMessageNotificationTriggered$; TODO try out
+    
+    // listen to shuffle-cards event trigger
+    this._playerService.isShuffleCardsEventTriggered$.subscribe((isTriggered: boolean) => {
+      this.isShuffleCards = isTriggered;
+    });
+
+    // get current game state on screen refresh
+    const isCardsDistributed: boolean = this._sessionStorage.getItem(SESSION_KEY.isCardsDistributed) == 'true';
+    if (isCardsDistributed) {
+      this._gameService.getGameState().subscribe((data: IMappedGame) => {
+        console.log(data);
+      });
+    }
     
     this.colorCode = COLOR_CODE_ENUM.green;
 
@@ -432,8 +449,9 @@ export class UnoBoardComponent implements OnInit {
     this.isDrawerDeckCardRevealed = !this.isDrawerDeckCardRevealed;
   }
 
+  // test purpose
   shuffleCards(): void {
-    this.isShuffleCards = !this.isShuffleCards;
+    this._playerService.toggleShuffleCardsEventTrigger();
   }
 
   chooseColor(): void {
@@ -627,6 +645,10 @@ export class UnoBoardComponent implements OnInit {
 
   resetMessageNotification(): void {
     this._chatService.toggleMessageNotificationTrigger(false);
+  }
+
+  resetShuffleCardsEvent(): void {
+    this.isShuffleCards = false;
   }
 
   resetGameNotification(): void {

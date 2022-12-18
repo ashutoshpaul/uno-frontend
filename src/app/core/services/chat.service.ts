@@ -17,7 +17,6 @@ export class ChatService {
   readonly message$ = new Subject<IMessage>();
   readonly isMessageNotificationTriggered$ = new BehaviorSubject<boolean>(false);
 
-
   constructor(
     private readonly _httpService: HttpService,
     private readonly _identityService: IdentityService,
