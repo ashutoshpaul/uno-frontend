@@ -75,7 +75,7 @@ import { IMappedGame } from 'src/app/core/interfaces/game.interface';
 })
 export class UnoBoardComponent implements OnInit {
 
-  gameDirection: GAME_DIRECTIONS = GAME_DIRECTIONS.clockwise;
+  gameDirection: GAME_DIRECTIONS; // = GAME_DIRECTIONS.clockwise;
 
   isDrawerDeckCardRevealed: boolean = false;
 
@@ -297,7 +297,8 @@ export class UnoBoardComponent implements OnInit {
       });
     }
     
-    this.colorCode = COLOR_CODE_ENUM.green;
+    // this.colorCode = COLOR_CODE_ENUM.green; // IMP
+    // this.gameDirection = GAME_DIRECTIONS.clockwise; // IMP
 
     // setTimeout(() => {
     //   this.promptLegalCards();
@@ -323,7 +324,7 @@ export class UnoBoardComponent implements OnInit {
     // }, 500);
 
     // change current player position
-    this.currentPlayerPosition = PLAYER_POSITION.left;
+    this.currentPlayerPosition = PLAYER_POSITION.bottom; // IMP
     // setInterval(() => {
     //   if(this.currentPlayerPosition == PLAYER_POSITION.bottom) {
     //     this.currentPlayerPosition = PLAYER_POSITION.left;

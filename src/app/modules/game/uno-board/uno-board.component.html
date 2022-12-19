@@ -85,7 +85,7 @@
         <div appCurrentPlayer [playerPosition]="currentPlayerPosition"></div>
       </div>
       <div class="draw-discard-deck" appCurrentColor [color]="colorCode">
-        <div class="direction">
+        <div class="direction" *ngIf="gameDirection != undefined">
           <mat-icon [ngClass]="{
             'direction-clockwise': clockwise,
             'direction-anti-clockwise': !clockwise
@@ -146,7 +146,7 @@
   
       <!-- left-opponent-player -->
       <div class="left-opponent-cards-tray">
-        <div class="opponent-name-container opponent-name" [ngClass]="{'active': true}">
+        <div class="opponent-name-container opponent-name" [ngClass]="{'active': currentPlayerPosition == playerPosition.left}">
           <div>left-player</div>
         </div>
         <ng-container *ngIf="(unoTrigger$ | async) as unoData">
@@ -184,7 +184,7 @@
   
       <!-- front-opponent-player -->
       <div class="front-opponent-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
-        <div class="opponent-name-container opponent-name">
+        <div class="opponent-name-container opponent-name" [ngClass]="{'active': currentPlayerPosition == playerPosition.top}">
           <div>front-player</div>
         </div>
         <ng-container *ngIf="(unoTrigger$ | async) as unoData">
@@ -222,7 +222,7 @@
   
       <!-- right-opponent-player -->
       <div class="right-opponent-cards-tray">
-        <div class="opponent-name-container opponent-name">
+        <div class="opponent-name-container opponent-name" [ngClass]="{'active': currentPlayerPosition == playerPosition.right}">
           <div>right-player</div>
         </div>
         <ng-container *ngIf="(unoTrigger$ | async) as unoData">
