@@ -106,7 +106,6 @@ export const cardActivityTrigger = trigger('cardActivity', [
     animate('0.7s ease-in-out', keyframes([
       style({ 
         height: "7rem",
-        width: "5rem",
       }),
       style({ 
         height: "6.5rem",

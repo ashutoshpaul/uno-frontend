@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AnimationEvent } from '@angular/animations';
 import { MatDialogRef } from '@angular/material/dialog';
 import { fromEvent, Observable, of } from 'rxjs';
@@ -73,7 +73,7 @@ import { IMappedGame } from 'src/app/core/interfaces/game.interface';
     unoTrigger,
   ],
 })
-export class UnoBoardComponent implements OnInit {
+export class UnoBoardComponent implements OnInit, AfterViewInit {
 
   gameDirection: GAME_DIRECTIONS; // = GAME_DIRECTIONS.clockwise;
 
@@ -85,7 +85,7 @@ export class UnoBoardComponent implements OnInit {
 
   colorCode: VALID_COLOR_CODE;
 
-  cards$: Observable<{ state: CARD_ANIMATION_ENUM }[]>;
+  myCards$: Observable<{ state: CARD_ANIMATION_ENUM }[]>;
 
   online$: Observable<Event>;
   offline$: Observable<Event>;
@@ -101,10 +101,10 @@ export class UnoBoardComponent implements OnInit {
 
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
-  readonly cards: { state: CARD_ANIMATION_ENUM, isLegal: boolean, color: "black" | "blue" | "green" | "red" | "yellow" }[] = [
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
+  readonly myCards: { state: CARD_ANIMATION_ENUM, isLegal: boolean, color: "black" | "blue" | "green" | "red" | "yellow" }[] = [
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
@@ -124,11 +124,11 @@ export class UnoBoardComponent implements OnInit {
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
   ];
 
-  readonly opponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+  readonly topOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -161,11 +161,11 @@ export class UnoBoardComponent implements OnInit {
   ];
 
   readonly leftOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -206,11 +206,11 @@ export class UnoBoardComponent implements OnInit {
   ];
 
   readonly rightOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -267,13 +267,14 @@ export class UnoBoardComponent implements OnInit {
     private readonly _websocketService: WebsocketService,
     private readonly _sessionStorage: SessionStorageService,
     private readonly _playerService: PlayerService,
+    private readonly _cdRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
     this._websocketService; // ESTABLISHES CONNECTION. DO NOT REMOVE!
     this.registerInternetEvents();
     this.toggleCardsTray(false);
-    this.cards$ = of(this.cards);
+    this.myCards$ = of(this.myCards);
 
     // display JoinPlayersDialogComponent if all players have not joined game yet.
     const hasAllPlayersJoined: boolean = this._sessionStorage.getItem(SESSION_KEY.hasAllPlayersJoined) == 'true';
@@ -338,6 +339,10 @@ export class UnoBoardComponent implements OnInit {
     // }, 4000);
   }
 
+  ngAfterViewInit(): void {
+    // this._cdRef.detectChanges();
+  }
+
   registerInternetEvents(): void {
     this.online$ = fromEvent(window, 'online');
     this.offline$ = fromEvent(window, 'offline');
@@ -381,13 +386,13 @@ export class UnoBoardComponent implements OnInit {
   }
 
   promptLegalCards(): void {
-    this.cards.map((card, index) => 
+    this.myCards.map((card, index) => 
       card.isLegal && this._setCardState(index, CARD_ANIMATION_ENUM.prompt
     ));
   }
 
   setCardsToStationaryState(): void {
-    this.cards.forEach((card, index) => {
+    this.myCards.forEach((card, index) => {
       card.isLegal = false;
       this._setCardState(index, CARD_ANIMATION_ENUM.stationary);
     });
@@ -416,15 +421,15 @@ export class UnoBoardComponent implements OnInit {
   addCard(): void {
     this.toggleCardsTray(false);
     this.isPickCard = false;
-    this.cards.push({ state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" });
+    this.myCards.push({ state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" });
   }
   
   addCardToFrontPlayer() {
-    this.opponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
+    this.topOpponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
   }
 
   frontPlayerCardClicked(cardIndex: number): void {
-    this.opponentCards[cardIndex].state = OPPONENT_CARD_ANIMATION_ENUM.discard;
+    this.topOpponentCards[cardIndex].state = OPPONENT_CARD_ANIMATION_ENUM.discard;
   }
 
   addCardToLeftPlayer() {
@@ -662,15 +667,15 @@ export class UnoBoardComponent implements OnInit {
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
-    this.cards[cardIndex].state = state;
+    this.myCards[cardIndex].state = state;
   }
 
   private _getCardState(cardIndex: number): CARD_ANIMATION_ENUM {
-    return this.cards[cardIndex].state;
+    return this.myCards[cardIndex].state;
   }
 
   private _isCardLegal(cardIndex: number): boolean {
-    return this.cards[cardIndex].isLegal;
+    return this.myCards[cardIndex].isLegal;
   }
 
   private _getSkipAnimationDirection(playerPosition: PLAYER_POSITION): PLAYER_POSITION {
@@ -687,7 +692,7 @@ export class UnoBoardComponent implements OnInit {
   }
 
   private _updateCardsTray(): void {
-    this.cards$ = of(this.cards);
+    this.myCards$ = of(this.myCards);
   }
 
 }

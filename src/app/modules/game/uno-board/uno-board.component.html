@@ -157,7 +157,7 @@
             </div>
           </ng-container>
         </ng-container>
-        <ng-container *ngIf="cards$ | async as freshCards">
+        <ng-container *ngIf="myCards$ | async as freshCards">
           <div class="left-opponent-cards-tray-container"
             [@placeOpponentCards]="{value: leftOpponentCards.length}">
             <div appCardDisplacementCoordinate
@@ -195,15 +195,15 @@
             </div>
           </ng-container>
         </ng-container>
-        <ng-container *ngIf="cards$ | async as freshCards">
+        <ng-container *ngIf="myCards$ | async as freshCards">
           <div class="front-opponent-cards-tray-container"
-          [@placeOpponentCards]="{value: opponentCards.length}">
+          [@placeOpponentCards]="{value: topOpponentCards.length}">
             <div appCardDisplacementCoordinate
               #coordinates="appCardDisplacementCoordinate"
               position="top"
               class="uno-card opponent-uno-card"
               id="front-player-uno-card-{{i}}"
-              *ngFor="let card of opponentCards; let i = index"
+              *ngFor="let card of topOpponentCards; let i = index"
               [@topPlayerCardActivity]="{
                 value: card.state,
                 params: {
@@ -258,7 +258,7 @@
 
     <!-- player -->
     <div class="player-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
-      <ng-container *ngIf="cards$ | async as freshCards">
+      <ng-container *ngIf="myCards$ | async as freshCards">
         <div class="uno-button" (click)="uno()"
           [@unoButtonSlide]="{value: unoButtonState$ | async}"
           matTooltip="UNO" matTooltipPosition="before" matTooltipClass="skip-tooltip">
@@ -271,24 +271,24 @@
           <mat-icon>arrow_drop_down_circle</mat-icon>
         </div>
         <div
-            [@revealCards]="{value: freshCards.length}"
-            (@revealCards.start)="toggleCardsTray(false)"
-            (@revealCards.done)="toggleCardsTray(true)"
-            class="player-cards-tray-container">
-            <div appCardDisplacementCoordinate
+          [@revealCards]="{value: freshCards.length}"
+          (@revealCards.start)="toggleCardsTray(false)"
+          (@revealCards.done)="toggleCardsTray(true)"
+          class="player-cards-tray-container">
+          <div appCardDisplacementCoordinate
             #coordinates="appCardDisplacementCoordinate"
             position="bottom"
             class="uno-card"
             id="uno-card-{{i}}"
-              *ngFor="let card of freshCards; let i = index"
+            *ngFor="let card of freshCards; let i = index"
             [@cardActivity]="{
-                value: card.state,
-                params: { 
+              value: card.state,
+              params: { 
                 xDiscardPosition: coordinates.destinationOfDiscardPileXPosition(i),
                 yDiscardPosition: coordinates.destinationOfDiscardPileYPosition(i),
                 xOriginPosition: coordinates.originOfCardXPosition(i),
                 yOriginPosition: coordinates.originOfCardYPosition()
-                }
+              }
             }"
             (mouseenter)="cardHovering(i)"
             (mouseleave)="cardHovered(i)"
@@ -301,7 +301,7 @@
                 [isLegal]="card.isLegal" 
                 class="uno-card-container">
             </div>
-            </div>
+          </div>
         </div>
       </ng-container>
     </div>

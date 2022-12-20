@@ -33,13 +33,8 @@ export class PlayerService {
 
   distributeCards(): void {
     console.log('distributeCards()');
-    this._httpService.distributeCards(this._identityService.identity).subscribe({
-      next: (res: IDistributeCardsResponse) => {
-        if (res.isCardsShuffledEventEmitted) {
-          this.toggleShuffleCardsEventTrigger();
-        }
-      },
-      error: () => {},
+    this._httpService.distributeCards(this._identityService.identity).subscribe(_ => {
+      // DO NOT REMOVE .subscribe()
     });
   }
 
