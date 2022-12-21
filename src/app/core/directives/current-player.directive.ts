@@ -1,5 +1,5 @@
 import { Directive, HostBinding, Input, OnChanges } from '@angular/core';
-import { PLAYER_POSITION } from '../enums/position.enum';
+import { PLAYER_POSITION } from '../enums/player-position.enum';
 
 @Directive({
   selector: '[appCurrentPlayer]'

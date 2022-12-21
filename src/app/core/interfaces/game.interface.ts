@@ -1,6 +1,10 @@
+import { DIRECTION } from "../enums/direction.enum";
+import { PLAYER_POSITION } from "../enums/player-position.enum";
+import { ValidColorCodeType } from "../enums/websocket-enums/card-enums/card-colors.enum";
 import { ICard } from "./card-interfaces/card.interface";
 import { IMappedPlayers } from "./mapped-players.interface";
 import { IMessage } from "./message.interface";
+import { IMinifiedPlayer } from "./minified.interface";
 import { IPlayer } from "./player.interface";
 
 /**
@@ -16,7 +20,11 @@ import { IPlayer } from "./player.interface";
   chats: IMessage[];
   isGameStarted: boolean;
 
-  lastDrawnCard: ICard | null;
+  currentDirection: DIRECTION;
+
+  lastDrawnCard?: ICard;
+  currentColor?: ValidColorCodeType;
+  currentPlayer?: IMinifiedPlayer;
 }
 
 /**
@@ -27,5 +35,13 @@ import { IPlayer } from "./player.interface";
 export interface IMappedGame {
   mappedPlayers: IMappedPlayers;
   isGameStarted: boolean;
-  lastDrawnCard: ICard | null;
+  
+  currentDirection: DIRECTION;
+  
+  lastDrawnCard?: ICard;
+  currentColor?: ValidColorCodeType;
+  currentPlayer?: {
+    player: IMinifiedPlayer;
+    position: PLAYER_POSITION;
+  };
 }

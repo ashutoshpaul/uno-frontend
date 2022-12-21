@@ -17,17 +17,11 @@ import { OfflineDialogComponent } from "src/app/dialogs/reactions/offline-dialog
 import { ReverseDialogComponent } from "src/app/dialogs/reactions/reverse-dialog/reverse-dialog.component";
 import { SkipDialogComponent } from "src/app/dialogs/reactions/skip-dialog/skip-dialog.component";
 import { AnimationEvent } from "@angular/animations";
+import { PLAYER_POSITION } from "src/app/core/enums/player-position.enum";
 
 export enum GAME_DIRECTIONS {
   clockwise = 'clockwise',
   antiClockwise = 'anti-clockwise'
-};
-
-export enum PLAYER_POSITION {
-  left = 'left',
-  top = 'top',
-  right = 'right',
-  bottom = 'bottom',
 };
 
 @Component({

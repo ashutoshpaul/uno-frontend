@@ -44,7 +44,7 @@ import {
 } from 'src/app/core/animations/card.animation';
 import { messageNotificationTrigger, gameNotificationTrigger } from 'src/app/core/animations/notification.animation';
 import { GAME_DIRECTIONS } from 'src/app/core/enums/game.enum';
-import { PLAYER_POSITION, UnoPositionType } from 'src/app/core/enums/position.enum';
+import { PLAYER_POSITION, UnoPositionType } from 'src/app/core/enums/player-position.enum';
 import { unoTrigger } from 'src/app/core/animations/uno.animation';
 import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
 import { GameService } from 'src/app/core/services/game.service';
@@ -102,9 +102,9 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
   readonly myCards: { state: CARD_ANIMATION_ENUM, isLegal: boolean, color: "black" | "blue" | "green" | "red" | "yellow" }[] = [
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
+    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
@@ -125,10 +125,10 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
   ];
 
   readonly topOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -161,11 +161,11 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
   ];
 
   readonly leftOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -206,11 +206,11 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
   ];
 
   readonly rightOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },

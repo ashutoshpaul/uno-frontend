@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PLAYER_POSITION } from 'src/app/core/enums/position.enum';
+import { PLAYER_POSITION } from 'src/app/core/enums/player-position.enum';
 
 interface DialogData {
   position: PLAYER_POSITION;

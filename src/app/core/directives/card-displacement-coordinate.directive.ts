@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { PLAYER_POSITION } from '../enums/position.enum';
+import { PLAYER_POSITION } from '../enums/player-position.enum';
 
 @Directive({
   selector: '[appCardDisplacementCoordinate]',

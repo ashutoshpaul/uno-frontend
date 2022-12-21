@@ -1,3 +1,4 @@
+import { PLAYER_POSITION } from "../enums/player-position.enum";
 import { ROOM_STATUS } from "../enums/room-status.enum";
 import { IMappedGame } from "./game.interface";
 import { IMinifiedIdentity, IMinifiedPlayer, IMinifiedRoom } from "./minified.interface";
@@ -67,5 +68,5 @@ export interface IDistributeCardsWebsocketResponse {
    * * Use hostPosition as a start position to distribute cards.
    * * Note: Distribution of cards starts from Host.
    */
-  hostPosition: 'left' | 'front' | 'right' | 'me';
+  hostPosition: PLAYER_POSITION;
 }
