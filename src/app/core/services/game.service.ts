@@ -22,7 +22,7 @@ import { SnackbarService } from './snackbar.service';
 export class GameService {
 
   private readonly _playerJoinedSubject$ = new Subject<IJoinedPlayersResponse>();
-  readonly playerJoined$: Observable<any> = this._playerJoinedSubject$.asObservable();
+  readonly playerJoined$: Observable<IJoinedPlayersResponse> = this._playerJoinedSubject$.asObservable();
 
   constructor(
     private readonly _router: Router,

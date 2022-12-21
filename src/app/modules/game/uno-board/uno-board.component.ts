@@ -52,6 +52,7 @@ import { WebsocketService } from 'src/app/core/services/websocket.service';
 import { ChatService } from 'src/app/core/services/chat.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { IMappedGame } from 'src/app/core/interfaces/game.interface';
+import { ICard, IOpponentCard } from 'src/app/core/interfaces/card-interfaces/card.interface';
 
 @Component({
   selector: 'app-uno-board',
@@ -107,21 +108,6 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-    // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
   ];
 
   readonly topOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
@@ -132,113 +118,20 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
+  ];
+
+  leftOpponentCards: IOpponentCard[] = [
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
   ];
 
-  readonly leftOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-  ];
-
+  leftOpponentCards$: Observable<IOpponentCard[]>;
+  topOpponentCards$: Observable<IOpponentCard[]>;
+  rightOpponentCards$: Observable<IOpponentCard[]>;
+  bottomCards$: Observable<ICard[]>;
+  
   readonly rightOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
-    // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -294,9 +187,20 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
     const isCardsDistributed: boolean = this._sessionStorage.getItem(SESSION_KEY.isCardsDistributed) == 'true';
     if (isCardsDistributed) {
       this._gameService.getGameState().subscribe((data: IMappedGame) => {
-        console.log(data);
+        console.log('*', data);
+        this._playerService.setGameState(data.mappedPlayers);
       });
     }
+
+    // set cards
+    this.leftOpponentCards$ = this._playerService.leftOpponentCards$;
+    // this._playerService.leftOpponentCards$.subscribe((cards: IOpponentCard[]) => {
+      //   this.leftOpponentCards$ = of(cards);
+      //   this.leftOpponentCards = cards;
+      // });
+    this.topOpponentCards$ = this._playerService.topOpponentCards$;
+    this.rightOpponentCards$ = this._playerService.rightOpponentCards$;
+    this.bottomCards$ = this._playerService.bottomCards$;
     
     // this.colorCode = COLOR_CODE_ENUM.green; // IMP
     // this.gameDirection = GAME_DIRECTIONS.clockwise; // IMP
@@ -433,7 +337,7 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
   }
 
   addCardToLeftPlayer() {
-    this.leftOpponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
+    this.leftOpponentCards.unshift({ index: -1, state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
   }
 
   leftPlayerCardClicked(cardIndex: number): void {
