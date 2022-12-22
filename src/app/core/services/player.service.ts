@@ -118,22 +118,72 @@ export class PlayerService {
    * Sets (restores) current game state on new-game-start and page-refresh.
    */
   setGameState(mappedGame: IMappedGame): void {
-    mappedGame.currentColor && this._currentColorSubject$.next(mappedGame.currentColor);
-    mappedGame.currentDirection && this._currentDirectionSubject$.next(mappedGame.currentDirection);
-    mappedGame.currentPlayer && this._currentPlayerSubject$.next(mappedGame.currentPlayer);
-    mappedGame.lastDrawnCard && this._lastDrawnCardSubject$.next(mappedGame.lastDrawnCard);
-
-    mappedGame.mappedPlayers.left && this._leftOpponentCardsSubject$.next(this._createFreshOpponentCards(mappedGame.mappedPlayers.left.cardsCount));
-    mappedGame.mappedPlayers.top && this._topOpponentCardsSubject$.next(this._createFreshOpponentCards(mappedGame.mappedPlayers.top.cardsCount));
-    mappedGame.mappedPlayers.right && this._rightOpponentCardsSubject$.next(this._createFreshOpponentCards(mappedGame.mappedPlayers.right.cardsCount));
-    mappedGame.mappedPlayers.bottom && this._bottomCardsSubject$.next(this._mapBottomCardsToDefaultState(mappedGame.mappedPlayers.bottom.cards));
+    this.updateGameState(mappedGame);
+    if (this._gameState) {
+      mappedGame.currentColor && this._currentColorSubject$.next(this._gameState.currentColor);
+      mappedGame.currentDirection && this._currentDirectionSubject$.next(this._gameState.currentDirection);
+      mappedGame.currentPlayer && this._currentPlayerSubject$.next(this._gameState.currentPlayer);
+      mappedGame.lastDrawnCard && this._lastDrawnCardSubject$.next(this._gameState.lastDrawnCard);
+  
+      mappedGame.mappedPlayers.left && this._leftOpponentCardsSubject$.next(this._gameState.mappedPlayers.left.cards);
+      mappedGame.mappedPlayers.top && this._topOpponentCardsSubject$.next(this._gameState.mappedPlayers.top.cards);
+      mappedGame.mappedPlayers.right && this._rightOpponentCardsSubject$.next(this._gameState.mappedPlayers.right.cards);
+      mappedGame.mappedPlayers.bottom && this._bottomCardsSubject$.next(this._gameState.mappedPlayers.bottom.cards);
+    }
   }
 
   // TODO
   /**
-   * Single point to update _gameState.
+   * * Single point to update _gameState.
+   * * Always assigns a new game state.
    */
-  updateGameState(): void {}
+  updateGameState(mappedGame: IMappedGame): void {
+    this._gameState = {
+      mappedPlayers: {
+        ...(mappedGame.mappedPlayers.left && {
+          left: {
+            cards: this._createFreshOpponentCards(mappedGame.mappedPlayers.left.cardsCount),
+            id: mappedGame.mappedPlayers.left.id,
+            isActive: mappedGame.mappedPlayers.left.isActive,
+            isCardLeft: mappedGame.mappedPlayers.left.isCardLeft,
+            name: mappedGame.mappedPlayers.left.name,
+          },
+        }),
+        ...(mappedGame.mappedPlayers.top && {
+          top: {
+            cards: this._createFreshOpponentCards(mappedGame.mappedPlayers.top.cardsCount),
+            id: mappedGame.mappedPlayers.top.id,
+            isActive: mappedGame.mappedPlayers.top.isActive,
+            isCardLeft: mappedGame.mappedPlayers.top.isCardLeft,
+            name: mappedGame.mappedPlayers.top.name,
+          },
+        }),
+        ...(mappedGame.mappedPlayers.right && {
+          right: {
+            cards: this._createFreshOpponentCards(mappedGame.mappedPlayers.right.cardsCount),
+            id: mappedGame.mappedPlayers.right.id,
+            isActive: mappedGame.mappedPlayers.right.isActive,
+            isCardLeft: mappedGame.mappedPlayers.right.isCardLeft,
+            name: mappedGame.mappedPlayers.right.name,
+          },
+        }),
+        ...(mappedGame.mappedPlayers.bottom && {
+          bottom: {
+            cards: this._mapBottomCardsToDefaultState(mappedGame.mappedPlayers.bottom.cards),
+            id: mappedGame.mappedPlayers.bottom.id,
+            isActive: mappedGame.mappedPlayers.bottom.isActive,
+            isCardLeft: mappedGame.mappedPlayers.bottom.isCardLeft,
+            name: mappedGame.mappedPlayers.bottom.name,
+            score: mappedGame.mappedPlayers.bottom.score,
+          },
+        }),
+      },
+      currentDirection: mappedGame.currentDirection,
+      ...(mappedGame.currentColor && { currentColor: mappedGame.currentColor }),
+      ...(mappedGame.currentPlayer && { currentPlayer: mappedGame.currentPlayer }),
+      ...(mappedGame.lastDrawnCard && { lastDrawnCard: mappedGame.lastDrawnCard }),
+    };
+  }
 
   /**
    * Single point to fetch _gameState.

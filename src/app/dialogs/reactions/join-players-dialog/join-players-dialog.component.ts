@@ -4,6 +4,7 @@ import { Observable, of, interval, timer } from 'rxjs';
 import { take, concatMapTo } from 'rxjs/operators';
 import { IJoinedPlayersResponse } from 'src/app/core/interfaces/response.interface';
 import { GameService } from 'src/app/core/services/game.service';
+import { PlayerService } from 'src/app/core/services/player.service';
 import { RoomService } from 'src/app/core/services/room.service';
 import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
 import { SubSink } from 'subsink';
@@ -39,6 +40,7 @@ export class JoinPlayersDialogComponent implements OnInit, OnDestroy {
     private readonly _gameService: GameService,
     private readonly _roomService: RoomService,
     private readonly _sessionStorage: SessionStorageService,
+    private readonly _playerService: PlayerService,
   ) { }
 
   ngOnInit(): void {
@@ -81,6 +83,7 @@ export class JoinPlayersDialogComponent implements OnInit, OnDestroy {
       timing$.subscribe(_ => {
         this.secondsCounter$ = of(--this.secondsCounter);
 
+        if (this.secondsCounter == 2) this._playerService.toggleShuffleCardsEventTrigger();
         if (this.secondsCounter == 0) this.close();
       })
     );

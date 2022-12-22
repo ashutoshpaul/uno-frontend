@@ -170,9 +170,9 @@ export class WebsocketService {
         console.log(GAME_EVENTS.noCardsLeft);
       });
 
+      // TODO remove. @deprecated NO longer called 
       this.socket.on(GAME_EVENTS.shuffle, () => {
         console.log(GAME_EVENTS.shuffle);
-        this._playerService.toggleShuffleCardsEventTrigger();
       });
 
       this.socket.on(GAME_EVENTS.skipped, () => {
