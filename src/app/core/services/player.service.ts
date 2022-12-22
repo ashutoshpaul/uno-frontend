@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IDistributeCardsResponse, IUpdateSocketIdPayload } from '../interfaces/response.interface';
+import { IUpdateSocketIdPayload } from '../interfaces/response.interface';
 import { IMinifiedIdentity } from '../interfaces/minified.interface';
 import { HttpService } from './http.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
@@ -10,13 +10,22 @@ import { ICurrentPlayer } from '../interfaces/player.interface';
 import { DIRECTION } from '../enums/direction.enum';
 import { ValidColorCodeType } from '../enums/websocket-enums/card-enums/card-colors.enum';
 import { PLAYER_POSITION } from '../enums/player-position.enum';
-import { IMappedPlayers } from '../interfaces/mapped-players.interface';
 import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from '../enums/animation.enum';
+import { IClientGameState, IMappedGame } from '../interfaces/game.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayerService {
+
+  /**
+   * 1. Hold logical object of current game state.
+   * 2. Should be UPDATED on every event/req/res sent/emitted/received.
+   * 3. Any action performed or calculated should take value for any game-related-data from this object.
+   * 
+   * 4. In short, it represents the current state of the game.
+   */
+  private _gameState: IClientGameState;
 
   readonly isShuffleCardsEventTriggered$ = new Subject<boolean>();
 
@@ -108,11 +117,29 @@ export class PlayerService {
   /**
    * Sets (restores) current game state on new-game-start and page-refresh.
    */
-  setGameState(mappedPlayers: IMappedPlayers): void {
-    mappedPlayers.left && this._leftOpponentCardsSubject$.next(this._createFreshOpponentCards(mappedPlayers.left.cardsCount));
-    mappedPlayers.top && this._topOpponentCardsSubject$.next(this._createFreshOpponentCards(mappedPlayers.top.cardsCount));
-    mappedPlayers.right && this._rightOpponentCardsSubject$.next(this._createFreshOpponentCards(mappedPlayers.right.cardsCount));
-    mappedPlayers.bottom && this._bottomCardsSubject$.next(this._mapBottomCardsToDefaultState(mappedPlayers.bottom.cards));
+  setGameState(mappedGame: IMappedGame): void {
+    mappedGame.currentColor && this._currentColorSubject$.next(mappedGame.currentColor);
+    mappedGame.currentDirection && this._currentDirectionSubject$.next(mappedGame.currentDirection);
+    mappedGame.currentPlayer && this._currentPlayerSubject$.next(mappedGame.currentPlayer);
+    mappedGame.lastDrawnCard && this._lastDrawnCardSubject$.next(mappedGame.lastDrawnCard);
+
+    mappedGame.mappedPlayers.left && this._leftOpponentCardsSubject$.next(this._createFreshOpponentCards(mappedGame.mappedPlayers.left.cardsCount));
+    mappedGame.mappedPlayers.top && this._topOpponentCardsSubject$.next(this._createFreshOpponentCards(mappedGame.mappedPlayers.top.cardsCount));
+    mappedGame.mappedPlayers.right && this._rightOpponentCardsSubject$.next(this._createFreshOpponentCards(mappedGame.mappedPlayers.right.cardsCount));
+    mappedGame.mappedPlayers.bottom && this._bottomCardsSubject$.next(this._mapBottomCardsToDefaultState(mappedGame.mappedPlayers.bottom.cards));
+  }
+
+  // TODO
+  /**
+   * Single point to update _gameState.
+   */
+  updateGameState(): void {}
+
+  /**
+   * Single point to fetch _gameState.
+   */
+  get gameState(): IClientGameState {
+    return this._gameState;
   }
 
   private _createFreshOpponentCards(count: number): IOpponentCard[] {

@@ -1,5 +1,5 @@
 import { PLAYER_POSITION } from "../enums/player-position.enum";
-import { ICard } from "./card-interfaces/card.interface";
+import { ICard, IOpponentCard } from "./card-interfaces/card.interface";
 import { IMinifiedPlayer } from "./minified.interface";
 
 export interface IPlayer {
@@ -32,6 +32,20 @@ export interface ISecuredPlayer {
   isActive: boolean;
 
   cardsCount: number;  // cards in the player's cards tray.
+  isCardLeft: boolean; // false when the player has played all his/her cards
+}
+
+/**
+ * * Copy of ISecuredPlayer with a single diffence.
+ * * Contains IOpponentCard[] in place of cardsCount.
+ */
+export interface IMappedOpponentPlayer {
+  id: string;
+  name: string;
+
+  isActive: boolean;
+
+  cards: IOpponentCard[];  // cards in the player's cards tray.
   isCardLeft: boolean; // false when the player has played all his/her cards
 }
 

@@ -1,7 +1,7 @@
 import { DIRECTION } from "../enums/direction.enum";
 import { ValidColorCodeType } from "../enums/websocket-enums/card-enums/card-colors.enum";
 import { ICard } from "./card-interfaces/card.interface";
-import { IMappedPlayers } from "./mapped-players.interface";
+import { ICardPopulatedMappedPlayers, IMappedPlayers } from "./mapped-players.interface";
 import { IMessage } from "./message.interface";
 import { IMinifiedPlayer } from "./minified.interface";
 import { ICurrentPlayer, IPlayer } from "./player.interface";
@@ -40,4 +40,18 @@ export interface IMappedGame {
   lastDrawnCard?: ICard;
   currentColor?: ValidColorCodeType;
   currentPlayer?: ICurrentPlayer;
+}
+
+/**
+ * * It holds current game state.
+ * * Used for performing logical actions.
+ * * Single point of truth.
+ */
+export interface IClientGameState {
+  currentDirection?: DIRECTION;
+  currentColor?: ValidColorCodeType;
+  currentPlayer?: ICurrentPlayer;
+  lastDrawnCard?: ICard;
+
+  mappedPlayers: ICardPopulatedMappedPlayers;
 }

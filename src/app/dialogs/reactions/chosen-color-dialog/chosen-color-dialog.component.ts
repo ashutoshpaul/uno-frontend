@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AnimationEvent } from '@angular/animations';
-import { COLOR_CODE_ENUM, VALID_COLOR_CODE } from 'src/app/core/enums/color-code.enum';
 import { chosenColorAlertTrigger } from 'src/app/core/animations/button.animation';
+import { COLOR_CODE, ValidColorCodeType } from 'src/app/core/enums/websocket-enums/card-enums/card-colors.enum';
 
 export interface DialogData {
-  chosenColor: VALID_COLOR_CODE;
+  chosenColor: ValidColorCodeType;
 }
 
 @Component({
@@ -20,9 +20,9 @@ export class ChosenColorDialogComponent implements OnInit {
   state: boolean;
   isPicked: boolean = false;
   isDialogStable: boolean = false;
-  pickedColor: VALID_COLOR_CODE;
+  pickedColor: ValidColorCodeType;
 
-  readonly colors: typeof COLOR_CODE_ENUM = COLOR_CODE_ENUM
+  readonly colors: typeof COLOR_CODE = COLOR_CODE;
 
   constructor(
     private readonly _dialogRef: MatDialogRef<ChosenColorDialogComponent>,
@@ -39,7 +39,7 @@ export class ChosenColorDialogComponent implements OnInit {
 
   colorPicked(): void {
     this.isPicked = !this.isPicked;
-    this.pickedColor = COLOR_CODE_ENUM.red;
+    this.pickedColor = COLOR_CODE.red;
   }
 
   restartPromptingColors(event: AnimationEvent): void {
@@ -49,11 +49,11 @@ export class ChosenColorDialogComponent implements OnInit {
     this.state = !this.state;
   }
 
-  isShrank(color: VALID_COLOR_CODE): boolean {
+  isShrank(color: ValidColorCodeType): boolean {
     return this.isPicked && color != this.pickedColor;
   }
 
-  isExpanded(color: VALID_COLOR_CODE): boolean {
+  isExpanded(color: ValidColorCodeType): boolean {
     return this.isPicked && color == this.pickedColor;
   }
 

@@ -153,7 +153,7 @@ export class WebsocketService {
       this.socket.on(GAME_EVENTS.distributeCards, (res: IDistributeCardsWebsocketResponse) => {
         console.log(GAME_EVENTS.distributeCards, res);
         if (!this._sessionStorage.getItem(SESSION_KEY.isCardsDistributed)) {
-          this._playerService.setGameState(res.mappedGame.mappedPlayers);
+          this._playerService.setGameState(res.mappedGame);
           this._sessionStorage.setItem(SESSION_KEY.isCardsDistributed, true);
         }
       });

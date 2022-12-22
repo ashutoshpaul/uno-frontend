@@ -7,7 +7,6 @@ import { revealCardsTrigger, drawerDeckCardActivityTrigger, cardActivityTrigger,
 import { chooseColorDialogIncomingOptionsConstant, chooseColorDialogOutgoingOptionsConstant, alertDialogIncomingOptionsConstant, alertDialogOutgoingOptionsConstant, skipAlertDialogIncomingOptionsConstant, skipAlertDialogOutgoingOptionsConstant, optionsDialogIncomingOptionsConstant, optionsDialogOutgoingOptionsConstant, offlineOpponentDialogIncomingOptionsConstant, offlineOpponentDialogOutgoingOptionsConstant } from "src/app/core/constants/animations.constants";
 import { DURATION } from "src/app/core/constants/durations.constants";
 import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from "src/app/core/enums/animation.enum";
-import { VALID_COLOR_CODE, COLOR_CODE_ENUM } from "src/app/core/enums/color-code.enum";
 import { ChooseColorDialogComponent } from "src/app/dialogs/actions/choose-color-dialog/choose-color-dialog.component";
 import { OfflinePlayerDialogComponent } from "src/app/dialogs/actions/offline-player-dialog/offline-player-dialog.component";
 import { OptionsDialogComponent } from "src/app/dialogs/actions/options-dialog/options-dialog.component";
@@ -18,11 +17,8 @@ import { ReverseDialogComponent } from "src/app/dialogs/reactions/reverse-dialog
 import { SkipDialogComponent } from "src/app/dialogs/reactions/skip-dialog/skip-dialog.component";
 import { AnimationEvent } from "@angular/animations";
 import { PLAYER_POSITION } from "src/app/core/enums/player-position.enum";
-
-export enum GAME_DIRECTIONS {
-  clockwise = 'clockwise',
-  antiClockwise = 'anti-clockwise'
-};
+import { COLOR_CODE, ValidColorCodeType } from "src/app/core/enums/websocket-enums/card-enums/card-colors.enum";
+import { DIRECTION } from "src/app/core/enums/direction.enum";
 
 @Component({
   selector: 'app-multi-player',
@@ -42,7 +38,7 @@ export enum GAME_DIRECTIONS {
 })
 export class MultiPlayerComponent implements OnInit {
 
-  gameDirection: GAME_DIRECTIONS = GAME_DIRECTIONS.clockwise;
+  gameDirection: DIRECTION = DIRECTION.clockwise;
 
   isDrawerDeckCardRevealed: boolean = false;
 
@@ -50,7 +46,7 @@ export class MultiPlayerComponent implements OnInit {
 
   currentPlayerPosition: PLAYER_POSITION;
 
-  colorCode: VALID_COLOR_CODE;
+  colorCode: ValidColorCodeType;
 
   cards$: Observable<{ state: CARD_ANIMATION_ENUM }[]>;
 
@@ -210,10 +206,10 @@ export class MultiPlayerComponent implements OnInit {
   isPickCard: boolean = false;
 
   set clockwise(isClockwise: boolean) { 
-    this.gameDirection = isClockwise ? GAME_DIRECTIONS.clockwise : GAME_DIRECTIONS.antiClockwise; 
+    this.gameDirection = isClockwise ? DIRECTION.clockwise : DIRECTION.antiClockwise; 
   }
   
-  get clockwise(): boolean { return this.gameDirection === GAME_DIRECTIONS.clockwise; }
+  get clockwise(): boolean { return this.gameDirection === DIRECTION.clockwise; }
 
   constructor(
     private readonly _dialog: NgDialogAnimationService,
@@ -224,7 +220,7 @@ export class MultiPlayerComponent implements OnInit {
     this.toggleCardsTray(false);
     this.cards$ = of(this.cards);
 
-    this.colorCode = COLOR_CODE_ENUM.green;
+    this.colorCode = COLOR_CODE.green;
 
     // setTimeout(() => {
     //   this.promptLegalCards();
@@ -412,7 +408,7 @@ export class MultiPlayerComponent implements OnInit {
         outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
       },
       panelClass: 'choose-color-dialog',
-      data: { chosenColor: COLOR_CODE_ENUM.red },
+      data: { chosenColor: COLOR_CODE.red },
     });
 
     // setTimeout(() => {
@@ -432,8 +428,8 @@ export class MultiPlayerComponent implements OnInit {
       },
       panelClass: 'alert-dialog',
       data: { 
-        color: COLOR_CODE_ENUM.red,
-        direction: GAME_DIRECTIONS.clockwise,
+        color: COLOR_CODE.red,
+        direction: DIRECTION.clockwise,
       }
     });
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { AnimationEvent } from '@angular/animations';
 import { MatDialogRef } from '@angular/material/dialog';
 import { fromEvent, Observable, of } from 'rxjs';
@@ -17,7 +17,6 @@ import {
 } from 'src/app/core/constants/animations.constants';
 import { DURATION } from 'src/app/core/constants/durations.constants';
 import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from 'src/app/core/enums/animation.enum';
-import { VALID_COLOR_CODE, COLOR_CODE_ENUM } from 'src/app/core/enums/color-code.enum';
 import { ChooseColorDialogComponent } from 'src/app/dialogs/actions/choose-color-dialog/choose-color-dialog.component';
 import { OfflinePlayerDialogComponent } from 'src/app/dialogs/actions/offline-player-dialog/offline-player-dialog.component';
 import { OptionsDialogComponent } from 'src/app/dialogs/actions/options-dialog/options-dialog.component';
@@ -43,7 +42,6 @@ import {
   shuffleCardsTrigger,
 } from 'src/app/core/animations/card.animation';
 import { messageNotificationTrigger, gameNotificationTrigger } from 'src/app/core/animations/notification.animation';
-import { GAME_DIRECTIONS } from 'src/app/core/enums/game.enum';
 import { PLAYER_POSITION, UnoPositionType } from 'src/app/core/enums/player-position.enum';
 import { unoTrigger } from 'src/app/core/animations/uno.animation';
 import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
@@ -51,8 +49,12 @@ import { GameService } from 'src/app/core/services/game.service';
 import { WebsocketService } from 'src/app/core/services/websocket.service';
 import { ChatService } from 'src/app/core/services/chat.service';
 import { PlayerService } from 'src/app/core/services/player.service';
-import { IMappedGame } from 'src/app/core/interfaces/game.interface';
+import { IClientGameState, IMappedGame } from 'src/app/core/interfaces/game.interface';
 import { ICard, IOpponentCard } from 'src/app/core/interfaces/card-interfaces/card.interface';
+import { COLOR_CODE, ValidColorCodeType } from 'src/app/core/enums/websocket-enums/card-enums/card-colors.enum';
+import { ICurrentPlayer } from 'src/app/core/interfaces/player.interface';
+import { DIRECTION } from 'src/app/core/enums/direction.enum';
+
 
 @Component({
   selector: 'app-uno-board',
@@ -76,17 +78,11 @@ import { ICard, IOpponentCard } from 'src/app/core/interfaces/card-interfaces/ca
 })
 export class UnoBoardComponent implements OnInit, AfterViewInit {
 
-  gameDirection: GAME_DIRECTIONS; // = GAME_DIRECTIONS.clockwise;
-
   isDrawerDeckCardRevealed: boolean = false;
 
   isSkipVisible: boolean = false;
 
   currentPlayerPosition: PLAYER_POSITION;
-
-  colorCode: VALID_COLOR_CODE;
-
-  myCards$: Observable<{ state: CARD_ANIMATION_ENUM }[]>;
 
   online$: Observable<Event>;
   offline$: Observable<Event>;
@@ -99,6 +95,17 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
   notification$: Observable<IGameNotification>;
 
   unoTrigger$: Observable<{ isTriggered: boolean, position: UnoPositionType }>;
+
+  leftOpponentCards$: Observable<IOpponentCard[]>;
+  topOpponentCards$: Observable<IOpponentCard[]>;
+  rightOpponentCards$: Observable<IOpponentCard[]>;
+  bottomCards$: Observable<ICard[]>;
+
+  lastDrawnCard$: Observable<ICard>;
+
+  currentColor$: Observable<ValidColorCodeType>;
+  currentDirection$: Observable<DIRECTION>;
+  currentPlayer$: Observable<ICurrentPlayer>;
 
   readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
@@ -126,11 +133,6 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
   ];
 
-  leftOpponentCards$: Observable<IOpponentCard[]>;
-  topOpponentCards$: Observable<IOpponentCard[]>;
-  rightOpponentCards$: Observable<IOpponentCard[]>;
-  bottomCards$: Observable<ICard[]>;
-  
   readonly rightOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -145,11 +147,9 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
 
   public readonly playerPosition: typeof PLAYER_POSITION = PLAYER_POSITION;
 
-  set clockwise(isClockwise: boolean) { 
-    this.gameDirection = isClockwise ? GAME_DIRECTIONS.clockwise : GAME_DIRECTIONS.antiClockwise; 
-  }
-  
-  get clockwise(): boolean { return this.gameDirection === GAME_DIRECTIONS.clockwise; }
+  get isClockwise(): boolean { return this._playerService.gameState?.currentDirection === DIRECTION.clockwise; }
+
+  get gameState(): IClientGameState { return this._playerService.gameState; }
 
   constructor(
     private readonly _router: Router,
@@ -160,14 +160,12 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
     private readonly _websocketService: WebsocketService,
     private readonly _sessionStorage: SessionStorageService,
     private readonly _playerService: PlayerService,
-    private readonly _cdRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
     this._websocketService; // ESTABLISHES CONNECTION. DO NOT REMOVE!
     this.registerInternetEvents();
     this.toggleCardsTray(false);
-    this.myCards$ = of(this.myCards);
 
     // display JoinPlayersDialogComponent if all players have not joined game yet.
     const hasAllPlayersJoined: boolean = this._sessionStorage.getItem(SESSION_KEY.hasAllPlayersJoined) == 'true';
@@ -188,22 +186,21 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
     if (isCardsDistributed) {
       this._gameService.getGameState().subscribe((data: IMappedGame) => {
         console.log('*', data);
-        this._playerService.setGameState(data.mappedPlayers);
+        this._playerService.setGameState(data);
       });
     }
 
     // set cards
     this.leftOpponentCards$ = this._playerService.leftOpponentCards$;
-    // this._playerService.leftOpponentCards$.subscribe((cards: IOpponentCard[]) => {
-      //   this.leftOpponentCards$ = of(cards);
-      //   this.leftOpponentCards = cards;
-      // });
     this.topOpponentCards$ = this._playerService.topOpponentCards$;
     this.rightOpponentCards$ = this._playerService.rightOpponentCards$;
     this.bottomCards$ = this._playerService.bottomCards$;
-    
-    // this.colorCode = COLOR_CODE_ENUM.green; // IMP
-    // this.gameDirection = GAME_DIRECTIONS.clockwise; // IMP
+
+    this.lastDrawnCard$ = this._playerService.lastDrawnCard$;
+
+    this.currentColor$ = this._playerService.currentColor$;
+    this.currentDirection$ = this._playerService.currentDirection$;
+    this.currentPlayer$ = this._playerService.currentPlayer$;
 
     // setTimeout(() => {
     //   this.promptLegalCards();
@@ -264,6 +261,11 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
     });
 
     this.online$.subscribe(_ => {
+      // fetch fresh game state
+      this._gameService.getGameState().subscribe((data: IMappedGame) => {
+        console.log('game state refreshed', data);
+        this._playerService.setGameState(data);
+      });
       if(dialogRef) dialogRef.close();
     })
   }
@@ -396,7 +398,7 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
         outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
       },
       panelClass: 'choose-color-dialog',
-      data: { chosenColor: COLOR_CODE_ENUM.red },
+      data: { chosenColor: COLOR_CODE.red },
     });
 
     // setTimeout(() => {
@@ -416,8 +418,8 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
       },
       panelClass: 'alert-dialog',
       data: { 
-        color: COLOR_CODE_ENUM.red,
-        direction: GAME_DIRECTIONS.clockwise,
+        color: COLOR_CODE.red,
+        direction: DIRECTION.clockwise,
       }
     });
 
@@ -525,7 +527,7 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
   }
 
   toggleGameDirection(): void {
-    this.clockwise = !this.clockwise;
+    // this.isClockwise = !this.isClockwise;
   }
 
   pickCard(): void {
@@ -594,9 +596,4 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
         return PLAYER_POSITION.left;
     }
   }
-
-  private _updateCardsTray(): void {
-    this.myCards$ = of(this.myCards);
-  }
-
 }
