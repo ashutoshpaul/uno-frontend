@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IUpdateSocketIdPayload } from '../interfaces/response.interface';
+import { IDistributeCardsResponse, IUpdateSocketIdPayload } from '../interfaces/response.interface';
 import { IMinifiedIdentity } from '../interfaces/minified.interface';
 import { HttpService } from './http.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
@@ -73,9 +73,8 @@ export class PlayerService {
 
   distributeCards(): void {
     console.log('distributeCards()');
-    this._httpService.distributeCards(this._identityService.identity).subscribe(_ => {
-      // DO NOT REMOVE .subscribe()
-      
+    this._httpService.distributeCards(this._identityService.identity).subscribe((data: IDistributeCardsResponse) => {
+      if (data.isCardsShuffledEventEmitted) this.toggleShuffleCardsEventTrigger();
     });
   }
 
@@ -132,7 +131,6 @@ export class PlayerService {
     }
   }
 
-  // TODO
   /**
    * * Single point to update _gameState.
    * * Always assigns a new game state.

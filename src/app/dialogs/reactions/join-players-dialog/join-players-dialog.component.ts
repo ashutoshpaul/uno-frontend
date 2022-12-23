@@ -83,7 +83,6 @@ export class JoinPlayersDialogComponent implements OnInit, OnDestroy {
       timing$.subscribe(_ => {
         this.secondsCounter$ = of(--this.secondsCounter);
 
-        if (this.secondsCounter == 2) this._playerService.toggleShuffleCardsEventTrigger();
         if (this.secondsCounter == 0) this.close();
       })
     );

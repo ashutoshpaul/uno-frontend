@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { IMappedGame } from '../interfaces/game.interface';
 import { IMessage } from '../interfaces/message.interface';
 import { IMinifiedIdentity } from '../interfaces/minified.interface';
-import { ICreateRoomPayload, IJoinedPlayersResponse, IJoinRoomPayload, ILobbyRoomResponse, IPlayerRemovePayload, IUpdateSocketIdPayload } from '../interfaces/response.interface';
+import { ICreateRoomPayload, IDistributeCardsResponse, IJoinedPlayersResponse, IJoinRoomPayload, ILobbyRoomResponse, IPlayerRemovePayload, IUpdateSocketIdPayload } from '../interfaces/response.interface';
 import { IRoom } from '../interfaces/room.interface';
 
 @Injectable({
@@ -71,8 +71,8 @@ export class HttpService {
     return this._http.post<IMessage>(`${this.BASE_URL}/messages/${roomId}`, message);
   }
 
-  distributeCards(payload: IMinifiedIdentity): Observable<any> {
-    return this._http.post<any>(`${this.BASE_URL}/game/distribute`, payload);
+  distributeCards(payload: IMinifiedIdentity): Observable<IDistributeCardsResponse> {
+    return this._http.post<IDistributeCardsResponse>(`${this.BASE_URL}/game/distribute`, payload);
   }
 
   getGameState(roomId: string, playerId: string): Observable<IMappedGame> {
