@@ -21,7 +21,9 @@ export class PlayersListComponent implements OnChanges, OnInit {
     private readonly _roomService: RoomService,
   ) { }
 
-  ngOnChanges(): void {}
+  ngOnChanges(): void {
+    if (!this.players) this.players = [];
+  }
 
   ngOnInit(): void {
     // this.players = [];
