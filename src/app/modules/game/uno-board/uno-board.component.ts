@@ -145,7 +145,6 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
   ];
 
-  isCardsTrayEnabled: boolean; // TODO remove
   isPickCard: boolean = false;
 
   public readonly playerPosition: typeof PLAYER_POSITION = PLAYER_POSITION;
@@ -318,12 +317,8 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this._subSink.add(
       this.online$.subscribe(_ => {
-        // fetch fresh game state
-        this._gameService.getGameState().subscribe((data: IMappedGame) => {
-          console.log('game state refreshed', data);
-          this._playerService.setGameState(data);
-        });
         if(dialogRef) dialogRef.close();
+        window.location.reload();
       })
     );
   }
@@ -377,11 +372,6 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
       card.isLegal = false;
       this._setCardState(index, CARD_ANIMATION_ENUM.stationary);
     });
-  }
-
-  // TODO remove
-  toggleCardsTray(isEnabled: boolean = true): void {
-    this.isCardsTrayEnabled = isEnabled;
   }
 
   destinationOfDiscardPileXPositionFromDrawerDeck(): number {
