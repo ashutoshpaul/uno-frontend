@@ -119,8 +119,8 @@ export class RoomService {
           this._snackbarService.openSnackbar(<IRoomNotification>{
             event: NOTIFICATION_EVENT.playerRemovedByMe,
             additional: {
-              playerRemoved: player.name,
-              playerWhoRemoved: this._identityService.identity.player.name,  // me
+              playerRemovedName: player.name,
+              playerWhoRemovedName: this._identityService.identity.player.name,  // me
             },
           });
         },

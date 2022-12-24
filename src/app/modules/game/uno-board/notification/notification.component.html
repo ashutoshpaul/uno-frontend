@@ -15,20 +15,14 @@
         <article *ngSwitchCase="events.playerRemoved">
             <mat-icon class="negative">person_remove</mat-icon>
             <div>
-                {{ notification.additional?.playerName }} removed {{ notification.additional?.removedPlayerName }}
+                {{ notification.additional?.playerWhoRemovedName }} removed {{ notification.additional?.playerRemovedName }}
             </div>
         </article>
-        <article *ngSwitchCase="events.roomCreated">
-            <mat-icon class="positive">location_on</mat-icon>
-            <div>Room created</div>
-        </article>
-        <article *ngSwitchCase="events.roomDeleted">
-            <mat-icon class="negative">location_off</mat-icon>
-            <div>Room deleted</div>
-        </article>
-        <article *ngSwitchCase="events.roomJoined">
-            <mat-icon class="positive">pin_drop</mat-icon>
-            <div>Room joined</div>
+        <article *ngSwitchCase="events.roomLeft">
+            <mat-icon class="positive">logout</mat-icon>
+            <div>
+                {{ notification.additional?.playerLeftName }} left room
+            </div>
         </article>
         <article *ngSwitchCase="events.failed">
             <mat-icon class="negative">error</mat-icon>

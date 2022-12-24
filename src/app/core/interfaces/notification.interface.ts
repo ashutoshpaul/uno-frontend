@@ -1,25 +1,22 @@
-import { GameNotificationType, NOTIFICATION_EVENT, RoomNotificationType } from "../enums/notification.enum";
+import { GameNotificationType, RoomNotificationType } from "../enums/notification.enum";
 
-interface INotification {
-  event: NOTIFICATION_EVENT;
-  additional?: {
-    playerWhoRemoved: string;
-    playerRemoved: string;
-  }
-}
-
-export interface IRoomNotification extends INotification {
+export interface IRoomNotification {
   event: RoomNotificationType;
   additional?: {
-    playerWhoRemoved: string;
-    playerRemoved: string;
+    playerWhoRemovedName: string;
+    playerRemovedName: string;
   }
 }
 
-export interface IGameNotification extends INotification {
+export interface IGameNotification {
   event: GameNotificationType,
   additional?: {
-    playerWhoRemoved: string;
-    playerRemoved: string;
+    playerWhoRemovedName?: string;
+    playerRemovedName?: string;
+
+    /**
+     * Someone who leaves the ongoing game.
+     */
+    playerLeftName?: string;
   }
 }

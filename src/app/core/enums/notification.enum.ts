@@ -27,13 +27,11 @@ export type RoomNotificationType = Extract<NOTIFICATION_EVENT, [
   NOTIFICATION_EVENT.failed,
 ]>;
 
-export type GameNotificationType = Exclude<NOTIFICATION_EVENT, [
-  NOTIFICATION_EVENT.roomCreated,
-  NOTIFICATION_EVENT.roomDeleted,
-  NOTIFICATION_EVENT.roomLeft,
-  NOTIFICATION_EVENT.roomDoesNotExists,
-  NOTIFICATION_EVENT.roomJoined,
+export type GameNotificationType = Extract<NOTIFICATION_EVENT, [
+  NOTIFICATION_EVENT.drawFourCards,
+  NOTIFICATION_EVENT.drawTwoCards,
   NOTIFICATION_EVENT.playerRemoved,
-  NOTIFICATION_EVENT.playerRemovedByMe,
-  NOTIFICATION_EVENT.playerRemovedMe,
+  NOTIFICATION_EVENT.roomLeft,
+  NOTIFICATION_EVENT.failed,
+
 ]>;

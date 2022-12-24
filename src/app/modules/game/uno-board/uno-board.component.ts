@@ -590,7 +590,7 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openSnackbar(): void {
     this.notification$ = of(<IGameNotification>{
-      event: NOTIFICATION_EVENT.drawFourCards
+      event: NOTIFICATION_EVENT.drawFourCards,
     });
   }
 

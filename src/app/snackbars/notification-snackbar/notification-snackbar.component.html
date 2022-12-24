@@ -21,15 +21,15 @@
     </article>
     <article *ngSwitchCase="events.playerRemoved">
         <mat-icon class="negative">logout</mat-icon>
-        <div>{{ data.additional?.playerWhoRemoved }} removed {{ data.additional?.playerRemoved }}</div>
+        <div>{{ data.additional?.playerWhoRemovedName }} removed {{ data.additional?.playerRemovedName }}</div>
     </article>
     <article *ngSwitchCase="events.playerRemovedByMe">
         <mat-icon class="negative">logout</mat-icon>
-        <div>You removed {{ data.additional?.playerRemoved }}</div>
+        <div>You removed {{ data.additional?.playerRemovedName }}</div>
     </article>
     <article *ngSwitchCase="events.playerRemovedMe">
         <mat-icon class="negative">logout</mat-icon>
-        <div>{{ data.additional?.playerWhoRemoved }} removed you</div>
+        <div>{{ data.additional?.playerWhoRemovedName }} removed you</div>
     </article>
     <article *ngSwitchCase="events.failed">
         <mat-icon class="negative">error</mat-icon>

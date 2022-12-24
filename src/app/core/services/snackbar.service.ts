@@ -13,7 +13,9 @@ export class SnackbarService {
     private readonly _snackBar: MatSnackBar,
   ) { }
 
-  // lobby (room events)
+  /**
+   * lobby (room events) 
+   */
   openSnackbar(snackbarEvent: IRoomNotification): void {
     this._snackBar.openFromComponent(NotificationSnackbarComponent, {
       panelClass: 'snackbar',
@@ -21,10 +23,7 @@ export class SnackbarService {
       direction: 'ltr',
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
-      data: <IRoomNotification>{
-        event: snackbarEvent.event,
-        ...(snackbarEvent.additional && { additional: snackbarEvent.additional }),
-      },
+      data: snackbarEvent,
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NOTIFICATION_EVENT } from 'src/app/core/enums/notification.enum';
 import { IGameNotification } from 'src/app/core/interfaces/notification.interface';
@@ -8,17 +8,12 @@ import { IGameNotification } from 'src/app/core/interfaces/notification.interfac
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss']
 })
-export class NotificationComponent implements OnChanges, OnInit {
+export class NotificationComponent {
 
-  @Input() notification$: Observable<IGameNotification>
+  @Input() notification$: Observable<IGameNotification>;
 
   public readonly events: typeof NOTIFICATION_EVENT = NOTIFICATION_EVENT;
 
   constructor() { }
-
-  ngOnChanges(): void {}
-
-  ngOnInit(): void {
-  }
 
 }

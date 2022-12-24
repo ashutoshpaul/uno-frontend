@@ -222,8 +222,8 @@ export class WebsocketService {
               this._snackbarService.openSnackbar(<IRoomNotification>{
                 event: NOTIFICATION_EVENT.playerRemovedMe,
                 additional: {
-                  playerRemoved: data.playerRemoved.name,
-                  playerWhoRemoved: data.actionPlayer,
+                  playerRemovedName: data.playerRemoved.name,
+                  playerWhoRemovedName: data.actionPlayer,
                 },
               });
             }, 700);
@@ -231,8 +231,8 @@ export class WebsocketService {
             this._snackbarService.openSnackbar(<IRoomNotification>{
               event: NOTIFICATION_EVENT.playerRemovedMe,
               additional: {
-                playerRemoved: data.playerRemoved.name,
-                playerWhoRemoved: data.actionPlayer,
+                playerRemovedName: data.playerRemoved.name,
+                playerWhoRemovedName: data.actionPlayer,
               },
             });
           }
@@ -246,8 +246,8 @@ export class WebsocketService {
             this._snackbarService.openSnackbar(<IRoomNotification>{
               event: NOTIFICATION_EVENT.playerRemoved,
               additional: {
-                playerRemoved: data.playerRemoved.name,
-                playerWhoRemoved: data.actionPlayer,
+                playerRemovedName: data.playerRemoved.name,
+                playerWhoRemovedName: data.actionPlayer,
               },
             });
           }
