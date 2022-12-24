@@ -4,9 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IMappedGame } from '../interfaces/game.interface';
 import { IMessage } from '../interfaces/message.interface';
-import { IMinifiedIdentity } from '../interfaces/minified.interface';
+import { IMinifiedIdentity, IMinifiedRoom } from '../interfaces/minified.interface';
 import { ICreateRoomPayload, IDistributeCardsResponse, IJoinedPlayersResponse, IJoinRoomPayload, ILobbyRoomResponse, IPlayerRemovePayload, IUpdateSocketIdPayload } from '../interfaces/response.interface';
-import { IRoom } from '../interfaces/room.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +22,8 @@ export class HttpService {
     return this._http.post(`${this.BASE_URL}/identity`, payload);
   }
 
-  getRooms(): Observable<IRoom[]> {
-    return this._http.get<IRoom[]>(`${this.BASE_URL}/rooms`);
+  getRooms(): Observable<IMinifiedRoom[]> {
+    return this._http.get<IMinifiedRoom[]>(`${this.BASE_URL}/rooms`);
   }
 
   getRoom(id: string): Observable<ILobbyRoomResponse> {

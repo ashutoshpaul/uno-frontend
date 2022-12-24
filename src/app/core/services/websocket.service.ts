@@ -6,7 +6,7 @@ import { PLAYER_EVENTS } from '../enums/websocket-enums/player-events.enum';
 import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
 import { RoomService } from './room.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
-import { 
+import {
   IDistributeCardsWebsocketResponse, 
   IJoinedPlayersResponse, 
   ILobbyRoomResponse, 
@@ -22,6 +22,7 @@ import { GameService } from './game.service';
 import { Router } from '@angular/router';
 import { IMessage } from '../interfaces/message.interface';
 import { ChatService } from './chat.service';
+import { IMappedGameChanges } from '../interfaces/game.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -146,8 +147,18 @@ export class WebsocketService {
         console.log(GAME_EVENTS.colorChanged);
       });
 
-      this.socket.on(GAME_EVENTS.discardFirstCard, () => {
+      this.socket.on(GAME_EVENTS.discardFirstCard, (res: IMappedGameChanges) => {
         console.log(GAME_EVENTS.discardFirstCard);
+        console.log(res);
+        // lastDrawnCard is considered as discarded-card
+        this._playerService.emitFirstCardDiscardedEvent(res.lastDrawnCard);
+        setTimeout(() => {
+          /**
+           * Timeout is added for visual-effects i.e., first the card is discarded, then the game-state is 
+           * updated (game-color, game-direction, last-drawn-card, etc.).
+           */
+          this._playerService.updateGameStateProperties(res);
+        }, 1700);
       });
 
       this.socket.on(GAME_EVENTS.distributeCards, (res: IDistributeCardsWebsocketResponse) => {

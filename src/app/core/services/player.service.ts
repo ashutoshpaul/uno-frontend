@@ -8,10 +8,9 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ICard, IOpponentCard } from '../interfaces/card-interfaces/card.interface';
 import { ICurrentPlayer } from '../interfaces/player.interface';
 import { DIRECTION } from '../enums/direction.enum';
-import { COLOR_CODE, ValidColorCodeType } from '../enums/websocket-enums/card-enums/card-colors.enum';
-import { PLAYER_POSITION } from '../enums/player-position.enum';
+import { ValidColorCodeType } from '../enums/websocket-enums/card-enums/card-colors.enum';
 import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from '../enums/animation.enum';
-import { IClientGameState, IMappedGame } from '../interfaces/game.interface';
+import { IClientGameState, IMappedGame, IMappedGameChanges } from '../interfaces/game.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +26,11 @@ export class PlayerService {
    */
   private _gameState: IClientGameState;
 
-  readonly isShuffleCardsEventTriggered$ = new Subject<boolean>();
+  private readonly _isShuffleCardsEventTriggeredSubject$ = new Subject<boolean>();
+  readonly isShuffleCardsEventTriggered$ = this._isShuffleCardsEventTriggeredSubject$.asObservable();
+
+  private readonly _firstCardDiscardedSubject$ = new Subject<ICard>();
+  readonly firstCardDiscarded$: Observable<ICard> = this._firstCardDiscardedSubject$.asObservable();
 
   private readonly _bottomCardsSubject$ = new Subject<ICard[]>();
   readonly bottomCards$: Observable<ICard[]> = this._bottomCardsSubject$.asObservable();
@@ -100,7 +103,7 @@ export class PlayerService {
   }
 
   toggleShuffleCardsEventTrigger(isTrigger: boolean = true): void {
-    this.isShuffleCardsEventTriggered$.next(isTrigger);
+    this._isShuffleCardsEventTriggeredSubject$.next(isTrigger);
   }
 
   /**
@@ -119,13 +122,10 @@ export class PlayerService {
       mappedGame.mappedPlayers.right && this._rightOpponentCardsSubject$.next(this._gameState.mappedPlayers.right.cards);
       mappedGame.mappedPlayers.bottom && this._bottomCardsSubject$.next(this._gameState.mappedPlayers.bottom.cards);
     }
-    // TODO remove below code
-    this._currentColorSubject$.next(COLOR_CODE.yellow);
-    this.emitIsNewCardPickable();
   }
 
   /**
-   * * Single point to update _gameState.
+   * * Single point to update entire _gameState.
    * * Always assigns a new game state.
    */
   updateGameState(mappedGame: IMappedGame): void {
@@ -176,6 +176,29 @@ export class PlayerService {
     };
   }
 
+  /**
+   * * Updates _gameState property-wise.
+   * * Single point to modify _gameState.
+   */
+  updateGameStateProperties(mappedGameChanges: IMappedGameChanges): void {
+    if (mappedGameChanges.currentColor) {
+      this._gameState.currentColor = mappedGameChanges.currentColor;
+      this._currentColorSubject$.next(this._gameState.currentColor);
+    }
+    if (mappedGameChanges.currentDirection) {
+      this._gameState.currentDirection = mappedGameChanges.currentDirection;
+      this._currentDirectionSubject$.next(this._gameState.currentDirection);
+    }
+    if (mappedGameChanges.currentPlayer) {
+      this._gameState.currentPlayer = mappedGameChanges.currentPlayer;
+      this._currentPlayerSubject$.next(this._gameState.currentPlayer);
+    }
+    if (mappedGameChanges.lastDrawnCard) {
+      this._gameState.lastDrawnCard = mappedGameChanges.lastDrawnCard;
+      this._lastDrawnCardSubject$.next(this._gameState.lastDrawnCard);
+    }
+  }
+
   emitIsMyTurn(isMyTurn: boolean = true): void {
     this._isMyTurnSubject$.next(isMyTurn);
   }
@@ -186,6 +209,10 @@ export class PlayerService {
 
   emitIsMyTurnSkippable(isMyTurnSkippable: boolean = true): void {
     this._isMyTurnSkippableSubject$.next(isMyTurnSkippable);
+  }
+
+  emitFirstCardDiscardedEvent(card: ICard): void {
+    this._firstCardDiscardedSubject$.next(card);
   }
 
   /**

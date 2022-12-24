@@ -112,6 +112,8 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
   isNewCardPickable$: Observable<boolean>; // IMP
   isMyTurnSkippable$: Observable<boolean>; // IMP
 
+  firstCardDiscarded$: Observable<ICard>; // IMP
+
   // readonly myCards: { state: CARD_ANIMATION_ENUM, isLegal: boolean, color: "black" | "blue" | "green" | "red" | "yellow" }[] = [
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
@@ -212,31 +214,31 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
      *            the distribute-cards POST API request.
      *            Then, cards should be distributed (send POST request) from here.
      */
-     this._subSink.add(
-       combineLatest([
-         this._playerService.isSocketConnectedToServer$,
-         this._gameService.isCountDownStarted$
-       ]).subscribe((args: boolean[]) => {
-         /**
-          * Conditions:
-          * 1. isSocketConnectedToServer$:
-          *   a. true - socket is connected to server
-          *   b. false - socket is not connected to server (in the process of connection)
-          * 2. isCountDownStarted$:
-          *   a. true - join-players-dialog is opened. Once its closed then cards will be distributed (if host)
-          *   b. false - join-players-dialog WAS opened and NOW its closed. Cards were distributed once it was closed.
-          *   c. null - player refreshed the screen when countdown was happening and had not finished. ERROR!!!
-          * 
-          * Our situation:
-          * * Send distributeCards POST request when coutdown was happening AND host refresh the screen.
-          * * And, after socket is reconnected to the server i.e., values of
-          *   isSocketConnectedToServer$ == 'true' and isCountDownStarted$ == null.
-          */
-         if (args[0] == true && args[1] == null) {
-           this._identityService.isHost && this._playerService.distributeCards();
-         }
-       })
-     );
+    this._subSink.add(
+      combineLatest([
+        this._playerService.isSocketConnectedToServer$,
+        this._gameService.isCountDownStarted$
+      ]).subscribe((args: boolean[]) => {
+        /**
+         * Conditions:
+         * 1. isSocketConnectedToServer$:
+         *   a. true - socket is connected to server
+         *   b. false - socket is not connected to server (in the process of connection)
+         * 2. isCountDownStarted$:
+         *   a. true - join-players-dialog is opened. Once its closed then cards will be distributed (if host)
+         *   b. false - join-players-dialog WAS opened and NOW its closed. Cards were distributed once it was closed.
+         *   c. null - player refreshed the screen when countdown was happening and had not finished. ERROR!!!
+         *
+         * Our situation:
+         * * Send distributeCards POST request when coutdown was happening AND host refresh the screen.
+         * * And, after socket is reconnected to the server i.e., values of
+         *   isSocketConnectedToServer$ == 'true' and isCountDownStarted$ == null.
+         */
+        if (args[0] == true && args[1] == null) {
+          this._identityService.isHost && this._playerService.distributeCards();
+        }
+      })
+    );
 
     // set cards
     this.leftOpponentCards$ = this._playerService.leftOpponentCards$;
@@ -250,10 +252,16 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.currentDirection$ = this._playerService.currentDirection$;
     this.currentPlayer$ = this._playerService.currentPlayer$;
 
-    // listen clickable events
+    // listen to clickable events
     this.isMyTurn$ = this._playerService.isMyTurn$;
     this.isNewCardPickable$ = this._playerService.isNewCardPickable$;
     this.isMyTurnSkippable$ = this._playerService.isMyTurnSkippable$;
+
+    // listen to discardFirstCard event
+    this.firstCardDiscarded$ = this._playerService.firstCardDiscarded$;
+    this._playerService.firstCardDiscarded$.subscribe((res: ICard) => {
+      if (res) this.isDrawerDeckCardRevealed = true;
+    });
 
     // setTimeout(() => {
     //   this.promptLegalCards();
