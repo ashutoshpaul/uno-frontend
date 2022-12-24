@@ -1,5 +1,10 @@
 <div class="dashboard" id="dashboard">
     <ng-container *ngIf="!false">
+      <button 
+        (click)="enableMyTurn()"
+        style="width: 150px; height: 30px">
+        Enable My Turn
+      </button>
       <button
         (click)="discardDrawerDeckCard()" 
         style="width: 150px; height: 30px">
@@ -31,7 +36,7 @@
         Pick Card
       </button>
       <button
-        (click)="toggleSkip()" 
+        (click)="toggleSkip()"
         style="width: 150px; height: 30px">
         Toggle Skip
       </button>
@@ -92,9 +97,15 @@
             'direction-anti-clockwise': !isClockwise
           }">east</mat-icon>
         </div>
-        <div class="draw-discard-deck-container" appCurrentColor [color]="currentColor$ | async" position="top">
-          <div 
-            class="drawer-deck" 
+        <div 
+          appCurrentColor
+          [color]="currentColor$ | async"
+          position="top"
+          class="draw-discard-deck-container">
+          <div
+            appToggleClickability
+            [isClickable]="isNewCardPickable$ | async"
+            class="drawer-deck"
             id="drawer-deck"
             (click)="addCard()">
             <!-- discard -->
@@ -146,7 +157,10 @@
       </div>
   
       <!-- left-opponent-player -->
-      <div *ngIf="leftOpponentCards$ | async as leftOpponentCards" class="left-opponent-cards-tray">
+      <div *ngIf="leftOpponentCards$ | async as leftOpponentCards" 
+        appToggleClickability
+        isPermanentlyClickable="false" 
+        class="left-opponent-cards-tray">
         <div class="opponent-name-container opponent-name" [ngClass]="{'active': currentPlayerPosition == playerPosition.left}">
           <div>{{ gameState?.mappedPlayers.left?.name }}</div>
         </div>
@@ -183,7 +197,10 @@
       </div>
   
       <!-- front-opponent-player -->
-      <div *ngIf="topOpponentCards$ | async as topOpponentCards" class="front-opponent-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
+      <div *ngIf="topOpponentCards$ | async as topOpponentCards"
+        appToggleClickability
+        isPermanentlyClickable="false" 
+        class="front-opponent-cards-tray">
         <div class="opponent-name-container opponent-name" [ngClass]="{'active': currentPlayerPosition == playerPosition.top}">
           <div>{{ gameState?.mappedPlayers.top?.name }}</div>
         </div>
@@ -219,7 +236,10 @@
       </div>
   
       <!-- right-opponent-player -->
-      <div *ngIf="rightOpponentCards$ | async as rightOpponentCards" class="right-opponent-cards-tray">
+      <div *ngIf="rightOpponentCards$ | async as rightOpponentCards"
+        appToggleClickability
+        isPermanentlyClickable="false"
+        class="right-opponent-cards-tray">
         <div class="opponent-name-container opponent-name" [ngClass]="{'active': currentPlayerPosition == playerPosition.right}">
           <div>{{ gameState?.mappedPlayers.right?.name }}</div>
         </div>
@@ -255,7 +275,7 @@
     </div>
 
     <!-- player -->
-    <div class="player-cards-tray" [ngClass]="{ 'cardsTrayDisabled': !isCardsTrayEnabled }">
+    <div class="player-cards-tray">
       <ng-container *ngIf="bottomCards$ | async as bottomCards">
         <div class="uno-button" (click)="uno()"
           [@unoButtonSlide]="{value: unoButtonState$ | async}"
@@ -265,13 +285,13 @@
         <div class="skip-button" 
           (click)="skip()" (mouseenter)="skipHover(true)" (mouseleave)="skipHover(false)"
           matTooltip="Skip" matTooltipPosition="before" matTooltipClass="skip-tooltip"
-          [@buttonAppear]="isSkipVisible">
+          [@buttonAppear]="isMyTurnSkippable$ | async">
           <mat-icon>arrow_drop_down_circle</mat-icon>
         </div>
         <div
+          appToggleClickability
+          [isClickable]="isMyTurn$ | async"
           [@revealCards]="{value: bottomCards.length}"
-          (@revealCards.start)="toggleCardsTray(false)"
-          (@revealCards.done)="toggleCardsTray(true)"
           class="player-cards-tray-container">
           <div appCardDisplacementCoordinate
             #coordinates="appCardDisplacementCoordinate"
@@ -290,7 +310,7 @@
             }"
             (mouseenter)="cardHovering(i)"
             (mouseleave)="cardHovered(i)"
-            (@cardActivity.start)="disableCardsTrayTemporarily($event)"
+            (@cardActivity.start)="disableMyTurn($event)"
             (click)="cardClicked(i)">
             <div 
                 card 

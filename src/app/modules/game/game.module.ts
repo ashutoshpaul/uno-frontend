@@ -14,6 +14,7 @@ import { CurrentColorDirective } from 'src/app/core/directives/current-color.dir
 import { CurrentPlayerDirective } from 'src/app/core/directives/current-player.directive';
 import { ChatComponent } from './chat/chat.component';
 import { NotificationComponent } from './uno-board/notification/notification.component';
+import { ToggleClickabilityDirective } from 'src/app/core/directives/toggle-clickability.directive';
 
 @NgModule({
   declarations: [ 
@@ -24,6 +25,7 @@ import { NotificationComponent } from './uno-board/notification/notification.com
     CardGlowDirective,
     CurrentPlayerDirective,
     CurrentColorDirective,
+    ToggleClickabilityDirective,
     ChatComponent,
     NotificationComponent,
   ],

@@ -187,6 +187,9 @@
 
             background-color: rgb(139, 255, 139);
 
+            background: url(./../../../../assets/images/uno-back.jpeg);
+            background-repeat: round;
+
             cursor: pointer;
         }
     
@@ -257,10 +260,6 @@
             transform: rotateY(180deg);
         }
     }
-}
-
-.cardsTrayDisabled {
-    pointer-events: none;
 }
 
 .front-opponent-cards-tray {

@@ -4,11 +4,11 @@ import { IMinifiedIdentity } from '../interfaces/minified.interface';
 import { HttpService } from './http.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
 import { IdentityService } from './identity.service';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ICard, IOpponentCard } from '../interfaces/card-interfaces/card.interface';
 import { ICurrentPlayer } from '../interfaces/player.interface';
 import { DIRECTION } from '../enums/direction.enum';
-import { ValidColorCodeType } from '../enums/websocket-enums/card-enums/card-colors.enum';
+import { COLOR_CODE, ValidColorCodeType } from '../enums/websocket-enums/card-enums/card-colors.enum';
 import { PLAYER_POSITION } from '../enums/player-position.enum';
 import { CARD_ANIMATION_ENUM, OPPONENT_CARD_ANIMATION_ENUM } from '../enums/animation.enum';
 import { IClientGameState, IMappedGame } from '../interfaces/game.interface';
@@ -53,6 +53,26 @@ export class PlayerService {
   private readonly _currentColorSubject$ = new Subject<ValidColorCodeType>();
   readonly currentColor$: Observable<ValidColorCodeType> = this._currentColorSubject$.asObservable();
 
+  // clickable events
+  private readonly _isMyTurnSkippableSubject$ = new BehaviorSubject<boolean>(false);
+  readonly isMyTurnSkippable$: Observable<boolean> = this._isMyTurnSkippableSubject$.asObservable();
+  
+  private readonly _isNewCardPickableSubject$ = new BehaviorSubject<boolean>(false);
+  readonly isNewCardPickable$: Observable<boolean> = this._isNewCardPickableSubject$.asObservable();
+  
+  private readonly _isMyTurnSubject$ = new BehaviorSubject<boolean>(false);
+  readonly isMyTurn$: Observable<boolean> = this._isMyTurnSubject$.asObservable();
+
+  /**
+   * * Created to handle an exception case.
+   * * Handles page refreshed by host when countdown (3..2..1..) has started BUT not finished.
+   * * (Used in uno-board-component along with isCountDownStarted$)
+   * 
+   * * Emits true when connection to server is established. Or else emits false (default).
+   */
+  private readonly _isSocketConnectedToServerSubject$ = new BehaviorSubject<boolean>(false);
+  readonly isSocketConnectedToServer$: Observable<boolean> = this._isSocketConnectedToServerSubject$.asObservable();
+
   constructor(
     private readonly _identityService: IdentityService,
     private readonly _sessionStorage: SessionStorageService,
@@ -66,7 +86,8 @@ export class PlayerService {
       // update identity with current connection (socket.id)
       const payload: IUpdateSocketIdPayload = { socketId: socketId, identity: identity };
       this._httpService.updatePlayerSocketId(payload).subscribe(_ => {
-        console.log('identity updated');
+        console.log('socket.id updated');
+        this._emitIsSocketConnectedToServer();
       });
     }
   }
@@ -80,37 +101,6 @@ export class PlayerService {
 
   toggleShuffleCardsEventTrigger(isTrigger: boolean = true): void {
     this.isShuffleCardsEventTriggered$.next(isTrigger);
-  }
-
-  /**
-   * 1. Sets and emits fresh cards for a single player.
-   * 2. Usecases: at game start and screen refresh.
-   * 
-   * @param position POSITION
-   * @param cards 'ICard[]' for me and 'number' for opponents
-   */
-  setCardsForPlayer(position: PLAYER_POSITION, cards: ICard[] | number): void {
-    let opponentCards: IOpponentCard[] = [];
-
-    if (position != PLAYER_POSITION.bottom) {
-      if(Array.isArray(cards)) return console.error('setCards() input arg cards is not a number!');
-      opponentCards = this._createFreshOpponentCards(+cards);
-    }
-
-    switch (position) {
-      case PLAYER_POSITION.bottom:
-        Array.isArray(cards) && this._bottomCardsSubject$.next(this._mapBottomCardsToDefaultState(cards));
-        break;
-      case PLAYER_POSITION.left:
-        this._leftOpponentCardsSubject$.next(opponentCards);
-        break;
-      case PLAYER_POSITION.top:
-        this._leftOpponentCardsSubject$.next(opponentCards);
-        break;
-      case PLAYER_POSITION.right:
-        this._leftOpponentCardsSubject$.next(opponentCards);
-        break;
-    }
   }
 
   /**
@@ -129,6 +119,9 @@ export class PlayerService {
       mappedGame.mappedPlayers.right && this._rightOpponentCardsSubject$.next(this._gameState.mappedPlayers.right.cards);
       mappedGame.mappedPlayers.bottom && this._bottomCardsSubject$.next(this._gameState.mappedPlayers.bottom.cards);
     }
+    // TODO remove below code
+    this._currentColorSubject$.next(COLOR_CODE.yellow);
+    this.emitIsNewCardPickable();
   }
 
   /**
@@ -183,6 +176,18 @@ export class PlayerService {
     };
   }
 
+  emitIsMyTurn(isMyTurn: boolean = true): void {
+    this._isMyTurnSubject$.next(isMyTurn);
+  }
+
+  emitIsNewCardPickable(isNewCardPickable: boolean = true): void {
+    this._isNewCardPickableSubject$.next(isNewCardPickable);
+  }
+
+  emitIsMyTurnSkippable(isMyTurnSkippable: boolean = true): void {
+    this._isMyTurnSkippableSubject$.next(isMyTurnSkippable);
+  }
+
   /**
    * Single point to fetch _gameState.
    */
@@ -209,5 +214,9 @@ export class PlayerService {
         state: CARD_ANIMATION_ENUM.stationary,
       };
     });
+  }
+
+  private _emitIsSocketConnectedToServer(isSocketConnectedToServer: boolean = true): void {
+    this._isSocketConnectedToServerSubject$.next(isSocketConnectedToServer);
   }
 }

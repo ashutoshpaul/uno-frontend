@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { AnimationEvent } from '@angular/animations';
 import { MatDialogRef } from '@angular/material/dialog';
-import { fromEvent, Observable, of } from 'rxjs';
+import { combineLatest, fromEvent, Observable, of } from 'rxjs';
 import { NgDialogAnimationService } from "ng-dialog-animation";
 import { 
   chooseColorDialogIncomingOptionsConstant, 
@@ -54,7 +54,10 @@ import { ICard, IOpponentCard } from 'src/app/core/interfaces/card-interfaces/ca
 import { COLOR_CODE, ValidColorCodeType } from 'src/app/core/enums/websocket-enums/card-enums/card-colors.enum';
 import { ICurrentPlayer } from 'src/app/core/interfaces/player.interface';
 import { DIRECTION } from 'src/app/core/enums/direction.enum';
-
+import { CARD_ACTION, CARD_TYPE } from 'src/app/core/enums/websocket-enums/card-enums/card-types.enum';
+import { IActionCard } from 'src/app/core/interfaces/card-interfaces/card-data.interface';
+import { IdentityService } from 'src/app/core/services/identity.service';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-uno-board',
@@ -76,16 +79,14 @@ import { DIRECTION } from 'src/app/core/enums/direction.enum';
     unoTrigger,
   ],
 })
-export class UnoBoardComponent implements OnInit, AfterViewInit {
+export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isDrawerDeckCardRevealed: boolean = false;
 
-  isSkipVisible: boolean = false;
-
   currentPlayerPosition: PLAYER_POSITION;
 
-  online$: Observable<Event>;
-  offline$: Observable<Event>;
+  online$: Observable<Event>; // IMP
+  offline$: Observable<Event>; // IMP
 
   unoButtonState$: Observable<'stationary' | 'slide'>;
 
@@ -96,26 +97,28 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
 
   unoTrigger$: Observable<{ isTriggered: boolean, position: UnoPositionType }>;
 
-  leftOpponentCards$: Observable<IOpponentCard[]>;
-  topOpponentCards$: Observable<IOpponentCard[]>;
-  rightOpponentCards$: Observable<IOpponentCard[]>;
-  bottomCards$: Observable<ICard[]>;
+  leftOpponentCards$: Observable<IOpponentCard[]>; // IMP
+  topOpponentCards$: Observable<IOpponentCard[]>; // IMP
+  rightOpponentCards$: Observable<IOpponentCard[]>; // IMP
+  bottomCards$: Observable<ICard[]>; // IMP
 
-  lastDrawnCard$: Observable<ICard>;
+  lastDrawnCard$: Observable<ICard>; // IMP
 
-  currentColor$: Observable<ValidColorCodeType>;
-  currentDirection$: Observable<DIRECTION>;
-  currentPlayer$: Observable<ICurrentPlayer>;
+  currentColor$: Observable<ValidColorCodeType>; // IMP
+  currentDirection$: Observable<DIRECTION>; // IMP
+  currentPlayer$: Observable<ICurrentPlayer>; // IMP
 
-  readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
+  isMyTurn$: Observable<boolean>; // IMP
+  isNewCardPickable$: Observable<boolean>; // IMP
+  isMyTurnSkippable$: Observable<boolean>; // IMP
 
-  readonly myCards: { state: CARD_ANIMATION_ENUM, isLegal: boolean, color: "black" | "blue" | "green" | "red" | "yellow" }[] = [
+  // readonly myCards: { state: CARD_ANIMATION_ENUM, isLegal: boolean, color: "black" | "blue" | "green" | "red" | "yellow" }[] = [
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: !false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
-  ];
+  // ];
 
   readonly topOpponentCards: { state: OPPONENT_CARD_ANIMATION_ENUM }[] = [
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
@@ -142,14 +145,17 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
     // { state: OPPONENT_CARD_ANIMATION_ENUM.stationary },
   ];
 
-  isCardsTrayEnabled: boolean;
+  isCardsTrayEnabled: boolean; // TODO remove
   isPickCard: boolean = false;
 
   public readonly playerPosition: typeof PLAYER_POSITION = PLAYER_POSITION;
+  readonly STATES: typeof CARD_ANIMATION_ENUM = CARD_ANIMATION_ENUM;
 
   get isClockwise(): boolean { return this._playerService.gameState?.currentDirection === DIRECTION.clockwise; }
 
   get gameState(): IClientGameState { return this._playerService.gameState; }
+
+  private readonly _subSink = new SubSink();
 
   constructor(
     private readonly _router: Router,
@@ -160,12 +166,12 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
     private readonly _websocketService: WebsocketService,
     private readonly _sessionStorage: SessionStorageService,
     private readonly _playerService: PlayerService,
+    private readonly _identityService: IdentityService,
   ) {}
 
   ngOnInit(): void {
     this._websocketService; // ESTABLISHES CONNECTION. DO NOT REMOVE!
     this.registerInternetEvents();
-    this.toggleCardsTray(false);
 
     // display JoinPlayersDialogComponent if all players have not joined game yet.
     const hasAllPlayersJoined: boolean = this._sessionStorage.getItem(SESSION_KEY.hasAllPlayersJoined) == 'true';
@@ -177,18 +183,61 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
     this.isMessageNotificationTriggered$ = this._chatService.isMessageNotificationTriggered$;
     
     // listen to shuffle-cards event trigger
-    this._playerService.isShuffleCardsEventTriggered$.subscribe((isTriggered: boolean) => {
-      this.isShuffleCards = isTriggered;
-    });
+    this._subSink.add(
+      this._playerService.isShuffleCardsEventTriggered$.subscribe((isTriggered: boolean) => {
+        this.isShuffleCards = isTriggered;
+      })
+    );
 
     // get current game state on screen refresh
     const isCardsDistributed: boolean = this._sessionStorage.getItem(SESSION_KEY.isCardsDistributed) == 'true';
     if (isCardsDistributed) {
-      this._gameService.getGameState().subscribe((data: IMappedGame) => {
-        console.log('*', data);
-        this._playerService.setGameState(data);
-      });
+      this._subSink.add(
+        this._gameService.getGameState().subscribe((data: IMappedGame) => {
+          console.log('*', data);
+          this._playerService.setGameState(data);
+        })
+      );
     }
+
+    /**
+     * To handle an exception case.
+     * 
+     * 
+     * Distribte cards.
+     * * This observable's .subscribe() condition should get executed when the game was just started
+     *   and the host hits the refresh button of the browser.
+     *   i.e., when countdown (3..2..1..) had started BUT not finished.
+     * 
+     * * Usecase: When cards are not distributed using the normal flow control (by the host) i.e., by sending
+     *            the distribute-cards POST API request.
+     *            Then, cards should be distributed (send POST request) from here.
+     */
+     this._subSink.add(
+       combineLatest([
+         this._playerService.isSocketConnectedToServer$,
+         this._gameService.isCountDownStarted$
+       ]).subscribe((args: boolean[]) => {
+         /**
+          * Conditions:
+          * 1. isSocketConnectedToServer$:
+          *   a. true - socket is connected to server
+          *   b. false - socket is not connected to server (in the process of connection)
+          * 2. isCountDownStarted$:
+          *   a. true - join-players-dialog is opened. Once its closed then cards will be distributed (if host)
+          *   b. false - join-players-dialog WAS opened and NOW its closed. Cards were distributed once it was closed.
+          *   c. null - player refreshed the screen when countdown was happening and had not finished. ERROR!!!
+          * 
+          * Our situation:
+          * * Send distributeCards POST request when coutdown was happening AND host refresh the screen.
+          * * And, after socket is reconnected to the server i.e., values of
+          *   isSocketConnectedToServer$ == 'true' and isCountDownStarted$ == null.
+          */
+         if (args[0] == true && args[1] == null) {
+           this._identityService.isHost && this._playerService.distributeCards();
+         }
+       })
+     );
 
     // set cards
     this.leftOpponentCards$ = this._playerService.leftOpponentCards$;
@@ -196,11 +245,16 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
     this.rightOpponentCards$ = this._playerService.rightOpponentCards$;
     this.bottomCards$ = this._playerService.bottomCards$;
 
+    // set game properties
     this.lastDrawnCard$ = this._playerService.lastDrawnCard$;
-
     this.currentColor$ = this._playerService.currentColor$;
     this.currentDirection$ = this._playerService.currentDirection$;
     this.currentPlayer$ = this._playerService.currentPlayer$;
+
+    // listen clickable events
+    this.isMyTurn$ = this._playerService.isMyTurn$;
+    this.isNewCardPickable$ = this._playerService.isNewCardPickable$;
+    this.isMyTurnSkippable$ = this._playerService.isMyTurnSkippable$;
 
     // setTimeout(() => {
     //   this.promptLegalCards();
@@ -250,24 +304,45 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
 
     let dialogRef: MatDialogRef<OfflineDialogComponent>;
 
-    this.offline$.subscribe(_ => {
-      dialogRef = this._dialog.open(OfflineDialogComponent, {
-        animation: {
-          incomingOptions: chooseColorDialogIncomingOptionsConstant,
-          outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
-        },
-        panelClass: 'choose-color-dialog'
-      });
-    });
+    this._subSink.add(
+      this.offline$.subscribe(_ => {
+        dialogRef = this._dialog.open(OfflineDialogComponent, {
+          animation: {
+            incomingOptions: chooseColorDialogIncomingOptionsConstant,
+            outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
+          },
+          panelClass: 'choose-color-dialog'
+        });
+      })
+    );
 
-    this.online$.subscribe(_ => {
-      // fetch fresh game state
-      this._gameService.getGameState().subscribe((data: IMappedGame) => {
-        console.log('game state refreshed', data);
-        this._playerService.setGameState(data);
-      });
-      if(dialogRef) dialogRef.close();
-    })
+    this._subSink.add(
+      this.online$.subscribe(_ => {
+        // fetch fresh game state
+        this._gameService.getGameState().subscribe((data: IMappedGame) => {
+          console.log('game state refreshed', data);
+          this._playerService.setGameState(data);
+        });
+        if(dialogRef) dialogRef.close();
+      })
+    );
+  }
+
+  /**
+   * * Disables player's cards once he 
+   * 1. discards (plays) a card
+   * 2. picks a card.
+   */
+  disableMyTurn(event?: AnimationEvent): void {
+    if (!event) return this._playerService.emitIsMyTurn(false);
+    if (event.toState == CARD_ANIMATION_ENUM.discard) {
+      this._playerService.emitIsMyTurn(false);
+    }
+  }
+
+  // for testing purpose TODO remove
+  enableMyTurn(): void {
+    this._playerService.emitIsMyTurn();
   }
 
   cardClicked(cardIndex: number): void {
@@ -292,27 +367,19 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
   }
 
   promptLegalCards(): void {
-    this.myCards.map((card, index) => 
+    this.gameState.mappedPlayers.bottom?.cards.map((card, index) => 
       card.isLegal && this._setCardState(index, CARD_ANIMATION_ENUM.prompt
     ));
   }
 
   setCardsToStationaryState(): void {
-    this.myCards.forEach((card, index) => {
+    this.gameState.mappedPlayers.bottom?.cards.forEach((card, index) => {
       card.isLegal = false;
       this._setCardState(index, CARD_ANIMATION_ENUM.stationary);
     });
   }
 
-  disableCardsTrayTemporarily(event: AnimationEvent): void {
-    if(event.toState == CARD_ANIMATION_ENUM.discard) {
-      this.toggleCardsTray(false);
-      setTimeout(() => {
-        this.toggleCardsTray();
-      }, event.totalTime + 150);
-    }
-  }
-
+  // TODO remove
   toggleCardsTray(isEnabled: boolean = true): void {
     this.isCardsTrayEnabled = isEnabled;
   }
@@ -325,11 +392,20 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
   }
 
   addCard(): void {
-    this.toggleCardsTray(false);
+    this.disableMyTurn();
     this.isPickCard = false;
-    this.myCards.push({ state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" });
+    this.gameState.mappedPlayers.bottom?.cards.push({
+      state: CARD_ANIMATION_ENUM.stationary,
+      isLegal: false,
+      data: <IActionCard>{
+        action: CARD_ACTION.drawTwoCards,
+        color: COLOR_CODE.blue,
+      },
+      id: '',
+      type: CARD_TYPE.action,
+    });
   }
-  
+
   addCardToFrontPlayer() {
     this.topOpponentCards.unshift({ state: OPPONENT_CARD_ANIMATION_ENUM.stationary });
   }
@@ -462,13 +538,15 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
       position: { bottom: "0rem", right: "1.5vw" }
     });
 
-    dialogRef.afterClosed().subscribe((response: IOptionsResponse) => {
-      if(response?.isExit) {
-        setTimeout(() => {
-          this._router.navigate(['./../', 'lobby'], { relativeTo: this._activatedRoute });
-        }, DURATION.delayOptionsDialog);
-      }
-    });
+    this._subSink.add(
+      dialogRef.afterClosed().subscribe((response: IOptionsResponse) => {
+        if(response?.isExit) {
+          setTimeout(() => {
+            this._router.navigate(['./../', 'lobby'], { relativeTo: this._activatedRoute });
+          }, DURATION.delayOptionsDialog);
+        }
+      })
+    );
   }
 
   playersJoinedAlert(): void {
@@ -534,12 +612,13 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
     this.isPickCard = !this.isPickCard;
   }
 
+  // test purpose TODO remove
   toggleSkip(): void {
-    this.isSkipVisible = !this.isSkipVisible;
+    this._playerService.emitIsMyTurnSkippable(true);
   }
 
   skip(): void {
-    this.isSkipVisible = false;
+    this._playerService.emitIsMyTurnSkippable(false);
   }
 
   skipHover(isHover: boolean = false): void {
@@ -573,15 +652,15 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
   }
 
   private _setCardState(cardIndex: number, state: CARD_ANIMATION_ENUM): void {
-    this.myCards[cardIndex].state = state;
+    if (this.gameState.mappedPlayers.bottom) this.gameState.mappedPlayers.bottom.cards[cardIndex].state = state;
   }
 
   private _getCardState(cardIndex: number): CARD_ANIMATION_ENUM {
-    return this.myCards[cardIndex].state;
+    return this.gameState.mappedPlayers.bottom.cards[cardIndex].state;
   }
 
   private _isCardLegal(cardIndex: number): boolean {
-    return this.myCards[cardIndex].isLegal;
+    return this.gameState.mappedPlayers.bottom.cards[cardIndex].isLegal;
   }
 
   private _getSkipAnimationDirection(playerPosition: PLAYER_POSITION): PLAYER_POSITION {
@@ -595,5 +674,9 @@ export class UnoBoardComponent implements OnInit, AfterViewInit {
       case PLAYER_POSITION.right:
         return PLAYER_POSITION.left;
     }
+  }
+
+  ngOnDestroy(): void {
+    this._subSink.unsubscribe();
   }
 }

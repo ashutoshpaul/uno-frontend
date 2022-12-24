@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgDialogAnimationService } from 'ng-dialog-animation';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { JoinPlayersDialogComponent } from 'src/app/dialogs/reactions/join-players-dialog/join-players-dialog.component';
 import { optionsDialogIncomingOptionsConstant, optionsDialogOutgoingOptionsConstant } from '../constants/animations.constants';
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
@@ -23,6 +23,20 @@ export class GameService {
 
   private readonly _playerJoinedSubject$ = new Subject<IJoinedPlayersResponse>();
   readonly playerJoined$: Observable<IJoinedPlayersResponse> = this._playerJoinedSubject$.asObservable();
+
+  /**
+   * * Created to handle an exception case.
+   * * Handles page refreshed by host when countdown (3..2..1..) has started BUT not finished.
+   * * (Used in uno-board-component along with isSocketConnectedToServer$)
+   * 
+   * * Emits:
+   *   1. true  - when join-players-dialog is opened.
+   *   2. false - when join-players-dialog was closed.
+   *   3. null  - player refreshed the screen when countdown was happening and had not finished (default).
+   *           join-players-dialog was neither opened nor closed.
+   */
+  private readonly _isCountDownStartedSubject$ = new BehaviorSubject<boolean>(null);
+  readonly isCountDownStarted$: Observable<boolean> = this._isCountDownStartedSubject$.asObservable();
 
   constructor(
     private readonly _router: Router,
@@ -70,6 +84,7 @@ export class GameService {
   openJoinedPlayersPopup(): void {
     this._httpService.joinedPlayersCount(this._identityService.identity.room.id).subscribe({
       next: (data: IJoinedPlayersResponse) => {
+        this._emitIsCountDownStarted();
         const dialogRef: MatDialogRef<JoinPlayersDialogComponent> = this._dialog.open(JoinPlayersDialogComponent, {
           animation: {
             to: "top",
@@ -84,9 +99,8 @@ export class GameService {
           },
         });
         dialogRef.afterClosed().subscribe(_ => {
-          const identity: IMinifiedIdentity = this._identityService.identity;
-          const isHost: boolean = identity.player.id == identity.room.createdBy.id;
-          isHost && this._playerService.distributeCards();
+          this._emitIsCountDownStarted(false);
+          this._identityService.isHost && this._playerService.distributeCards();
         });
       },
       error: () => this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.failed }),
@@ -103,5 +117,9 @@ export class GameService {
     this._sessionStorage.setItem(SESSION_KEY.hasAllPlayersJoined, false);
 
     this.openJoinedPlayersPopup();
+  }
+
+  private _emitIsCountDownStarted(isCountDownStarted: boolean = true): void {
+    this._isCountDownStartedSubject$.next(isCountDownStarted);
   }
 }

@@ -18,4 +18,8 @@ export class IdentityService {
       throw new Error('json.parse failed to parse identity');
     }
   }
+
+  get isHost(): boolean {
+    return this.identity.player.id == this.identity.room.createdBy.id;
+  }
 }
