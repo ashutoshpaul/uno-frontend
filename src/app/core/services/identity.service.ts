@@ -20,6 +20,6 @@ export class IdentityService {
   }
 
   get isHost(): boolean {
-    return this.identity.player.id == this.identity.room.createdBy.id;
+    return this.identity && this.identity.player.id == this.identity.room.createdBy.id;
   }
 }

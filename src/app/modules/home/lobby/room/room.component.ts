@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ROOM_STATUS } from 'src/app/core/enums/room-status.enum';
 import { ILobbyRoomResponse } from 'src/app/core/interfaces/response.interface';
@@ -6,13 +6,14 @@ import { IMinifiedIdentity, IMinifiedPlayer } from 'src/app/core/interfaces/mini
 import { IdentityService } from 'src/app/core/services/identity.service';
 import { RoomService } from 'src/app/core/services/room.service';
 import { GameService } from 'src/app/core/services/game.service';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss']
 })
-export class RoomComponent implements OnInit {
+export class RoomComponent implements OnInit, OnDestroy {
 
   room: ILobbyRoomResponse;
 
@@ -20,6 +21,8 @@ export class RoomComponent implements OnInit {
   otherPlayers: IMinifiedPlayer[];
 
   readonly roomStatusType: typeof ROOM_STATUS = ROOM_STATUS;
+  
+  private readonly _subSink = new SubSink();
 
   constructor(
     private readonly _identityService: IdentityService,
@@ -31,16 +34,20 @@ export class RoomComponent implements OnInit {
     if(this._identityService.identity?.room?.id) {
       this._roomService.getRoom(this._identityService.identity.room.id);
     }
-    this._roomService.roomDeleted$.subscribe(_ => this.roomDeleted());
-    this._roomService.room$.subscribe((data: ILobbyRoomResponse) => {
-      if (data) {
-        // someone joined room (the room might be created by me)
-        this._updateRoom(data as ILobbyRoomResponse);
-      } else {
-        // i created a new room
-        this._updateRoom();
-      }
-    });
+    this._subSink.add(
+      this._roomService.roomDeleted$.subscribe(_ => this.roomDeleted())
+    );
+    this._subSink.add(
+      this._roomService.room$.subscribe((data: ILobbyRoomResponse) => {
+        if (data) {
+          // someone joined room (the room might be created by me)
+          this._updateRoom(data as ILobbyRoomResponse);
+        } else {
+          // i created a new room
+          this._updateRoom();
+        }
+      })
+    );
   }
 
   invokeAction(): void {
@@ -111,5 +118,9 @@ export class RoomComponent implements OnInit {
     this.room = null;
     this.otherPlayers = null;
     this.room$ = of(this.room);
+  }
+
+  ngOnDestroy(): void {
+    this._subSink.unsubscribe();
   }
 }

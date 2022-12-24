@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgDialogAnimationService } from 'ng-dialog-animation';
 import { roomDialogIncomingOptionsConstant, roomDialogOutgoingOptionsConstant } from 'src/app/core/constants/animations.constants';
@@ -9,16 +9,19 @@ import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/sessio
 import { WebsocketService } from 'src/app/core/services/websocket.service';
 import { CreateRoomDialogComponent, CreateRoomDialogData } from 'src/app/dialogs/actions/create-room-dialog/create-room-dialog.component';
 import { JoinRoomDialogComponent, JoinRoomDialogData } from 'src/app/dialogs/actions/join-room-dialog/join-room-dialog.component';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
   styleUrls: ['./lobby.component.scss']
 })
-export class LobbyComponent implements OnInit {
+export class LobbyComponent implements OnInit, OnDestroy {
 
   playerName: string;
   rooms: IMinifiedRoom[];
+
+  private readonly _subSink = new SubSink();
 
   constructor(
     private readonly _router: Router,
@@ -41,48 +44,56 @@ export class LobbyComponent implements OnInit {
 
   createRoom(): void {
     if(this.isCreateAndJoinRoomDisabled) return;
-    this._roomService.getRooms().subscribe((rooms: IMinifiedRoom[]) => {
-      const dialogRef = this._dialog.open(CreateRoomDialogComponent, {
-        animation: {
-          incomingOptions: roomDialogIncomingOptionsConstant,
-          outgoingOptions: roomDialogOutgoingOptionsConstant,
-        },
-        panelClass: 'choose-color-dialog',
-        data: { rooms: rooms.map(e => e.name) },
-      });
-
-      dialogRef.afterClosed().subscribe((data: CreateRoomDialogData) => {
-        if (data?.isCreateRoom) {
-          this._roomService.createRoom(this.playerName, data.roomName);
-        }
-      });
-    });
+    this._subSink.add(
+      this._roomService.getRooms().subscribe((rooms: IMinifiedRoom[]) => {
+        const dialogRef = this._dialog.open(CreateRoomDialogComponent, {
+          animation: {
+            incomingOptions: roomDialogIncomingOptionsConstant,
+            outgoingOptions: roomDialogOutgoingOptionsConstant,
+          },
+          panelClass: 'choose-color-dialog',
+          data: { rooms: rooms.map(e => e.name) },
+        });
+  
+        dialogRef.afterClosed().subscribe((data: CreateRoomDialogData) => {
+          if (data?.isCreateRoom) {
+            this._roomService.createRoom(this.playerName, data.roomName);
+          }
+        });
+      })
+    );
   }
 
   joinRoom(): void {
     if(this.isCreateAndJoinRoomDisabled) return;
-    this._roomService.getRooms().subscribe((rooms: IMinifiedRoom[]) => {
-      this.rooms = rooms;
-      const dialogRef = this._dialog.open(JoinRoomDialogComponent, {
-        animation: {
-          incomingOptions: roomDialogIncomingOptionsConstant,
-          outgoingOptions: roomDialogOutgoingOptionsConstant,
-        },
-        panelClass: 'choose-color-dialog',
-        data: { rooms: this.rooms },
-        autoFocus: false,
-      });
-
-      dialogRef.afterClosed().subscribe((data: JoinRoomDialogData) => {
-        if(data?.selectedRoom) {
-          this._roomService.joinRoom(this.playerName, data.selectedRoom);
-        }
-      });
-    });
+    this._subSink.add(
+      this._roomService.getRooms().subscribe((rooms: IMinifiedRoom[]) => {
+        this.rooms = rooms;
+        const dialogRef = this._dialog.open(JoinRoomDialogComponent, {
+          animation: {
+            incomingOptions: roomDialogIncomingOptionsConstant,
+            outgoingOptions: roomDialogOutgoingOptionsConstant,
+          },
+          panelClass: 'choose-color-dialog',
+          data: { rooms: this.rooms },
+          autoFocus: false,
+        });
+  
+        dialogRef.afterClosed().subscribe((data: JoinRoomDialogData) => {
+          if(data?.selectedRoom) {
+            this._roomService.joinRoom(this.playerName, data.selectedRoom);
+          }
+        });
+      })
+    );
   }
 
   get isCreateAndJoinRoomDisabled(): boolean {
     return !!this._identityService.identity;
+  }
+
+  ngOnDestroy(): void {
+    this._subSink.unsubscribe();
   }
 
 }

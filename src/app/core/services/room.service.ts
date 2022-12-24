@@ -130,9 +130,7 @@ export class RoomService {
   }
 
   triggerRoomDeletedEvent(): void {
-    this._sessionStorage.remove(SESSION_KEY.identity);
-    this._sessionStorage.remove(SESSION_KEY.isCardsDistributed);
-    this._sessionStorage.remove(SESSION_KEY.hasAllPlayersJoined);
+    this._clearSessionOnRoomDelete();
     this._roomDeletedSubject$.next(null);
 
     // if player is inside game (uno-board) then redirect back to lobby
@@ -151,5 +149,12 @@ export class RoomService {
     if (this._identityService.identity) {
       return this._identityService.identity.player.id == createdBy?.id;
     } else { return null; }
+  }
+
+  private _clearSessionOnRoomDelete(): void {
+    this._sessionStorage.remove(SESSION_KEY.hasAllPlayersJoined);
+    this._sessionStorage.remove(SESSION_KEY.identity);
+    this._sessionStorage.remove(SESSION_KEY.isCardsDistributed);
+    this._sessionStorage.remove(SESSION_KEY.isChatOpen);
   }
 }

@@ -192,8 +192,6 @@ export class WebsocketService {
         // If player is inside game (uno-board) then display snackbar after 700ms delay.
         // Or else the snackbar will overlap join-players-dialog (when all players haven't joined yet).
         if (this._router.url.includes('play')) {
-          this._sessionStorage.remove(SESSION_KEY.hasAllPlayersJoined);
-          this._sessionStorage.remove(SESSION_KEY.isCardsDistributed);
           setTimeout(() => {
             this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.roomDoesNotExists });
           }, 700);
@@ -217,10 +215,6 @@ export class WebsocketService {
         console.log(RESPONSE_EVENTS.playerRemoved);
         // am I removed
         if(data.playerRemoved.id == this._identityService.identity.player.id) {
-          this._sessionStorage.remove(SESSION_KEY.identity);
-          this._sessionStorage.remove(SESSION_KEY.hasAllPlayersJoined);
-          this._sessionStorage.remove(SESSION_KEY.isCardsDistributed);
-          
           // If player is inside game (uno-board) then display snackbar after 700ms delay.
           // Or else the snackbar will overlap join-players-dialog (when all players haven't joined yet).
           if (this._router.url.includes('play')) {
