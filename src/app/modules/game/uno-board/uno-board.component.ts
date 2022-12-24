@@ -102,7 +102,7 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
   rightOpponentCards$: Observable<IOpponentCard[]>; // IMP
   bottomCards$: Observable<ICard[]>; // IMP
 
-  lastDrawnCard$: Observable<ICard>; // IMP
+  lastDrawnCardId$: Observable<string>; // IMP
 
   currentColor$: Observable<ValidColorCodeType>; // IMP
   currentDirection$: Observable<DIRECTION>; // IMP
@@ -112,7 +112,7 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
   isNewCardPickable$: Observable<boolean>; // IMP
   isMyTurnSkippable$: Observable<boolean>; // IMP
 
-  firstCardDiscarded$: Observable<ICard>; // IMP
+  firstCardDiscardedId$: Observable<string>; // IMP
 
   // readonly myCards: { state: CARD_ANIMATION_ENUM, isLegal: boolean, color: "black" | "blue" | "green" | "red" | "yellow" }[] = [
     // { state: CARD_ANIMATION_ENUM.stationary, isLegal: false, color: "red" },
@@ -247,7 +247,7 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.bottomCards$ = this._playerService.bottomCards$;
 
     // set game properties
-    this.lastDrawnCard$ = this._playerService.lastDrawnCard$;
+    this.lastDrawnCardId$ = this._playerService.lastDrawnCardId$;
     this.currentColor$ = this._playerService.currentColor$;
     this.currentDirection$ = this._playerService.currentDirection$;
     this.currentPlayer$ = this._playerService.currentPlayer$;
@@ -258,9 +258,11 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isMyTurnSkippable$ = this._playerService.isMyTurnSkippable$;
 
     // listen to discardFirstCard event
-    this.firstCardDiscarded$ = this._playerService.firstCardDiscarded$;
-    this._playerService.firstCardDiscarded$.subscribe((res: ICard) => {
-      if (res) this.isDrawerDeckCardRevealed = true;
+    this._playerService.firstCardDiscarded$.subscribe((card: ICard) => {
+      if (card) {
+        this.firstCardDiscardedId$ = of(card.id);
+        this.isDrawerDeckCardRevealed = true;
+      }
     });
 
     // setTimeout(() => {

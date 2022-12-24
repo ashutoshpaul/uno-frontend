@@ -114,7 +114,7 @@
                 params: { xDiscardPosition: destinationOfDiscardPileXPositionFromDrawerDeck() }
               }" 
               class="uno-card drawer-deck-uno-card">
-              <div card class="uno-card-container"></div>
+              <div card [cardId]="firstCardDiscardedId$ | async" class="uno-card-container"></div>
             </div>
             <!-- shuffle-three-cards -->
             <div class="shuffle-three-cards" [@shuffleCards]="isShuffleCards" (@shuffleCards.done)="resetShuffleCardsEvent()">
@@ -152,7 +152,14 @@
               <mat-icon>pan_tool_alt</mat-icon>
             </div>
           </div>
-          <div class="discard-pile" id="discard-pile"></div>
+          <div class="uno-card discard-pile" id="discard-pile">
+            <ng-container *ngIf="lastDrawnCardId$ | async as lastDrawnCardId; else noDiscardedCard">
+              <div card [cardId]="lastDrawnCardId" class="uno-card-container"></div>
+            </ng-container>
+            <ng-template #noDiscardedCard>
+              <div class="no-discarded-card"></div>
+            </ng-template>
+            </div>
         </div>
       </div>
   
@@ -313,7 +320,8 @@
             (@cardActivity.start)="disableMyTurn($event)"
             (click)="cardClicked(i)">
             <div 
-                card 
+                card
+                [cardId]="card.id"
                 appCardGlow 
                 [color]="card.color"
                 [isLegal]="card.isLegal" 

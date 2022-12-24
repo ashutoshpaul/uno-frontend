@@ -44,8 +44,8 @@ export class PlayerService {
   private readonly _rightOpponentCardsSubject$ = new Subject<IOpponentCard[]>();
   readonly rightOpponentCards$: Observable<IOpponentCard[]> = this._rightOpponentCardsSubject$.asObservable();
   
-  private readonly _lastDrawnCardSubject$ = new Subject<ICard>();
-  readonly lastDrawnCard$: Observable<ICard> = this._lastDrawnCardSubject$.asObservable();
+  private readonly _lastDrawnCardIdSubject$ = new Subject<string>();
+  readonly lastDrawnCardId$: Observable<string> = this._lastDrawnCardIdSubject$.asObservable();
   
   private readonly _currentPlayerSubject$ = new Subject<ICurrentPlayer>();
   readonly currentPlayer$: Observable<ICurrentPlayer> = this._currentPlayerSubject$.asObservable();
@@ -115,7 +115,7 @@ export class PlayerService {
       mappedGame.currentColor && this._currentColorSubject$.next(this._gameState.currentColor);
       mappedGame.currentDirection && this._currentDirectionSubject$.next(this._gameState.currentDirection);
       mappedGame.currentPlayer && this._currentPlayerSubject$.next(this._gameState.currentPlayer);
-      mappedGame.lastDrawnCard && this._lastDrawnCardSubject$.next(this._gameState.lastDrawnCard);
+      mappedGame.lastDrawnCard && this._lastDrawnCardIdSubject$.next(this._gameState.lastDrawnCard.id);
   
       mappedGame.mappedPlayers.left && this._leftOpponentCardsSubject$.next(this._gameState.mappedPlayers.left.cards);
       mappedGame.mappedPlayers.top && this._topOpponentCardsSubject$.next(this._gameState.mappedPlayers.top.cards);
@@ -195,7 +195,7 @@ export class PlayerService {
     }
     if (mappedGameChanges.lastDrawnCard) {
       this._gameState.lastDrawnCard = mappedGameChanges.lastDrawnCard;
-      this._lastDrawnCardSubject$.next(this._gameState.lastDrawnCard);
+      this._lastDrawnCardIdSubject$.next(this._gameState.lastDrawnCard.id);
     }
   }
 
