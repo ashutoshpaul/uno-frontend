@@ -13,11 +13,11 @@ export interface IMappedGame {
   mappedPlayers: IMappedPlayers;
   isGameStarted: boolean;
   
-  currentDirection: DIRECTION;
   
-  lastDrawnCard?: ICard;
   currentColor?: ValidColorCodeType;
+  currentDirection?: DIRECTION;
   currentPlayer?: ICurrentPlayer;
+  lastDrawnCard?: ICard;
 }
 
 /**
