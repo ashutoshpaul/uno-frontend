@@ -7,6 +7,7 @@ import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
 import { RoomService } from './room.service';
 import { SessionStorageService, SESSION_KEY } from './session-storage.service';
 import {
+  IConnectionUpdatedResponse,
   IDistributeCardsWebsocketResponse, 
   IJoinedPlayersResponse, 
   ILobbyRoomResponse, 
@@ -29,7 +30,7 @@ import { IMappedGameChanges } from '../interfaces/game.interface';
 })
 export class WebsocketService {
 
-  socket: Socket;
+  private _socket: Socket;
 
   constructor(
     private readonly _router: Router,
@@ -44,12 +45,21 @@ export class WebsocketService {
     this._instantiateSocketConnection();
   }
 
+  /**
+   * Triggered when connection lost from server due to user-events (eg. page-refresh and tab-closed).
+   */
+  triggerPlayerAbortedEvent(): void {
+    this._socket.emit(PLAYER_EVENTS.aborted);
+  }
+
   private _instantiateSocketConnection() {
-    if (!this.socket) {
-      this.socket = io(environment.websocket);
+    if (!this._socket) {
+      this._socket = io(environment.websocket, {
+        closeOnBeforeunload: false, // so that 'aborted' event gets chance to trigger.
+      });
   
-      this.socket.on(RESPONSE_EVENTS.connectionEstablished, (socketId: string) => {
-        console.log('CONNECTED', this.socket.id, socketId);
+      this._socket.on(RESPONSE_EVENTS.connectionEstablished, (socketId: string) => {
+        console.log('CONNECTED', this._socket.id, socketId);
         this._sessionStorage.setItem(SESSION_KEY.socketId, socketId);
         this._registerListeners();
         this._playerService.connection();
@@ -58,96 +68,88 @@ export class WebsocketService {
   }
 
   private _registerListeners(): void {
-    if (this.socket) {
+    if (this._socket) {
       // Player Events
-      this.socket.on(PLAYER_EVENTS.allJoinedGame, () => {
+      this._socket.on(PLAYER_EVENTS.allJoinedGame, () => {
         console.log(PLAYER_EVENTS.allJoinedGame);
       });
   
-      this.socket.on(PLAYER_EVENTS.deleteRoom, () => {
+      this._socket.on(PLAYER_EVENTS.deleteRoom, () => {
         console.log(PLAYER_EVENTS.deleteRoom);
       });
   
-      this.socket.on(PLAYER_EVENTS.discard, () => {
+      this._socket.on(PLAYER_EVENTS.discard, () => {
         console.log(PLAYER_EVENTS.discard);
       });
   
-      this.socket.on(PLAYER_EVENTS.drawCard, () => {
+      this._socket.on(PLAYER_EVENTS.drawCard, () => {
         console.log(PLAYER_EVENTS.drawCard);
       });
   
-      this.socket.on(PLAYER_EVENTS.joinGame, () => {
+      this._socket.on(PLAYER_EVENTS.joinGame, () => {
         console.log(PLAYER_EVENTS.joinGame);
       });
   
-      this.socket.on(PLAYER_EVENTS.joinRoom, () => {
+      this._socket.on(PLAYER_EVENTS.joinRoom, () => {
         console.log(PLAYER_EVENTS.joinRoom);
       });
   
-      this.socket.on(PLAYER_EVENTS.leaveGame, () => {
+      this._socket.on(PLAYER_EVENTS.leaveGame, () => {
         console.log(PLAYER_EVENTS.leaveGame);
       });
   
-      this.socket.on(PLAYER_EVENTS.leaveRoom, () => {
+      this._socket.on(PLAYER_EVENTS.leaveRoom, () => {
         console.log(PLAYER_EVENTS.leaveRoom);
       });
 
-      this.socket.on(PLAYER_EVENTS.message, (message: IMessage) => {
+      this._socket.on(PLAYER_EVENTS.message, (message: IMessage) => {
         console.log(PLAYER_EVENTS.message);
         this._chatService.emitMessage(message);
       });
   
-      this.socket.on(PLAYER_EVENTS.play, () => {
+      this._socket.on(PLAYER_EVENTS.play, () => {
         console.log(PLAYER_EVENTS.play);
       });
   
-      this.socket.on(PLAYER_EVENTS.playerCameBackOnline, () => {
-        console.log(PLAYER_EVENTS.playerCameBackOnline);
-      });
   
-      this.socket.on(PLAYER_EVENTS.playerWentOffline, () => {
-        console.log(PLAYER_EVENTS.playerWentOffline);
-      });
-  
-  
-      this.socket.on(PLAYER_EVENTS.removePlayer, () => {
+      this._socket.on(PLAYER_EVENTS.removePlayer, () => {
         console.log(PLAYER_EVENTS.removePlayer);
       });
   
-      this.socket.on(PLAYER_EVENTS.skipChance, () => {
+      this._socket.on(PLAYER_EVENTS.skipChance, () => {
         console.log(PLAYER_EVENTS.skipChance);
       });
   
-      this.socket.on(PLAYER_EVENTS.startGame, () => {
+      this._socket.on(PLAYER_EVENTS.startGame, () => {
         console.log(PLAYER_EVENTS.startGame);
       });
   
-      this.socket.on(PLAYER_EVENTS.uno, () => {
+      this._socket.on(PLAYER_EVENTS.uno, () => {
         console.log(PLAYER_EVENTS.uno);
       });
   
-      this.socket.on(PLAYER_EVENTS.wait, () => {
+      this._socket.on(PLAYER_EVENTS.wait, () => {
         console.log(PLAYER_EVENTS.wait);
       });
   
-      this.socket.on(PLAYER_EVENTS.waitingForPlayersToJoinGame, () => {
+      this._socket.on(PLAYER_EVENTS.waitingForPlayersToJoinGame, () => {
         console.log(PLAYER_EVENTS.waitingForPlayersToJoinGame);
       });
 
       // Game Events
-      this.socket.on(GAME_EVENTS.changeColor, () => {
+      this._socket.on(GAME_EVENTS.changeColor, () => {
         console.log(GAME_EVENTS.changeColor);
       });
 
-      this.socket.on(GAME_EVENTS.changeDirection, () => {
+      this._socket.on(GAME_EVENTS.changeDirection, () => {
         console.log(GAME_EVENTS.changeDirection);
       });
 
-      this.socket.on(GAME_EVENTS.colorChanged, () => {
+      this._socket.on(GAME_EVENTS.colorChanged, () => {
         console.log(GAME_EVENTS.colorChanged);
       });
 
-      this.socket.on(GAME_EVENTS.discardFirstCard, (res: IMappedGameChanges) => {
+      this._socket.on(GAME_EVENTS.discardFirstCard, (res: IMappedGameChanges) => {
         console.log(GAME_EVENTS.discardFirstCard);
         console.log(res);
         // lastDrawnCard is considered as discarded-card
@@ -161,7 +163,7 @@ export class WebsocketService {
         }, 1700);
       });
 
-      this.socket.on(GAME_EVENTS.distributeCards, (res: IDistributeCardsWebsocketResponse) => {
+      this._socket.on(GAME_EVENTS.distributeCards, (res: IDistributeCardsWebsocketResponse) => {
         console.log(GAME_EVENTS.distributeCards, res);
         if (!this._sessionStorage.getItem(SESSION_KEY.isCardsDistributed)) {
           this._playerService.setGameState(res.mappedGame);
@@ -169,35 +171,35 @@ export class WebsocketService {
         }
       });
 
-      this.socket.on(GAME_EVENTS.drawFourCards, () => {
+      this._socket.on(GAME_EVENTS.drawFourCards, () => {
         console.log(GAME_EVENTS.drawFourCards);
       });
 
-      this.socket.on(GAME_EVENTS.drawTwoCards, () => {
+      this._socket.on(GAME_EVENTS.drawTwoCards, () => {
         console.log(GAME_EVENTS.drawTwoCards);
       });
 
-      this.socket.on(GAME_EVENTS.noCardsLeft, () => {
+      this._socket.on(GAME_EVENTS.noCardsLeft, () => {
         console.log(GAME_EVENTS.noCardsLeft);
       });
 
-      this.socket.on(GAME_EVENTS.shuffle, () => {
+      this._socket.on(GAME_EVENTS.shuffle, () => {
         console.log(GAME_EVENTS.shuffle);
         if (!this._sessionStorage.getItem(SESSION_KEY.isCardsDistributed)) {
           this._playerService.toggleShuffleCardsEventTrigger();
         }
       });
 
-      this.socket.on(GAME_EVENTS.skipped, () => {
+      this._socket.on(GAME_EVENTS.skipped, () => {
         console.log(GAME_EVENTS.skipped);
       });
 
       // Response Events
-      this.socket.on(RESPONSE_EVENTS.failed, () => {
+      this._socket.on(RESPONSE_EVENTS.failed, () => {
         console.log(RESPONSE_EVENTS.failed);
       });
 
-      this.socket.on(RESPONSE_EVENTS.roomDeleted, () => {
+      this._socket.on(RESPONSE_EVENTS.roomDeleted, () => {
         console.log(RESPONSE_EVENTS.roomDeleted);
 
         // If player is inside game (uno-board) then display snackbar after 700ms delay.
@@ -212,17 +214,17 @@ export class WebsocketService {
         this._roomService.triggerRoomDeletedEvent();
       });
 
-      this.socket.on(RESPONSE_EVENTS.roomLeft, (data: IPlayerLeftRoomResponse) => {
+      this._socket.on(RESPONSE_EVENTS.roomLeft, (data: IPlayerLeftRoomResponse) => {
         console.log(RESPONSE_EVENTS.roomLeft);
         this._roomService.triggerRoomEvent(data.room);
       });
 
-      this.socket.on(RESPONSE_EVENTS.roomJoined, (room: ILobbyRoomResponse) => {
+      this._socket.on(RESPONSE_EVENTS.roomJoined, (room: ILobbyRoomResponse) => {
         console.log('*', PLAYER_EVENTS.joinRoom, room);
         this._roomService.triggerRoomEvent(room);
       });
 
-      this.socket.on(RESPONSE_EVENTS.playerRemoved, (data: IPlayerRemovedResponse) => {
+      this._socket.on(RESPONSE_EVENTS.playerRemoved, (data: IPlayerRemovedResponse) => {
         console.log(RESPONSE_EVENTS.playerRemoved);
         // am I removed
         if(data.playerRemoved.id == this._identityService.identity.player.id) {
@@ -266,14 +268,19 @@ export class WebsocketService {
         }
       });
 
-      this.socket.on(RESPONSE_EVENTS.gameStarted, (room: ILobbyRoomResponse) => {
+      this._socket.on(RESPONSE_EVENTS.gameStarted, (room: ILobbyRoomResponse) => {
         console.log(RESPONSE_EVENTS.gameStarted);
         this._roomService.triggerRoomEvent(room);
       });
 
-      this.socket.on(RESPONSE_EVENTS.gameJoined, (data: IJoinedPlayersResponse) => {
+      this._socket.on(RESPONSE_EVENTS.gameJoined, (data: IJoinedPlayersResponse) => {
         console.log(RESPONSE_EVENTS.gameJoined);
         this._gameService.triggerPlayerJoinedEvent(data);
+      });
+
+      this._socket.on(RESPONSE_EVENTS.connectionToggled, (res: IConnectionUpdatedResponse) => {
+        console.log(RESPONSE_EVENTS.connectionToggled);
+        this._roomService.triggerConnectionUpdatedEvent(res);
       });
 
     } else {

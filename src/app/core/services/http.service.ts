@@ -12,7 +12,7 @@ import { ICreateRoomPayload, IDistributeCardsResponse, IJoinedPlayersResponse, I
 })
 export class HttpService {
 
-  BASE_URL: string = environment.websocket;
+  BASE_URL: string = environment.backend;
 
   constructor(
     private readonly _http: HttpClient,

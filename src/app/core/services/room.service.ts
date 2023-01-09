@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { NOTIFICATION_EVENT } from '../enums/notification.enum';
 import { ROOM_STATUS } from '../enums/room-status.enum';
 import { RESPONSE_EVENTS } from '../enums/websocket-enums/response-events.enum';
-import { IJoinRoomResponse, ILobbyRoomResponse, IPlayerRemovePayload } from '../interfaces/response.interface';
+import { IConnectionUpdatedResponse, IJoinRoomResponse, ILobbyRoomResponse, IPlayerRemovePayload } from '../interfaces/response.interface';
 import { IMinifiedIdentity, IMinifiedPlayer, IMinifiedRoom } from '../interfaces/minified.interface';
 import { IRoomNotification } from '../interfaces/notification.interface';
 import { HttpService } from './http.service';
@@ -20,6 +20,9 @@ export class RoomService {
 
   private readonly _roomSubject$ = new Subject<ILobbyRoomResponse>();
   readonly room$: Observable<any> = this._roomSubject$.asObservable();
+
+  private readonly _connectionUpdatedSubject$ = new Subject<IConnectionUpdatedResponse>();
+  readonly connectionUpdated$: Observable<any> = this._connectionUpdatedSubject$.asObservable();
 
   private readonly _roomDeletedSubject$ = new Subject<null>();
   readonly roomDeleted$: Observable<any> = this._roomDeletedSubject$.asObservable();
@@ -103,6 +106,10 @@ export class RoomService {
     } else {  // you created room
       this._roomSubject$.next(null);
     }
+  }
+
+  triggerConnectionUpdatedEvent(data: IConnectionUpdatedResponse): void {
+    this._connectionUpdatedSubject$.next(data);
   }
 
   removePlayer(player: IMinifiedPlayer): void {

@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { playerRoomTrigger } from 'src/app/core/animations/room.animation';
+import { STATUS } from 'src/app/core/enums/status.enum';
 import { IMinifiedPlayer } from 'src/app/core/interfaces/minified.interface';
 import { RoomService } from 'src/app/core/services/room.service';
 
@@ -12,6 +13,7 @@ import { RoomService } from 'src/app/core/services/room.service';
 export class PlayersListComponent implements OnChanges, OnInit {
 
   readonly MAX_OPPONENTS: number = 3;
+  readonly STATUSES: typeof STATUS = STATUS;
 
   @Input() isGameStarted: boolean;
   @Input() players: IMinifiedPlayer[];

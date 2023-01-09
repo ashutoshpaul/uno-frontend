@@ -33,5 +33,4 @@ export type GameNotificationType = Extract<NOTIFICATION_EVENT, [
   NOTIFICATION_EVENT.playerRemoved,
   NOTIFICATION_EVENT.roomLeft,
   NOTIFICATION_EVENT.failed,
-
 ]>;

@@ -42,7 +42,7 @@ import {
   shuffleCardsTrigger,
 } from 'src/app/core/animations/card.animation';
 import { messageNotificationTrigger, gameNotificationTrigger } from 'src/app/core/animations/notification.animation';
-import { PLAYER_POSITION, UnoPositionType } from 'src/app/core/enums/player-position.enum';
+import { PLAYER_POSITION, PlayerYelledUnoPositionType } from 'src/app/core/enums/player-position.enum';
 import { unoTrigger } from 'src/app/core/animations/uno.animation';
 import { SessionStorageService, SESSION_KEY } from 'src/app/core/services/session-storage.service';
 import { GameService } from 'src/app/core/services/game.service';
@@ -95,7 +95,7 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   notification$: Observable<IGameNotification>;
 
-  unoTrigger$: Observable<{ isTriggered: boolean, position: UnoPositionType }>;
+  unoTrigger$: Observable<{ isTriggered: boolean, position:PlayerYelledUnoPositionType }>;
 
   leftOpponentCards$: Observable<IOpponentCard[]>; // IMP
   topOpponentCards$: Observable<IOpponentCard[]>; // IMP

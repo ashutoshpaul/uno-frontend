@@ -70,3 +70,12 @@ export interface IDistributeCardsWebsocketResponse {
    */
   hostPosition: PLAYER_POSITION;
 }
+
+
+/**
+ * Should sent to all clients if any player's network goes offline and on back-to-online.
+ * Contains list of all players with their current status.
+ */
+ export interface IConnectionUpdatedResponse {
+  players: IMinifiedPlayer[];
+}

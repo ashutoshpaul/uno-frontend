@@ -21,8 +21,7 @@ export class HeadersInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const req = request.clone({
       headers: new HttpHeaders({
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS",
+        "ngrok-skip-browser-warning": 'true',
         "socket-id": this._socketId,
       })
     });

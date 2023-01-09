@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ROOM_STATUS } from 'src/app/core/enums/room-status.enum';
-import { ILobbyRoomResponse } from 'src/app/core/interfaces/response.interface';
+import { IConnectionUpdatedResponse, ILobbyRoomResponse } from 'src/app/core/interfaces/response.interface';
 import { IMinifiedIdentity, IMinifiedPlayer } from 'src/app/core/interfaces/minified.interface';
 import { IdentityService } from 'src/app/core/services/identity.service';
 import { RoomService } from 'src/app/core/services/room.service';
@@ -46,6 +46,11 @@ export class RoomComponent implements OnInit, OnDestroy {
           // i created a new room
           this._updateRoom();
         }
+      })
+    );
+    this._subSink.add(
+      this._roomService.connectionUpdated$.subscribe((data: IConnectionUpdatedResponse) => {
+        this._updateRoomPlayers(data);
       })
     );
   }
@@ -110,6 +115,19 @@ export class RoomComponent implements OnInit, OnDestroy {
           status: ROOM_STATUS.created,
         };
       }
+      this.room$ = of(this.room);
+    } else { throw new Error('Identity missing!'); }
+  }
+
+  private _updateRoomPlayers(connectionUpdatedData: IConnectionUpdatedResponse): void {
+    const identity: IMinifiedIdentity = this._identityService.identity;
+    if (this._identityService.identity) {
+      this.room = {
+        ...this.room,
+        players: connectionUpdatedData.players,
+      };
+      this.otherPlayers = this.room.players?.filter(e => e.id != identity.player.id) ?? [];
+
       this.room$ = of(this.room);
     } else { throw new Error('Identity missing!'); }
   }

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  websocket: 'http://localhost:3000',
+  websocket: 'ws://' + '0.tcp.in.ngrok.io:11129',
+  backend: 'http://' + '0.tcp.in.ngrok.io:11129',
 };
 
 /*

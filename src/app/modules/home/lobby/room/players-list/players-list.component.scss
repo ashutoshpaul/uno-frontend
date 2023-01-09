@@ -69,6 +69,20 @@ main {
                         font-size: 0.9rem;
                         font-weight: 600;
                     }
+
+                    .offline {
+                        color: #aeabab;
+                        font-size: 0.9rem;
+                        font-style: italic;
+                        font-weight: normal;
+                    }
+
+                    .aborted {
+                        color: #fc9d9d;
+                        font-size: 0.9rem;
+                        font-style: italic;
+                        font-weight: normal;
+                    }
                 }
 
                 .right {
