@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { AnimationEvent } from '@angular/animations';
 import { MatDialogRef } from '@angular/material/dialog';
-import { combineLatest, fromEvent, Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { NgDialogAnimationService } from "ng-dialog-animation";
 import { 
   chooseColorDialogIncomingOptionsConstant, 
@@ -58,6 +58,7 @@ import { CARD_ACTION, CARD_TYPE } from 'src/app/core/enums/websocket-enums/card-
 import { IActionCard } from 'src/app/core/interfaces/card-interfaces/card-data.interface';
 import { IdentityService } from 'src/app/core/services/identity.service';
 import { SubSink } from 'subsink';
+import { ConnectionService } from 'src/app/core/services/connection.service';
 
 @Component({
   selector: 'app-uno-board',
@@ -84,9 +85,6 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
   isDrawerDeckCardRevealed: boolean = false;
 
   currentPlayerPosition: PLAYER_POSITION;
-
-  online$: Observable<Event>; // IMP
-  offline$: Observable<Event>; // IMP
 
   unoButtonState$: Observable<'stationary' | 'slide'>;
 
@@ -168,11 +166,12 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly _sessionStorage: SessionStorageService,
     private readonly _playerService: PlayerService,
     private readonly _identityService: IdentityService,
+    private readonly _connectionService: ConnectionService,
   ) {}
 
   ngOnInit(): void {
     this._websocketService; // ESTABLISHES CONNECTION. DO NOT REMOVE!
-    this.registerInternetEvents();
+    this.listenToConnectionEvents();
 
     // display JoinPlayersDialogComponent if all players have not joined game yet.
     const hasAllPlayersJoined: boolean = this._sessionStorage.getItem(SESSION_KEY.hasAllPlayersJoined) == 'true';
@@ -307,28 +306,36 @@ export class UnoBoardComponent implements OnInit, AfterViewInit, OnDestroy {
     // this._cdRef.detectChanges();
   }
 
-  registerInternetEvents(): void {
-    this.online$ = fromEvent(window, 'online');
-    this.offline$ = fromEvent(window, 'offline');
-
+  listenToConnectionEvents(): void {
     let dialogRef: MatDialogRef<OfflineDialogComponent>;
 
     this._subSink.add(
-      this.offline$.subscribe(_ => {
-        dialogRef = this._dialog.open(OfflineDialogComponent, {
-          animation: {
-            incomingOptions: chooseColorDialogIncomingOptionsConstant,
-            outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
-          },
-          panelClass: 'choose-color-dialog'
-        });
-      })
-    );
-
-    this._subSink.add(
-      this.online$.subscribe(_ => {
-        if(dialogRef) dialogRef.close();
-        window.location.reload();
+      this._connectionService.connectivity$.subscribe((isOnline: boolean) => {
+        if (!isOnline) {
+          /**
+           * Incase JoinPlayersDialogComponent is opened then delay should be present for smooth animation
+           * i.e., first OfflineDialogComponent should close smoothly|properly then JoinPlayersDialogComponent should
+           * popup.
+           */
+          let delayDuration: 0 | 700 = 0;
+          const hasAllPlayersJoined: boolean = this._sessionStorage.getItem(SESSION_KEY.hasAllPlayersJoined) == 'true';
+          if (!hasAllPlayersJoined) {
+            delayDuration = 700;
+            this._gameService.closeJoinedPlayersPopup();
+          }
+          setTimeout(() => {
+            dialogRef = this._dialog.open(OfflineDialogComponent, {
+              animation: {
+                incomingOptions: chooseColorDialogIncomingOptionsConstant,
+                outgoingOptions: chooseColorDialogOutgoingOptionsConstant,
+              },
+              panelClass: 'choose-color-dialog'
+            });
+          }, delayDuration);
+        } else {
+          if(dialogRef) dialogRef.close();
+          window.location.reload();
+        }
       })
     );
   }

@@ -31,6 +31,14 @@
         <mat-icon class="negative">logout</mat-icon>
         <div>{{ data.additional?.playerWhoRemovedName }} removed you</div>
     </article>
+    <article *ngSwitchCase="events.networkDisconnected">
+        <mat-icon class="negative">wifi_off</mat-icon>
+        <div>Network disconnected</div>
+    </article>
+    <article *ngSwitchCase="events.networkReconnected">
+        <mat-icon class="positive">wifi</mat-icon>
+        <div>You're back online</div>
+    </article>
     <article *ngSwitchCase="events.failed">
         <mat-icon class="negative">error</mat-icon>
         <div>Something went wrong</div>

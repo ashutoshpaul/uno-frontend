@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  websocket: 'ws://' + '0.tcp.in.ngrok.io:11129',
-  backend: 'http://' + '0.tcp.in.ngrok.io:11129',
+  websocket: 'ws://' + '0.tcp.in.ngrok.io:18713',
+  backend: 'http://' + '0.tcp.in.ngrok.io:18713',
 };
 
 /*

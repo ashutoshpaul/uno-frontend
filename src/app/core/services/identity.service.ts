@@ -15,7 +15,9 @@ export class IdentityService {
     try {
       return JSON.parse(this._sessionStorage.getItem(SESSION_KEY.identity));
     } catch (err) {
-      throw new Error('json.parse failed to parse identity');
+      console.log('json.parse failed to parse identity');
+      this._sessionStorage.remove(SESSION_KEY.identity);
+      return null;
     }
   }
 

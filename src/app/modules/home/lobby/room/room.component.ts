@@ -7,6 +7,10 @@ import { IdentityService } from 'src/app/core/services/identity.service';
 import { RoomService } from 'src/app/core/services/room.service';
 import { GameService } from 'src/app/core/services/game.service';
 import { SubSink } from 'subsink';
+import { ConnectionService } from 'src/app/core/services/connection.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { IRoomNotification } from 'src/app/core/interfaces/notification.interface';
+import { NOTIFICATION_EVENT } from 'src/app/core/enums/notification.enum';
 
 @Component({
   selector: 'app-room',
@@ -28,12 +32,12 @@ export class RoomComponent implements OnInit, OnDestroy {
     private readonly _identityService: IdentityService,
     private readonly _roomService: RoomService,
     private readonly _gameService: GameService,
+    private readonly _connectionService: ConnectionService,
+    private readonly _snackbarService: SnackbarService,
   ) { }
 
   ngOnInit(): void {
-    if(this._identityService.identity?.room?.id) {
-      this._roomService.getRoom(this._identityService.identity.room.id);
-    }
+    this._getRoom();
     this._subSink.add(
       this._roomService.roomDeleted$.subscribe(_ => this.roomDeleted())
     );
@@ -51,6 +55,17 @@ export class RoomComponent implements OnInit, OnDestroy {
     this._subSink.add(
       this._roomService.connectionUpdated$.subscribe((data: IConnectionUpdatedResponse) => {
         this._updateRoomPlayers(data);
+      })
+    );
+
+    this._subSink.add(
+      this._connectionService.connectivity$.subscribe((isOnline: boolean) => {
+        if (!isOnline) {
+          this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.networkDisconnected });
+        } else {
+          this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.networkReconnected });
+          this._getRoom();
+        }
       })
     );
   }
@@ -96,6 +111,12 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   get isJoinAndStartGameDisabled(): boolean {
     return !(this.room.players?.length > 1);
+  }
+
+  private _getRoom(): void {
+    if(this._identityService.identity?.room?.id) {
+      this._roomService.getRoom(this._identityService.identity.room.id);
+    }
   }
 
   private _updateRoom(room?: ILobbyRoomResponse): void {

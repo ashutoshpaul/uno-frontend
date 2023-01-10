@@ -21,6 +21,8 @@ import { SnackbarService } from './snackbar.service';
 })
 export class GameService {
 
+  joinPlayersDialogRef: MatDialogRef<JoinPlayersDialogComponent>;
+
   private readonly _playerJoinedSubject$ = new Subject<IJoinedPlayersResponse>();
   readonly playerJoined$: Observable<IJoinedPlayersResponse> = this._playerJoinedSubject$.asObservable();
 
@@ -85,7 +87,7 @@ export class GameService {
     this._httpService.joinedPlayersCount(this._identityService.identity.room.id).subscribe({
       next: (data: IJoinedPlayersResponse) => {
         this._emitIsCountDownStarted();
-        const dialogRef: MatDialogRef<JoinPlayersDialogComponent> = this._dialog.open(JoinPlayersDialogComponent, {
+        this.joinPlayersDialogRef = this._dialog.open(JoinPlayersDialogComponent, {
           animation: {
             to: "top",
             incomingOptions: optionsDialogIncomingOptionsConstant,
@@ -98,13 +100,21 @@ export class GameService {
             totalPlayers: data.totalPlayersCount,
           },
         });
-        dialogRef.afterClosed().subscribe(_ => {
+        this.joinPlayersDialogRef.afterClosed().subscribe(_ => {
           this._emitIsCountDownStarted(false);
           this._identityService.isHost && this._playerService.distributeCards();
         });
       },
       error: () => this._snackbarService.openSnackbar(<IRoomNotification>{ event: NOTIFICATION_EVENT.failed }),
     });
+  }
+
+  /**
+   * Usecase: When countdown (3..2..1..) has started BUT not finished and in between the player went offline.
+   * At that time when offline-dialog pops up then JoinPlayersDialogComponent should close. 
+   */
+  closeJoinedPlayersPopup(): void {
+    this.joinPlayersDialogRef?.close();
   }
 
   getGameState(): Observable<IMappedGame> {

@@ -12,6 +12,9 @@ export enum NOTIFICATION_EVENT {
   playerRemovedByMe = 'playerRemovedByMe',
   playerRemovedMe = 'playerRemovedMe',
 
+  networkDisconnected = 'networkDisconnected',
+  networkReconnected = 'networkReconnected',
+
   failed = 'failed',
 }
 
@@ -24,6 +27,8 @@ export type RoomNotificationType = Extract<NOTIFICATION_EVENT, [
   NOTIFICATION_EVENT.playerRemoved,
   NOTIFICATION_EVENT.playerRemovedByMe,
   NOTIFICATION_EVENT.playerRemovedMe,
+  NOTIFICATION_EVENT.networkDisconnected,
+  NOTIFICATION_EVENT.networkReconnected,
   NOTIFICATION_EVENT.failed,
 ]>;
 
